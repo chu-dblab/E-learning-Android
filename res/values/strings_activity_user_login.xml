@@ -1,0 +1,21 @@
+<resources>
+
+    <string name="title_activity_user_login">登入</string>
+
+    <!-- Strings related to login -->
+    <string name="show_input_title" >請輸入您的帳號密碼</string>
+    <string name="show_input_info">預設: 帳號是您的座號，密碼是您的生日</string>
+    <string name="prompt_id">帳號</string>
+    <string name="prompt_password">密碼</string>
+    <string name="action_login_in"><b>登入</b></string>
+    <string name="action_sign_in_short">登入</string>
+    <string name="action_forgot_password">忘記密碼</string>
+    <string name="login_progress_signing_in">登入中...請稍候...</string>
+    <string name="error_invalid_email">你輸入的不是E-Mail的格式</string>
+    <string name="error_invalid_password">密碼字數太少了</string>
+    <string name="error_incorrect_password">密碼錯了</string>
+    <string name="error_field_required">這個欄位還沒填喔～</string>
+    
+    <!-- 其他功能 -->
+
+</resources>
