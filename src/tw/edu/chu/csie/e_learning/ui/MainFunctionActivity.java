@@ -1,7 +1,12 @@
-package tw.edu.chu.csie.e_learning;
+package tw.edu.chu.csie.e_learning.ui;
 
 import java.util.Locale;
 
+import tw.edu.chu.csie.e_learning.R;
+import tw.edu.chu.csie.e_learning.R.id;
+import tw.edu.chu.csie.e_learning.R.layout;
+import tw.edu.chu.csie.e_learning.R.menu;
+import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 
 import android.app.ActionBar;
