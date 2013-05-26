@@ -2,6 +2,8 @@ package tw.edu.chu.csie.e_learning;
 
 import java.util.Locale;
 
+import tw.edu.chu.csie.e_learning.util.HelpUtils;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -83,6 +85,15 @@ public class MainFunctionActivity extends FragmentActivity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main_function, menu);
 		return true;
+	}
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.menu_about:
+			HelpUtils.showAboutDialog(this);
+			break;
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	@Override

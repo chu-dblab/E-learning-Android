@@ -1,5 +1,6 @@
 package tw.edu.chu.csie.e_learning;
 
+import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -24,7 +26,7 @@ public class UserLoginActivity extends Activity {
 	/**
 	 * 內定參數 無帳號登入
 	 */
-	private static final boolean AUTO_NO_ID_LOGIN = true;
+	private static final boolean AUTO_NO_ID_LOGIN = false;
 	
 	/**
 	 * A dummy authentication store containing known user names and passwords.
@@ -105,8 +107,20 @@ public class UserLoginActivity extends Activity {
 		getMenuInflater().inflate(R.menu.user_login, menu);
 		return true;
 	}
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.menu_about:
+			HelpUtils.showAboutDialog(this);
+			break;
+		}
+		
+		return super.onMenuItemSelected(featureId, item);
+	}
 
 	/**
+	 * 驗證是否輸入正確，若無誤就登入
+	 * 
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
 	 * errors are presented and no actual login attempt is made.
@@ -164,6 +178,8 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
+	 * 顯示登入中畫面
+	 * 
 	 * Shows the progress UI and hides the login form.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -205,6 +221,8 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
+	 * 進行登入的動作
+	 * 
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */

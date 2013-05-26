@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">關於</string>
+    <string name="package_name">套件名稱:</string>
+    <string name="version">版本:</string>
+    <string name="getPackageInfo_error">套件資訊取得錯誤</string>
+</resources>
