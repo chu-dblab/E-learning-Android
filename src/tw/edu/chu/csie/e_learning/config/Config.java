@@ -1,17 +1,12 @@
-package tw.edu.chu.csie.e_learning;
+package tw.edu.chu.csie.e_learning.config;
 
 public class Config {
 	/**
-	 * 資料庫登入資訊
+	 * 此應用程式性質
 	 */
-	//資料庫連接網址
-	public static final String SQL_URL = "localhost";
-	//資料庫連接埠
-	public static final String SQL_PORT = "";
-	//資料庫登入帳號
-	public static final String SQL_LOGIN_ID = "";
-	//資料庫登入密碼
-	public static final String SQL_LOGIN_PASSWORD = "";
+	//此程式是否為使用者自行下載的
+	//若false就代表這程式是給導覽專用的裝置
+	public static final boolean THE_APP_IS_PUBLIC = true;
 	
 	/**
 	 * 無帳號登入
