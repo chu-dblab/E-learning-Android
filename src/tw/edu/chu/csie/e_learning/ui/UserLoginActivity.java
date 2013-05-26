@@ -1,5 +1,6 @@
 package tw.edu.chu.csie.e_learning.ui;
 
+import tw.edu.chu.csie.e_learning.Config;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
@@ -28,11 +29,6 @@ import android.widget.TextView;
  * well.
  */
 public class UserLoginActivity extends Activity {
-	/**
-	 * 內定參數 無帳號登入
-	 */
-	private static final boolean AUTO_NO_ID_LOGIN = false;
-	
 	/**
 	 * A dummy authentication store containing known user names and passwords.
 	 * TODO: remove after connecting to a real authentication system.
@@ -98,12 +94,13 @@ public class UserLoginActivity extends Activity {
 					}
 				});
 		
-		//無帳號自動登入（僅用於開發階段）
-		if(AUTO_NO_ID_LOGIN){
-			mIdView.setText("tester");
-			mPasswordView.setText("tester");
-			attemptLogin();
+		//自動填入預設帳號密碼
+		if(Config.AUTO_FILL_LOGIN){
+			mIdView.setText(Config.DEFAULT_LOGIN_ID);
+			mPasswordView.setText(Config.DEFAULT_LOGIN_PASSWORD);
 		}
+		//自動登入
+		if(Config.AUTO_NO_ID_LOGIN) attemptLogin();
 	}
 
 	@Override
