@@ -1,3 +1,12 @@
+/*
+ * 無所不在學習架構與學習導引機制
+ * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
+ * 
+ * FileName:	Config.java
+ * 
+ * Description: 在這邊指定本程式的內定參數
+ * 
+ */
 package tw.edu.chu.csie.e_learning.config;
 
 public class Config {

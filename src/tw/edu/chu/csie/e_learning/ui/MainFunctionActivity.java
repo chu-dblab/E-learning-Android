@@ -1,3 +1,12 @@
+/*
+ * 無所不在學習架構與學習導引機制
+ * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
+ * 
+ * FileName:	MainFunctionActivity.java
+ *
+ * Description: 使用者登入後主要的畫面（含開始學習的學習地圖、個人資訊）
+ * 
+ */
 package tw.edu.chu.csie.e_learning.ui;
 
 import java.util.Locale;

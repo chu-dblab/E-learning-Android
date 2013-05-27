@@ -1,3 +1,12 @@
+/*
+ * 無所不在學習架構與學習導引機制
+ * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
+ * 
+ * FileName:	UserLoginActivity.java
+ *
+ * Description: 程式進入點，這是使用者的登入畫面
+ * 
+ */
 package tw.edu.chu.csie.e_learning.ui;
 
 import tw.edu.chu.csie.e_learning.R;
