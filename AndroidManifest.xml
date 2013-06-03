@@ -27,6 +27,10 @@
             android:name="tw.edu.chu.csie.e_learning.ui.MainFunctionActivity"
             android:label="@string/title_activity_main_function" >
         </activity>
+        <activity
+                android:name=".ui.TextbookDownloaderActivity"
+                android:label="@string/textbook_downloader" >
+        </activity>
     </application>
 
 </manifest>

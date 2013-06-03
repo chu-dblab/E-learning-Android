@@ -124,6 +124,10 @@ public class UserLoginActivity extends Activity {
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
+		case R.id.menu_textbook_downloader:
+			Intent toTextbookDownloader = new Intent(UserLoginActivity.this, TextbookDownloaderActivity.class);
+			startActivity(toTextbookDownloader);
+			break;
 		}
 		
 		return super.onMenuItemSelected(featureId, item);

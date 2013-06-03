@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="left|center_vertical">
+
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textbook_client_version"
+                        android:id="@+id/textbook_view_client_version"
+                        android:textSize="@dimen/text_normal"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_data"
+                        android:id="@+id/textbook_server_version"
+                        android:textSize="@dimen/text_normal"/>
+
+            </TableRow>
+
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textbook_server_version"
+                        android:id="@+id/textbook_view_server_version"
+                        android:textSize="@dimen/text_normal"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_data"
+                        android:id="@+id/textbook_server_version"
+                        android:textSize="@dimen/text_normal"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textbook_update"
+            android:id="@+id/button"
+            />
+
+</LinearLayout>

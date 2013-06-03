@@ -20,6 +20,7 @@ import tw.edu.chu.csie.e_learning.util.HelpUtils;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -106,6 +107,10 @@ public class MainFunctionActivity extends FragmentActivity implements
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
+        case R.id.menu_textbook_downloader:
+            Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, TextbookDownloaderActivity.class);
+            startActivity(toTextbookDownloader);
+            break;
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
