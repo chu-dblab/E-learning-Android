@@ -13,6 +13,12 @@ package tw.edu.chu.csie.e_learning.config;
 
 public class ConnectConfig {
 	/**
+	 * WebService伺服器連結登入資訊
+	 */
+	//WebService連接網址（需在最後加上斜線）
+	public static final String HTTP_URL = "http://localhost/";
+	
+	/**
 	 * 資料庫登入資訊
 	 */
 	//資料庫連接網址
