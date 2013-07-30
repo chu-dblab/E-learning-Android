@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ClientDBHelper extends SQLiteOpenHelper {
 	
 	//資料庫版本關係到App更新時，資料庫是否要調用onUpgrade()
+	@SuppressWarnings("unused")
 	private static final int VERSION = 1;//資料庫版本
 	
 	

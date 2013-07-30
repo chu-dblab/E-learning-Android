@@ -76,7 +76,7 @@ public class HelpUtils {
 		about_AlertDialog_scrollView.addView(about_AlertDialog_content);
 		about_AlertDialog.setView(about_AlertDialog_scrollView);
 		
-		about_AlertDialog.setButton(context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+		about_AlertDialog.setButton(0,context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub

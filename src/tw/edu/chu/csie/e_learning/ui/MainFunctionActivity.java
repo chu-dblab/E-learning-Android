@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+@SuppressWarnings("unused")
 public class MainFunctionActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 

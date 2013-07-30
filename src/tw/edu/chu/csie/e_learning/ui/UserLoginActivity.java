@@ -37,6 +37,7 @@ import android.widget.TextView;
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
+@SuppressWarnings("unused")
 public class UserLoginActivity extends Activity {
 	/**
 	 * A dummy authentication store containing known user names and passwords.
