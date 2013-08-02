@@ -186,7 +186,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * 各個頁面
+	 * ���
 	 */
 	public static class UserStatusFragment extends Fragment {
 

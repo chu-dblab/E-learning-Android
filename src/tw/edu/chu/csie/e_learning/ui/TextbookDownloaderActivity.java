@@ -12,7 +12,5 @@ public class TextbookDownloaderActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_textbook_downloader);
-
-
     }
 }
