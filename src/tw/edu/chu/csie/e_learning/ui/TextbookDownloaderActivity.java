@@ -23,17 +23,40 @@ public class TextbookDownloaderActivity extends Activity {
      *
      */
     @SuppressWarnings("unused")
-    public class DownloadTextBookTask extends AsyncTask<String, Integer, Void>
+    public class DownloadTextBookTask extends AsyncTask<Void, Integer, Void>
     {
     	
 		private HttpURLConnection url_con;
     	private URL http_url;
     	private InputStream is;
+    	private File filepath;
     	private FileOutputStream output2SDCard;
+    	private final String HTTP_URL = "http://140.126.11.163/test.html"; 
     	
     	@Override
-    	protected Void doInBackground(String... params) {
+    	protected Void doInBackground(Void... params) {
     		// TODO 自動產生的方法 Stub
+    		try {
+				http_url = new URL(HTTP_URL);
+			} catch (MalformedURLException e1) {
+				// TODO 自動產生的 catch 區塊
+				e1.printStackTrace();
+			}
+    		try {
+				url_con = (HttpURLConnection)http_url.openConnection();
+				url_con.setRequestMethod("POST");
+				url_con.setDoInput(true);
+				url_con.setConnectTimeout(10000);
+				if(url_con.getResponseCode() == HttpURLConnection.HTTP_OK)
+				{
+					is =  url_con.getInputStream();
+					filepath = new File(android.os.Environment.getExternalStorageDirectory()+"/textbook");
+					output2SDCard = new FileOutputStream(filepath);
+				}
+			} catch (IOException e) {
+				// TODO 自動產生的 catch 區塊
+				e.printStackTrace();
+			}
     		return null;
     	}
 
