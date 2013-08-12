@@ -5,6 +5,7 @@ import java.net.*;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -29,7 +30,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     @Override
 	public void onClick(View v) {
 		// TODO 自動產生的方法 Stub
-    	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask();
+    	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
     	downloadTextBook.execute();
 	}
     
@@ -50,6 +51,12 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     	private FileOutputStream output2SDCard;
     	private final String HTTP_URL = "http://140.126.11.163/test.html";
     	private ProgressDialog updateProgress;
+    	private Context message;
+    	
+    	public DownloadTextBookTask(Context message)
+    	{
+    		this.message = message;
+    	}
     	
     	@Override
     	protected Void doInBackground(Void... params) {
@@ -89,12 +96,17 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     	protected void onPreExecute() {
     		// TODO 自動產生的方法 Stub
     		super.onPreExecute();
-    		updateProgress = ProgressDialog.show(TextbookDownloaderActivity.this, "下載教材", "下載教材中....");
+    		updateProgress = new ProgressDialog(message);
+    		updateProgress.setMessage("下載教材中......");
+    		updateProgress.setCancelable(false);
+    		updateProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+    		updateProgress.show();
     	}
 
     	@Override
     	protected void onProgressUpdate(Integer... values) {
     		// TODO 自動產生的方法 Stub
+    		updateProgress.setProgress(values[0]);
     		super.onProgressUpdate(values);
     	}
     	
