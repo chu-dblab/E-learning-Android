@@ -78,6 +78,10 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 					filepath = new File(android.os.Environment.getExternalStorageDirectory()+"/textbook");
 					output2SDCard = new FileOutputStream(filepath);
 				}
+				else
+				{
+					Toast.makeText(getBaseContext(), url_con.getResponseCode(), Toast.LENGTH_SHORT).show();
+				}
 			} catch (IOException e) {
 				// TODO 自動產生的 catch 區塊
 				e.printStackTrace();
