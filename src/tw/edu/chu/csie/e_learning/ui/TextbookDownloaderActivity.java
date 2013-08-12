@@ -4,18 +4,35 @@ import java.io.*;
 import java.net.*;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.*;
 import tw.edu.chu.csie.e_learning.R;
 
 /**
  * Created by yuan on 2013/6/3.
  */
-public class TextbookDownloaderActivity extends Activity {
+public class TextbookDownloaderActivity extends Activity implements OnClickListener {
+	
+	private Button textbook_update;
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_textbook_downloader);
+        textbook_update = (Button)findViewById(R.id.updateButton);
+        textbook_update.setOnClickListener(this);
     }
+    
+    @Override
+	public void onClick(View v) {
+		// TODO 自動產生的方法 Stub
+    	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask();
+    	downloadTextBook.execute();
+	}
+    
     /**
      * 
      * @author Tony 2013/08/06
@@ -31,7 +48,8 @@ public class TextbookDownloaderActivity extends Activity {
     	private InputStream is;
     	private File filepath;
     	private FileOutputStream output2SDCard;
-    	private final String HTTP_URL = "http://140.126.11.163/test.html"; 
+    	private final String HTTP_URL = "http://140.126.11.163/test.html";
+    	private ProgressDialog updateProgress;
     	
     	@Override
     	protected Void doInBackground(Void... params) {
@@ -61,14 +79,9 @@ public class TextbookDownloaderActivity extends Activity {
     	}
 
     	@Override
-    	protected void onCancelled() {
-    		// TODO 自動產生的方法 Stub
-    		super.onCancelled();
-    	}
-
-    	@Override
     	protected void onPostExecute(Void result) {
     		// TODO 自動產生的方法 Stub
+    		updateProgress.dismiss();
     		super.onPostExecute(result);
     	}
 
@@ -76,6 +89,7 @@ public class TextbookDownloaderActivity extends Activity {
     	protected void onPreExecute() {
     		// TODO 自動產生的方法 Stub
     		super.onPreExecute();
+    		updateProgress = ProgressDialog.show(TextbookDownloaderActivity.this, "下載教材", "下載教材中....");
     	}
 
     	@Override
