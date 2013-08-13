@@ -30,7 +30,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     
     @Override
 	public void onClick(View v) {
-		// TODO ¦Û°Ê²£¥Íªº¤èªk Stub
+		// TODO è‡ªå‹•ç”¢ç”Ÿçš„æ–¹æ³• Stub
     	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
     	downloadTextBook.execute(HTTP_URL);
 	}
@@ -60,11 +60,11 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     	
     	@Override
     	protected Void doInBackground(String... params) {
-    		// TODO ¦Û°Ê²£¥Íªº¤èªk Stub
+    		// TODO è‡ªå‹•ç”¢ç”Ÿçš„æ–¹æ³• Stub
     		try {
 				http_url = new URL(params[0]);
 			} catch (MalformedURLException e1) {
-				// TODO ¦Û°Ê²£¥Íªº catch °Ï¶ô
+				// TODO è‡ªå‹•ç”¢ç”Ÿçš„ catch å€å¡Š
 				e1.printStackTrace();
 			}
     		try {
@@ -96,7 +96,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 					//Toast.makeText(getBaseContext(), url_con.getResponseCode(), Toast.LENGTH_SHORT).show();
 				}
 			} catch (IOException e) {
-				// TODO ¦Û°Ê²£¥Íªº catch °Ï¶ô
+				// TODO è‡ªå‹•ç”¢ç”Ÿçš„ catch å€å¡Š
 				e.printStackTrace();
 			}
     		return null;
@@ -104,17 +104,17 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 
     	@Override
     	protected void onPostExecute(Void result) {
-    		// TODO ¦Û°Ê²£¥Íªº¤èªk Stub
+    		// TODO è‡ªå‹•ç”¢ç”Ÿçš„æ–¹æ³• Stub
     		updateProgress.dismiss();
     		super.onPostExecute(result);
     	}
 
     	@Override
     	protected void onPreExecute() {
-    		// TODO ¦Û°Ê²£¥Íªº¤èªk Stub
+    		// TODO è‡ªå‹•ç”¢ç”Ÿçš„æ–¹æ³• Stub
     		super.onPreExecute();
     		updateProgress = new ProgressDialog(message);
-    		updateProgress.setMessage("¤U¸ü±Ğ§÷¤¤......");
+    		updateProgress.setMessage("ä¸‹è¼‰æ•™æä¸­......");
     		updateProgress.setCancelable(false);
     		updateProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
     		updateProgress.show();
@@ -122,7 +122,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 
     	@Override
     	protected void onProgressUpdate(Integer... values) {
-    		// TODO ¦Û°Ê²£¥Íªº¤èªk Stub
+    		// TODO è‡ªå‹•ç”¢ç”Ÿçš„æ–¹æ³• Stub
     		updateProgress.setProgress(values[0]);
     		super.onProgressUpdate(values);
     	}
