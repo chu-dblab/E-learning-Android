@@ -19,6 +19,7 @@ import tw.edu.chu.csie.e_learning.R;
 public class TextbookDownloaderActivity extends Activity implements OnClickListener {
 	
 	private Button textbook_update;
+	private final String HTTP_URL = "http://140.126.11.163/test.html";
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 	public void onClick(View v) {
 		// TODO 自動產生的方法 Stub
     	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
-    	downloadTextBook.execute();
+    	downloadTextBook.execute(HTTP_URL);
 	}
     
     /**
@@ -41,7 +42,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
      *
      */
     @SuppressWarnings("unused")
-    public class DownloadTextBookTask extends AsyncTask<Void, Integer, Void>
+    public class DownloadTextBookTask extends AsyncTask<String, Integer, Void>
     {
     	
 		private HttpURLConnection url_con;
@@ -49,7 +50,6 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     	private InputStream is;
     	private File filepath;
     	private FileOutputStream output2SDCard;
-    	private final String HTTP_URL = "http://140.126.11.163/test.html";
     	private ProgressDialog updateProgress;
     	private Context message;
     	
@@ -59,10 +59,10 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
     	}
     	
     	@Override
-    	protected Void doInBackground(Void... params) {
+    	protected Void doInBackground(String... params) {
     		// TODO 自動產生的方法 Stub
     		try {
-				http_url = new URL(HTTP_URL);
+				http_url = new URL(params[0]);
 			} catch (MalformedURLException e1) {
 				// TODO 自動產生的 catch 區塊
 				e1.printStackTrace();
@@ -75,12 +75,25 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 				if(url_con.getResponseCode() == HttpURLConnection.HTTP_OK)
 				{
 					is =  url_con.getInputStream();
-					filepath = new File(android.os.Environment.getExternalStorageDirectory()+"/textbook");
+					filepath = new File(android.os.Environment.getExternalStorageDirectory()+"/Download/test.html");
 					output2SDCard = new FileOutputStream(filepath);
+					int data = 0,getdata = 0;
+					byte[] info = new byte[1024];
+					while((getdata = is.read()) != -1)
+					{
+						publishProgress((data/info.length)*100);
+						data += getdata;
+						output2SDCard.write(info,0,getdata);
+					}
+					data = 0;   getdata = 0;
+					output2SDCard.flush();
+					output2SDCard.close();
+					is.close();
+					url_con.disconnect();
 				}
 				else
 				{
-					Toast.makeText(getBaseContext(), url_con.getResponseCode(), Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getBaseContext(), url_con.getResponseCode(), Toast.LENGTH_SHORT).show();
 				}
 			} catch (IOException e) {
 				// TODO 自動產生的 catch 區塊
