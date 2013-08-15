@@ -41,7 +41,6 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
      * 
      *
      */
-    @SuppressWarnings("unused")
     public class DownloadTextBookTask extends AsyncTask<String, Integer, Void>
     {
     	
