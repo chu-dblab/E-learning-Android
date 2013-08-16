@@ -1,10 +1,10 @@
 /*
- * 無所不在學習架構與學習導引機制
+ * �⊥�銝摮貊��嗆��飛蝧�撘���
  * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
  * 
  * FileName:	UserLoginActivity.java
  *
- * Description: 程式進入點，這是使用者的登入畫面
+ * Description: 蝔��脣暺��雿輻���餃�恍
  * 
  */
 package tw.edu.chu.csie.e_learning.ui;
@@ -37,6 +37,7 @@ import android.widget.TextView;
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
+@SuppressWarnings("unused")
 public class UserLoginActivity extends Activity {
 	/**
 	 * A dummy authentication store containing known user names and passwords.
@@ -103,12 +104,12 @@ public class UserLoginActivity extends Activity {
 					}
 				});
 		
-		//自動填入預設帳號密碼
+		//�芸�憛怠�身撣唾�撖Ⅳ
 		if(Config.AUTO_FILL_LOGIN){
 			mIdView.setText(Config.DEFAULT_LOGIN_ID);
 			mPasswordView.setText(Config.DEFAULT_LOGIN_PASSWORD);
 		}
-		//自動登入
+		//�芸��餃
 		if(Config.AUTO_NO_ID_LOGIN) attemptLogin();
 	}
 
@@ -134,7 +135,7 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
-	 * 驗證是否輸入正確，若無誤就登入
+	 * 撽��臬頛詨甇�Ⅱ嚗�∟炊撠梁��
 	 * 
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
@@ -193,7 +194,7 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
-	 * 顯示登入中畫面
+	 * 憿舐內�餃銝剔��
 	 * 
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -236,7 +237,7 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
-	 * 進行登入的動作
+	 * �脰��餃��雿�
 	 * 
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.

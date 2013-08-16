@@ -1,25 +1,24 @@
 /*
- * 無所不在學習架構與學習導引機制
+ * �⊥�銝摮貊��嗆��飛蝧�撘���
  * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
  * 
  * FileName:	HelpUtils.java
  *
- * 作者:	元兒～
- * 更新資訊:
+ * 雿�:	��嚚�
+ * �湔鞈�:
  *   2013.4.29
- *    - 針對本專案修改一下
+ *    - ���砍�獢耨�嫣�銝�
  * 
- *   以元兒～之前的RandomNumber所寫的為基礎挪過來用
- *   └─ v1.0 -2012.9.25
- *      ├─ 將原本在MainActivity.java裡的showAboutDialog()內容抽出成這個class
- *      └─ 解決在Android 2.x手機上因佈景主題而呈現暗底黑字的問題（改成白字）
+ *   隞亙���銋��andomNumber��神��箇��芷�靘
+ *   �� v1.0 -2012.9.25
+ *      �� 撠��砍MainActivity.java鋆∠�showAboutDialog()�批捆�賢���lass
+ *      �� 閫�捱�杗ndroid 2.x��銝�雿銝駁����暹�摨�摮���嚗�摮�
  * 
- * Description: 所有有關"支援"資訊
+ * Description: �����"�舀"鞈�
  */
 package tw.edu.chu.csie.e_learning.util;
 
 import tw.edu.chu.csie.e_learning.R;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,29 +30,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HelpUtils {
-	//顯示"關於"資訊的對話框	
+	//憿舐內"�"鞈���閰望�	
+	@SuppressWarnings("deprecation")
 	public static void showAboutDialog(Context context){
-		//建立對話方塊AlertDialog
+		//撱箇�撠店�孵�AlertDialog
 		AlertDialog about_AlertDialog = new AlertDialog.Builder(context).create();
-		about_AlertDialog.setTitle(R.string.about);	//設定AlertDialog標題
+		about_AlertDialog.setTitle(R.string.about);	//閮剖�AlertDialog璅�
 		
-		//"關於"視窗內容裡建立Layout面板
+		//"�"閬��批捆鋆∪遣蝡ayout�Ｘ
 				ScrollView about_AlertDialog_scrollView = new ScrollView(context); 
 				LinearLayout about_AlertDialog_content = new LinearLayout(context);
-				about_AlertDialog_content.setOrientation(LinearLayout.VERTICAL);	//設定為直向的layout
+				about_AlertDialog_content.setOrientation(LinearLayout.VERTICAL);	//閮剖��箇��layout
 				about_AlertDialog_content.setPadding(
 						context.getResources().getDimensionPixelSize(R.dimen.about_dialog_margin), 
 						context.getResources().getDimensionPixelSize(R.dimen.about_dialog_margin), 
 						context.getResources().getDimensionPixelSize(R.dimen.about_dialog_margin), 
-						context.getResources().getDimensionPixelSize(R.dimen.about_dialog_margin));	//設定layout的邊界大小（左、上、右、下）
+						context.getResources().getDimensionPixelSize(R.dimen.about_dialog_margin));	//閮剖�layout���之撠�撌艾�銝��喋�銝�
 		
-		//"關於"視窗內容裡面內容字串
+		//"�"閬��批捆鋆⊿�批捆摮葡
 		TextView content_textView = new TextView(context);
-		content_textView.setTextAppearance(context, android.R.style.TextAppearance_Medium);	//指定文字樣式為中等大小
-		//content_textView.setAutoLinkMask(Linkify.ALL);	//設定成會自動加上連結
+		content_textView.setTextAppearance(context, android.R.style.TextAppearance_Medium);	//����璅���箔葉蝑之撠�
+		//content_textView.setAutoLinkMask(Linkify.ALL);	//閮剖����芸������
 		
 		try{
-			//宣告"取得套件資訊"的物件
+			//摰��"��憟辣鞈�"�隞�
 			PackageInfo package_info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			/*PackageManager package_manager = this.getPackageManager();
 			PackageInfo package_info = package_manager.getPackageInfo(this.getPackageName(), 0);*/
@@ -72,7 +72,7 @@ public class HelpUtils {
 		}
 		about_AlertDialog_content.addView(content_textView);
 		
-		//指定這個面板到這個對話框
+		//�����Ｘ�圈���閰望�
 		about_AlertDialog_scrollView.addView(about_AlertDialog_content);
 		about_AlertDialog.setView(about_AlertDialog_scrollView);
 		

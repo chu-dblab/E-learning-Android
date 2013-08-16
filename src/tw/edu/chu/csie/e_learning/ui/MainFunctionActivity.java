@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+@SuppressWarnings("unused")
 public class MainFunctionActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
@@ -75,8 +76,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
 						actionBar.setSelectedNavigationItem(position);
@@ -185,7 +185,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * 各個頁面
+	 * ���
 	 */
 	public static class UserStatusFragment extends Fragment {
 
