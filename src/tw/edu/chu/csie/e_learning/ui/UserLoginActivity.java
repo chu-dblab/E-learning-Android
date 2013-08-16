@@ -1,10 +1,10 @@
 /*
- * �⊥�銝摮貊��嗆��飛蝧�撘���
+ * 無所不在學習架構與學習導引機制
  * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
  * 
  * FileName:	UserLoginActivity.java
  *
- * Description: 蝔��脣暺��雿輻���餃�恍
+ * Description: 程式進入點，這是使用者的登入畫面
  * 
  */
 package tw.edu.chu.csie.e_learning.ui;
@@ -104,12 +104,12 @@ public class UserLoginActivity extends Activity {
 					}
 				});
 		
-		//�芸�憛怠�身撣唾�撖Ⅳ
+		//自動填入預設帳號密碼
 		if(Config.AUTO_FILL_LOGIN){
 			mIdView.setText(Config.DEFAULT_LOGIN_ID);
 			mPasswordView.setText(Config.DEFAULT_LOGIN_PASSWORD);
 		}
-		//�芸��餃
+		//自動登入
 		if(Config.AUTO_NO_ID_LOGIN) attemptLogin();
 	}
 
@@ -135,7 +135,7 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
-	 * 撽��臬頛詨甇�Ⅱ嚗�∟炊撠梁��
+	 * 驗證是否輸入正確，若無誤就登入
 	 * 
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
@@ -194,7 +194,7 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
-	 * 憿舐內�餃銝剔��
+	 * 顯示登入中畫面
 	 * 
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -237,7 +237,7 @@ public class UserLoginActivity extends Activity {
 	}
 
 	/**
-	 * �脰��餃��雿�
+	 * 進行登入的動作
 	 * 
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
