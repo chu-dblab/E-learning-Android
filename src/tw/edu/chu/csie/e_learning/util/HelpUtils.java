@@ -19,7 +19,6 @@
 package tw.edu.chu.csie.e_learning.util;
 
 import tw.edu.chu.csie.e_learning.R;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 
 public class HelpUtils {
 	//顯示"關於"資訊的對話框	
+	@SuppressWarnings("deprecation")
 	public static void showAboutDialog(Context context){
 		//建立對話方塊AlertDialog
 		AlertDialog about_AlertDialog = new AlertDialog.Builder(context).create();
