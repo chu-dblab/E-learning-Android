@@ -9,12 +9,30 @@
  */
 package tw.edu.chu.csie.e_learning.ui;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.DefaultClientConnection;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.config.ConnectConfig;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -242,26 +260,44 @@ public class UserLoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> 
+	{
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}
-
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mId)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
+			
+			//建立HttpPost連線
+			HttpPost post = new HttpPost(ConnectConfig.HTTP_URL);
+			
+			// 用POST傳送的資料要用NameValuePair[]包裝
+			List<NameValuePair> data = new ArrayList<NameValuePair>();
+			data.add(new BasicNameValuePair("mId", mId));
+			data.add(new BasicNameValuePair("mPassword", mPassword));
+			
+			//發出HttpRequest
+			try 
+			{
+				post.setEntity(new UrlEncodedFormEntity(data,HTTP.UTF_8));
+				HttpResponse response = new DefaultHttpClient().execute(post);
+				if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+				{
+					//TODO: 解析從後端傳回的資料
 				}
+			} 
+			catch (ClientProtocolException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			catch (IOException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
+			catch (Exception e)
+			{
+				// TODO: handle exception
+			}
+			
 			// TODO: register the new account here.
 			return true;
 		}
