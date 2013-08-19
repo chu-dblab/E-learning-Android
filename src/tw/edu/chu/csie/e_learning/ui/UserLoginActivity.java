@@ -287,18 +287,19 @@ public class UserLoginActivity extends Activity {
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			} 
 			catch (IOException e) 
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 			catch (Exception e)
 			{
 				// TODO: handle exception
+				return false;
 			}
-			
-			// TODO: register the new account here.
 			return true;
 		}
 
