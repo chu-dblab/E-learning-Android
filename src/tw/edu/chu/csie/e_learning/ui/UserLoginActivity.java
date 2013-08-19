@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -25,6 +26,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.DefaultClientConnection;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.id;
@@ -281,6 +284,8 @@ public class UserLoginActivity extends Activity {
 				if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 				{
 					//TODO: 解析從後端傳回的資料
+					String message = EntityUtils.toString(response.getEntity());
+					String status_code = new JSONObject(message).getString("code");
 				}
 			} 
 			catch (ClientProtocolException e) 
