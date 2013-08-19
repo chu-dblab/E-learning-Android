@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import tw.edu.chu.csie.e_learning.R;
+import tw.edu.chu.csie.e_learning.config.ConnectConfig;
 
 /**
  * Created by yuan on 2013/6/3.
@@ -19,7 +20,6 @@ import tw.edu.chu.csie.e_learning.R;
 public class TextbookDownloaderActivity extends Activity implements OnClickListener {
 	
 	private Button textbook_update;
-	private final String HTTP_URL = "http://140.126.11.163/test.html";
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 	public void onClick(View v) {
 		// TODO 自動產生的方法 Stub
     	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
-    	downloadTextBook.execute(HTTP_URL);
+    	downloadTextBook.execute(ConnectConfig.HTTP_URL);
 	}
     
     /**

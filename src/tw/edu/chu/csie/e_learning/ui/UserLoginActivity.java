@@ -283,9 +283,10 @@ public class UserLoginActivity extends Activity {
 				HttpResponse response = new DefaultHttpClient().execute(post);
 				if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 				{
-					//TODO: 解析從後端傳回的資料
+					//解析從後端傳回的資料
 					String message = EntityUtils.toString(response.getEntity());
 					String status_code = new JSONObject(message).getString("code");
+					//TODO: 將傳回來的資料寫入SQLite裡
 				}
 			} 
 			catch (ClientProtocolException e) 
