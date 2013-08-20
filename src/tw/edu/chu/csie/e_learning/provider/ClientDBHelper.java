@@ -73,7 +73,7 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	}
 	
 	@Override
-    public synchronized void close() {
+        public synchronized void close() {
 		super.close();
 	}
 	
