@@ -28,4 +28,8 @@ public class Config {
 	public static final String DEFAULT_LOGIN_PASSWORD = "123456";
 	//是否啟用自動登入
 	public static final boolean AUTO_NO_ID_LOGIN = true;
+	//前端資料庫名稱
+	public static final String Chu_elearn= "chu-elearn.db";
+	//前端資料庫目前版本
+	public static final int version = 1;
 }
