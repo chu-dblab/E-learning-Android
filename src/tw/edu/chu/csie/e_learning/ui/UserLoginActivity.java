@@ -36,6 +36,7 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.config.ConnectConfig;
+import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -287,6 +288,8 @@ public class UserLoginActivity extends Activity {
 					String message = EntityUtils.toString(response.getEntity());
 					String status_code = new JSONObject(message).getString("code");
 					//TODO: 將傳回來的資料寫入SQLite裡
+					ClientDBProvider clientdb = new ClientDBProvider();
+					clientdb.update("user", status_code, null, null);
 				}
 			} 
 			catch (ClientProtocolException e) 
