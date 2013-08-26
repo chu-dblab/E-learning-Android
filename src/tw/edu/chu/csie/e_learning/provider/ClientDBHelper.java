@@ -36,7 +36,7 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		db.execSQL(us); //建立student
+		db.execSQL(us); //建立user
 		db.execSQL(tar); //建立target
 		db.execSQL(sstudy); //建立study
 
