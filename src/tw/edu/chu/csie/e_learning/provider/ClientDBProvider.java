@@ -43,10 +43,10 @@ public class ClientDBProvider {
 	
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("UID", v1);
-		contentvalues.put("UName", v2);
-		contentvalues.put("ULogged_no", v3);
+		contentvalues.put("UNickname", v2);
+		contentvalues.put("ULogged_code", v3);
 		contentvalues.put("In_Learn_Time", v4);
-		return sqlitedatabase.insert("student", null, contentvalues);
+		return sqlitedatabase.insert("user", null, contentvalues);
 	}
 
 	public long target_insert(String v1,String v2,String v3,String v4,String v5){ //"標的"新增
