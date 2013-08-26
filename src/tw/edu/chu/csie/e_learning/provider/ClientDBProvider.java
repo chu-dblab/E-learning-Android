@@ -90,7 +90,7 @@ public class ClientDBProvider {
 		ContentValues contentvalues = new ContentValues();
 			if(user_table == "user")
 			{
-				contentvalues.put("ULogged_no", newv1);
+				contentvalues.put("ULogged_code", newv1);
 				contentvalues.put("In_Learn_Time", newv2);
 			}
 			if(user_table == "target")
@@ -98,6 +98,18 @@ public class ClientDBProvider {
 				contentvalues.put("Map_Url", newv1);
 				contentvalues.put("Material_Url", newv2);
 			}
+			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
+	}
+	
+	public long study_update(String user_table,String newv1,String newv2,String newv3,String newv4,String where_string){
+		
+		ContentValues contentvalues = new ContentValues();
+		
+				contentvalues.put("QID", newv1);
+				contentvalues.put("Answer", newv2);
+				contentvalues.put("Answer_Time", newv3);
+				contentvalues.put("Out_TargetTime", newv4);
+				
 			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
 	}
 	
