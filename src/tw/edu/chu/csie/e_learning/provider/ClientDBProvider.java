@@ -43,8 +43,8 @@ public class ClientDBProvider {
 	
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("UID", v1);
-		contentvalues.put("UName", v2);
-		contentvalues.put("ULogged_no", v3);
+		contentvalues.put("UNickname", v2);
+		contentvalues.put("ULogged_code", v3);
 		contentvalues.put("In_Learn_Time", v4);
 		return sqlitedatabase.insert("user", null, contentvalues);
 	}
