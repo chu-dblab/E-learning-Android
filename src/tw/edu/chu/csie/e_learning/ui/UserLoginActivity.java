@@ -270,7 +270,7 @@ public class UserLoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			
 			//建立HttpPost連線
-			HttpPost post = new HttpPost(ConnectConfig.HTTP_URL);
+			HttpPost post = new HttpPost(ConnectConfig.HTTP_URL+"logincheck.php");
 			
 			// 用POST傳送的資料要用NameValuePair[]包裝
 			List<NameValuePair> data = new ArrayList<NameValuePair>();

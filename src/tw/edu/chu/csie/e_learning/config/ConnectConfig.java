@@ -16,7 +16,7 @@ public class ConnectConfig {
 	 * WebService伺服器連結登入資訊
 	 */
 	//WebService連接網址（需在最後加上斜線）
-	public static final String HTTP_URL = "http://140.126.11.163/elearning/";
+	public static final String HTTP_URL = "http://140.126.11.163/elearning/htdocs/api/";
 	
 	/**
 	 * 資料庫登入資訊
