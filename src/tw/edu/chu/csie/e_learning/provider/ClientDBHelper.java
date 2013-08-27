@@ -18,13 +18,13 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	
 	//使用者資料表
 	private static final String us = 
-				"CREATE TABLE user ( UID INTEGER unsigned NOT NULL, UName varchar(20) NOT NULL, ULogged_no varchar(40) default NULL, In_Learn_Time datetime NOT NULL, PRIMARY KEY (UID));"; 
+				"CREATE TABLE chu_user ( UID varchar(30) NOT NULL, UNickname varchar(20) DEFAULT NULL, ULogged_code varchar(32) DEFAULT NULL, In_Learn_Time datetime NOT NULL, PRIMARY KEY (UID));"; 
 	//標的資料表
 	private static final String tar = 
-				"CREATE TABLE target ( TID INTEGER unsigned NOT NULL, MapID INTEGER unsigned NOT NULL, Map_Url varchar(50) NOT NULL, MaterialID INTEGER unsigned NOT NULL, Material_Url varchar(50) NOT NULL, PRIMARY KEY (TID));";
+				"CREATE TABLE chu_target ( TID INTEGER unsigned NOT NULL, MapID INTEGER unsigned NOT NULL, Map_Url varchar(150) NOT NULL, MaterialID INTEGER unsigned NOT NULL, Material_Url varchar(150) NOT NULL, PRIMARY KEY (TID));";
 	//學習關係資料表
 	private static final String sstudy = 
-				"CREATE TABLE study ( TID INTEGER unsigned NOT NULL, UID INTEGER unsigned NOT NULL, QID INTEGER unsigned default NULL, Answer varchar(5) default NULL, Answer_Time varchar(10) default NULL, In_TargetTime datetime NOT NULL, Out_TargetTime datetime default NULL, TCheck varchar(5) NOT NULL, FOREIGN KEY (UID) REFERENCES user, FOREIGN KEY (TID) REFERENCES target, PRIMARY KEY(UID,TID));";
+				"CREATE TABLE chu_study ( TID INTEGER unsigned NOT NULL, UID varchar(30) NOT NULL, QID INTEGER unsigned default NULL, Answer varchar(5) default NULL, Answer_Time varchar(10) default NULL, In_TargetTime datetime NOT NULL, Out_TargetTime datetime default NULL, TCheck varchar(5) NOT NULL, FOREIGN KEY (UID) REFERENCES user, FOREIGN KEY (TID) REFERENCES target, PRIMARY KEY(UID,TID));";
 		
 	
 	public ClientDBHelper(Context context, String chu_elearn, CursorFactory factory, int version) {
@@ -36,9 +36,9 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		db.execSQL(us); //建立user
-		db.execSQL(tar); //建立target
-		db.execSQL(sstudy); //建立study
+		db.execSQL(us); //建立chu_user
+		db.execSQL(tar); //建立chu_target
+		db.execSQL(sstudy); //建chu_立study
 
 	}
 	
