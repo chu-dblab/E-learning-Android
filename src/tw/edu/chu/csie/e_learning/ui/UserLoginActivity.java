@@ -270,7 +270,7 @@ public class UserLoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			
 			//建立HttpPost連線
-			HttpPost post = new HttpPost(ConnectConfig.HTTP_URL+"logincheck.php");
+			HttpPost post = new HttpPost(ConnectConfig.HTTP_URL+"api/logincheck.php");
 			
 			// 用POST傳送的資料要用NameValuePair[]包裝
 			List<NameValuePair> data = new ArrayList<NameValuePair>();
@@ -287,7 +287,7 @@ public class UserLoginActivity extends Activity {
 					//解析從後端傳回的資料
 					String message = EntityUtils.toString(response.getEntity());
 					String status_code = new JSONObject(message).getString("code");
-					//TODO: 將傳回來的資料寫入SQLite裡
+					//將傳回來的資料寫入SQLite裡
 					ClientDBProvider clientdb = new ClientDBProvider();
 					clientdb.update("user", status_code, null, null);
 				}

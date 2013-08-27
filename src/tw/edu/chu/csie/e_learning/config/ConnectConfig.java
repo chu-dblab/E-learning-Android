@@ -13,10 +13,10 @@ package tw.edu.chu.csie.e_learning.config;
 
 public class ConnectConfig {
 	/**
-	 * WebService伺服器連結登入資訊
+	 * 伺服器連結登入資訊
 	 */
-	//WebService連接網址（需在最後加上斜線）
-	public static final String HTTP_URL = "http://140.126.11.163/elearning/htdocs/api/";
+	//連接網址（需在最後加上斜線）
+	public static final String HTTP_URL = "http://140.126.11.163/elearning/htdocs/";
 	
 	/**
 	 * 資料庫登入資訊
