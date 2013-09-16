@@ -27,6 +27,7 @@ import org.apache.http.impl.conn.DefaultClientConnection;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import tw.edu.chu.csie.e_learning.R;
@@ -36,6 +37,7 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.config.ConnectConfig;
+import tw.edu.chu.csie.e_learning.connect.ServerUtils;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
@@ -197,7 +199,12 @@ public class UserLoginActivity extends Activity {
 			cancel = true;
 		} /*else if (!mId.contains("@")) {
 			mIdView.setError(getString(R.string.error_invalid_email));
-			focusView = mIdView;
+				output2SDCard.close();
+					is.close();
+					url_con.disconnect();
+				}
+				else
+				focusView = mIdView;
 			cancel = true;
 		}*/
 
@@ -211,7 +218,7 @@ public class UserLoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			mAuthTask.execute(ConnectConfig.HTTP_URL+"api/logincheck.php");
 		}
 	}
 
@@ -264,49 +271,27 @@ public class UserLoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> 
+	public class UserLoginTask extends AsyncTask<String, Void, Boolean> 
 	{
+		private ServerUtils loginCheck = new ServerUtils();
 		@Override
-		protected Boolean doInBackground(Void... params) {
-			
-			//建立HttpPost連線
-			HttpPost post = new HttpPost(ConnectConfig.HTTP_URL+"api/logincheck.php");
-			
-			// 用POST傳送的資料要用NameValuePair[]包裝
-			List<NameValuePair> data = new ArrayList<NameValuePair>();
-			data.add(new BasicNameValuePair("mId", mId));
-			data.add(new BasicNameValuePair("mPassword", mPassword));
-			
-			//發出HttpRequest
-			try 
-			{
-				post.setEntity(new UrlEncodedFormEntity(data,HTTP.UTF_8));
-				HttpResponse response = new DefaultHttpClient().execute(post);
-				if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
-				{
-					//解析從後端傳回的資料
-					String message = EntityUtils.toString(response.getEntity());
-					String status_code = new JSONObject(message).getString("code");
-					//將傳回來的資料寫入SQLite裡
-					ClientDBProvider clientdb = new ClientDBProvider();
-					clientdb.update("user", status_code, null, null);
-				}
-			} 
-			catch (ClientProtocolException e) 
-			{
+		protected Boolean doInBackground(String... params) {
+			loginCheck.setID(mId);
+			loginCheck.setPassword(mPassword);
+			loginCheck.setAddress(params[0]);
+			try {
+				loginCheck.connect2Server();
+			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return false;
-			} 
-			catch (IOException e) 
-			{
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return false;
-			}
-			catch (Exception e)
-			{
-				// TODO: handle exception
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 				return false;
 			}
 			return true;
