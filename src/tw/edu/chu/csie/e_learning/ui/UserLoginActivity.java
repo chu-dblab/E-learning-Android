@@ -39,6 +39,7 @@ import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.config.ConnectConfig;
 import tw.edu.chu.csie.e_learning.connect.ServerUtils;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -218,7 +219,7 @@ public class UserLoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
-			mAuthTask.execute(ConnectConfig.HTTP_URL+"api/logincheck.php");
+			mAuthTask.execute();
 		}
 	}
 
@@ -271,30 +272,25 @@ public class UserLoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<String, Void, Boolean> 
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> 
 	{
 		private ServerUtils loginCheck = new ServerUtils();
 		@Override
-		protected Boolean doInBackground(String... params) {
-			loginCheck.setID(mId);
-			loginCheck.setPassword(mPassword);
-			loginCheck.setAddress(params[0]);
+		protected Boolean doInBackground(Void... params) {
+			AccountUtils check = new AccountUtils();
 			try {
-				loginCheck.connect2Server();
+				check.loginUser(mId, mPassword);
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return false;
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return false;
 			}
-			return true;
+			return null;
 		}
 
 		@Override
