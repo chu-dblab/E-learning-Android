@@ -21,13 +21,13 @@ public class Config {
 	 * 無帳號登入
 	 */
 	//是否啟用自動填入預設帳號密碼
-	public static final boolean AUTO_FILL_LOGIN = false;
+	public static final boolean AUTO_FILL_LOGIN = true;
 	//預設登入的帳號
 	public static final String DEFAULT_LOGIN_ID = "tester";
 	//預設登入的密碼
 	public static final String DEFAULT_LOGIN_PASSWORD = "123456";
 	//是否啟用自動登入
-	public static final boolean AUTO_NO_ID_LOGIN = false;
+	public static final boolean AUTO_NO_ID_LOGIN = true;
 	//前端資料庫名稱
 	public static final String Chu_elearn= "chu-elearn.db";
 	//前端資料庫目前版本

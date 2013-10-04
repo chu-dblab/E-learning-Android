@@ -274,23 +274,27 @@ public class UserLoginActivity extends Activity {
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> 
 	{
-		private ServerUtils loginCheck = new ServerUtils();
+		private AccountUtils check = new AccountUtils();
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			AccountUtils check = new AccountUtils();
-			try {
+			try{
 				check.loginUser(mId, mPassword);
-			} catch (ClientProtocolException e) {
+				if(check.islogin()) return true;
+				else return false;
+			} 
+			catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
-			return null;
 		}
 
 		@Override

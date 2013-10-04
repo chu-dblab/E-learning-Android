@@ -29,9 +29,7 @@ import tw.edu.chu.csie.e_learning.config.ConnectConfig;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 
 public class AccountUtils {
-	/**
-	 * 
-	 */
+	
 	private boolean isLogined;
 	private String loginedId;
 	private String loginCode;
@@ -68,8 +66,8 @@ public class AccountUtils {
 	 * @throws ClientProtocolException 
 	 * @throws JSONException 
 	 */
-	public boolean loginUser(String inputLoginId, String inputLoginPasswd) throws ClientProtocolException, IOException, JSONException
-	{
+	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
+			throws ClientProtocolException, IOException, JSONException{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
 		data.add(new BasicNameValuePair("mID",inputLoginId));
