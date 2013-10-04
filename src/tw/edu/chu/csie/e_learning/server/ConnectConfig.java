@@ -14,7 +14,7 @@ public class ConnectConfig {
 	 * 伺服器連結登入資訊
 	 */
 	//連接網址（需在最後加上斜線）
-	public static final String BASE_URL = "http://140.126.11.163/elearning/htdocs/";
+	public static final String BASE_URL = "http://localhost/elearning/htdocs/";
 	public static final String API_URL = BASE_URL + "api/";
 	public static final String TEXTBOOK_URL = BASE_URL + "textbooks/";
 }
