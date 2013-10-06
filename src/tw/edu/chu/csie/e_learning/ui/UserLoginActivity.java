@@ -36,7 +36,6 @@ import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
-import tw.edu.chu.csie.e_learning.connect.ServerUtils;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.ConnectConfig;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
