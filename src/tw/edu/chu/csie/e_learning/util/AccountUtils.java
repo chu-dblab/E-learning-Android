@@ -74,7 +74,7 @@ public class AccountUtils {
 		data.add(new BasicNameValuePair("mPassword", inputLoginPasswd));
 		
 		//建立HttpPost連線
-		HttpPost post = new HttpPost(ConnectConfig.API_URL+"api/login.php?action=login");
+		HttpPost post = new HttpPost(ConnectConfig.API_URL+"login.php?action=login");
 		//接收HttpResponse
 		post.setEntity(new UrlEncodedFormEntity(data,HTTP.UTF_8));
 		HttpResponse response = new DefaultHttpClient().execute(post);

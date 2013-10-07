@@ -32,7 +32,7 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 	public void onClick(View v) {
 		// TODO 自動產生的方法 Stub
     	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
-    	downloadTextBook.execute(ConnectConfig.API_URL+"textbooks");
+    	downloadTextBook.execute(ConnectConfig.TEXTBOOK_URL);
 	}
     
     /**
