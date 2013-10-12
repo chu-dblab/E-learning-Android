@@ -67,11 +67,13 @@ public class AccountUtils {
 	 * @throws JSONException 
 	 */
 	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException{
+			throws ClientProtocolException, IOException, JSONException
+	{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
 		data.add(new BasicNameValuePair("mID",inputLoginId));
 		data.add(new BasicNameValuePair("mPassword", inputLoginPasswd));
+		
 		
 		//建立HttpPost連線
 		HttpPost post = new HttpPost(ConnectConfig.API_URL+"Users/login.php?op=login");

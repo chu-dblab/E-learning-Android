@@ -218,7 +218,7 @@ public class UserLoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
-			mAuthTask.execute();
+			mAuthTask.execute(mId,mPassword);
 		}
 	}
 
@@ -271,13 +271,13 @@ public class UserLoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> 
+	public class UserLoginTask extends AsyncTask<String, Void, Boolean> 
 	{
 		private AccountUtils check = new AccountUtils();
 		@Override
-		protected Boolean doInBackground(Void... params) {
+		protected Boolean doInBackground(String... params) {
 			try{
-				check.loginUser(mId, mPassword);
+				check.loginUser(params[0], params[1]);
 				if(check.islogin()) return true;
 				else return false;
 			} 
