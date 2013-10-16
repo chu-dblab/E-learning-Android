@@ -18,8 +18,6 @@ public class NFCDetect extends Activity
 	private NfcAdapter gNfcAdapter;
 	private IntentFilter[] gNdefExchangeFilters;
 	
-	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
