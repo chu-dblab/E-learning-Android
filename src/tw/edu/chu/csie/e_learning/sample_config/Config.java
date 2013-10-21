@@ -7,7 +7,7 @@
  * Description: 在這邊指定本程式的內定參數
  * 
  */
-package tw.edu.chu.csie.e_learning.config;
+package tw.edu.chu.csie.e_learning.sample_config;
 
 public class Config {
 	/**
