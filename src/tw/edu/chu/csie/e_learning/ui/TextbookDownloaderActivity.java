@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import tw.edu.chu.csie.e_learning.R;
-import tw.edu.chu.csie.e_learning.server.ConnectConfig;
+import tw.edu.chu.csie.e_learning.config.*;
 
 /**
  * Created by yuan on 2013/6/3.
@@ -32,7 +32,8 @@ public class TextbookDownloaderActivity extends Activity implements OnClickListe
 	public void onClick(View v) {
 		// TODO 自動產生的方法 Stub
     	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
-    	downloadTextBook.execute(ConnectConfig.TEXTBOOK_URL);
+    	//
+    	downloadTextBook.execute(Config.REMOTE_TEXTBOOK_URL);
 	}
     
     /**

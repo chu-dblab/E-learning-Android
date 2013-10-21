@@ -25,8 +25,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tw.edu.chu.csie.celn.BaseSettings;
+import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
-import tw.edu.chu.csie.e_learning.server.ConnectConfig;
 
 public class AccountUtils {
 	
@@ -69,6 +70,7 @@ public class AccountUtils {
 	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
 			throws ClientProtocolException, IOException, JSONException
 	{
+		String api_url = new BaseSettings(Config.REMOTE_BASE_URL).getApiUrl();
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
 		data.add(new BasicNameValuePair("mID",inputLoginId));
@@ -76,7 +78,7 @@ public class AccountUtils {
 		
 		
 		//建立HttpPost連線
-		HttpPost post = new HttpPost(ConnectConfig.API_URL+"Users/login.php?op=login");
+		HttpPost post = new HttpPost(api_url+"Users/login.php?op=login");
 		//接收HttpResponse
 		post.setEntity(new UrlEncodedFormEntity(data,HTTP.UTF_8));
 		HttpResponse response = new DefaultHttpClient().execute(post);
