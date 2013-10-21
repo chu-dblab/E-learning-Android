@@ -7,9 +7,14 @@
  * Description: 在這邊指定本程式的內定參數
  * 
  */
-package tw.edu.chu.csie.e_learning.sample_config;
+package tw.edu.chu.csie.e_learning.config;
 
 public class Config {
+	/**
+	 * 後端連線
+	 */
+	public static final String REMOTE_BASE_URL = "http://localhost/";
+	
 	/**
 	 * 此應用程式性質
 	 */
