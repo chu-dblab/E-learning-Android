@@ -275,24 +275,9 @@ public class UserLoginActivity extends Activity {
 		private AccountUtils check = new AccountUtils();
 		@Override
 		protected Boolean doInBackground(String... params) {
-			try{
-				check.loginUser(params[0], params[1]);
-				if(check.islogin()) return true;
-				else return false;
-			} 
-			catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			}
+			check.loginUser(params[0], params[1]);
+			if(check.islogin()) return true;
+			else return false;
 		}
 
 		@Override

@@ -13,17 +13,17 @@ public class BaseSettings {
 	private boolean debugEnable = false;
 	
 	public BaseSettings() {
-		setDebugEnabled(false);
+		this.setDebugEnabled(false);
 	}
 	
 	public BaseSettings(String inputBaseUrl) {
-		setBaseUrl(inputBaseUrl);
-		setDebugEnabled(false);
+		this.setBaseUrl(inputBaseUrl);
+		this.setDebugEnabled(false);
 	}
 	
 	public BaseSettings(String inputBaseUrl, boolean inputDebugEnabled) {
-		setBaseUrl(inputBaseUrl);
-		setDebugEnabled(inputDebugEnabled);
+		this.setBaseUrl(inputBaseUrl);
+		this.setDebugEnabled(inputDebugEnabled);
 	}
 	
 	// ===========================================================
@@ -35,7 +35,7 @@ public class BaseSettings {
 	public void setBaseUrl(String input) {
 		// TODO 判斷是否加上"http://"
 		// TODO 判斷最後一個字是不是為"/"
-		base_url = input;
+		this.base_url = input;
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class BaseSettings {
 	 * @return 基底URL 
 	 */
 	public String getBaseUrl() {
-		return base_url;
+		return this.base_url;
 	}
 		
 	/**
@@ -51,7 +51,7 @@ public class BaseSettings {
 	 * @return 完整API URL
 	 */
 	public String getApiUrl() {
-		return getBaseUrl() + URLPART_API;
+		return getBaseUrl() + this.URLPART_API;
 	}
 	
 	//===========================================================
@@ -60,7 +60,7 @@ public class BaseSettings {
 	 * @param input
 	 */
 	public void setDebugEnabled(boolean input) {
-		debugEnable = input;
+		this.debugEnable = input;
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class BaseSettings {
 	 * @return
 	 */
 	public boolean getDebugEnabled() {
-		return debugEnable;
+		return this.debugEnable;
 	}
 
 }
