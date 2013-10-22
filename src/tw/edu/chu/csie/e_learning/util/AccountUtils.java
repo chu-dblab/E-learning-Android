@@ -25,9 +25,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tw.edu.chu.csie.celn.BaseSettings;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import tw.edu.chu.csie.e_learning.server.BaseSettings;
 
 public class AccountUtils {
 	
