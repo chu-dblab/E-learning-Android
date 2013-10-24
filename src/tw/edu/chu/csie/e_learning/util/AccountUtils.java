@@ -77,24 +77,13 @@ public class AccountUtils {
 		
 		ServerUtils server = new ServerUtils(srvbs);
 		
-		try {
-			this.loginCode = server.userLogin(inputLoginId, inputLoginPasswd);
-			
-			//將傳回來的資料寫入SQLite裡
-			this.clientdb.update("user", this.loginCode, null, null);
-			this.isLogined = true;
-			
-			return true;
-		} catch (ClientProtocolException e) {
-			throw e;
-		} catch (IOException e) {
-			throw e;
-		} catch (JSONException e) {
-			throw e;
-		} catch (LoginException e) {
-			throw e;
-		}
+		this.loginCode = server.userLogin(inputLoginId, inputLoginPasswd);
 		
+		//將傳回來的資料寫入SQLite裡
+		this.clientdb.update("user", this.loginCode, null, null);
+		this.isLogined = true;
+		
+		return true;		
 	}
 	/**
 	 * 登出帳號
