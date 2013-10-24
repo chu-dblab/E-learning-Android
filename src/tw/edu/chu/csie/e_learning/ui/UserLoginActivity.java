@@ -197,17 +197,7 @@ public class UserLoginActivity extends Activity {
 			mIdView.setError(getString(R.string.error_field_required));
 			focusView = mIdView;
 			cancel = true;
-		} /*else if (!mId.contains("@")) {
-			mIdView.setError(getString(R.string.error_invalid_email));
-				output2SDCard.close();
-					is.close();
-					url_con.disconnect();
-				}
-				else
-				focusView = mIdView;
-			cancel = true;
-		}*/
-
+		} 
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.
