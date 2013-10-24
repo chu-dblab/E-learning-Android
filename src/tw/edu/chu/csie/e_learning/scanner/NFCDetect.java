@@ -10,8 +10,8 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 
+@SuppressWarnings("unused")
 public class NFCDetect extends Activity 
 {
 	private PendingIntent gNfcPendingIntent;
@@ -99,7 +99,7 @@ public class NFCDetect extends Activity
 	    // 覆寫該Intent用於補捉如果有新的Intent進入時，可以觸發的事件任務。
 	    // NDEF exchange mode
 	    if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-	        NdefMessage[] msgs = getNdefMessages(intent);
+			NdefMessage[] msgs = getNdefMessages(intent);
 	    }
 	}	
 }
