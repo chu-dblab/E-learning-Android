@@ -37,6 +37,7 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import tw.edu.chu.csie.e_learning.server.LoginException;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
@@ -275,7 +276,21 @@ public class UserLoginActivity extends Activity {
 		private AccountUtils check = new AccountUtils();
 		@Override
 		protected Boolean doInBackground(String... params) {
-			check.loginUser(params[0], params[1]);
+			try {
+				check.loginUser(params[0], params[1]);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (LoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(check.islogin()) return true;
 			else return false;
 		}

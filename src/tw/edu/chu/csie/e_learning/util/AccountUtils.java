@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
+import tw.edu.chu.csie.e_learning.server.LoginException;
 import tw.edu.chu.csie.e_learning.server.ServerUtils;
 
 public class AccountUtils {
@@ -69,6 +70,7 @@ public class AccountUtils {
 	 * @throws JSONException 
 	 */
 	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
+			throws ClientProtocolException, IOException, JSONException, LoginException
 	{
 		BaseSettings srvbs = new BaseSettings();
 		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
@@ -79,25 +81,18 @@ public class AccountUtils {
 			this.loginCode = server.userLogin(inputLoginId, inputLoginPasswd);
 			
 			//將傳回來的資料寫入SQLite裡
-			clientdb.update("user", this.loginCode, null, null);
-			isLogined = true;
+			this.clientdb.update("user", this.loginCode, null, null);
+			this.isLogined = true;
 			
 			return true;
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			return false;
+			throw e;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			return false;
+			throw e;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			return false;
+			throw e;
+		} catch (LoginException e) {
+			throw e;
 		}
 		
 	}

@@ -36,9 +36,10 @@ public class ServerUtils {
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws JSONException
+	 * @throws LoginException
 	 */
 	public String userLogin(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException
+			throws ClientProtocolException, IOException, JSONException, LoginException
 	{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
@@ -55,9 +56,30 @@ public class ServerUtils {
 		{
 			//解析從後端傳回的資料
 			String message = EntityUtils.toString(response.getEntity());
-			String login_code = new JSONObject(message).getString("logincode");
-			// TODO 其他狀況處理（無帳號、密碼錯誤）
-			return login_code;
+			
+			//如果伺服器傳回的狀態為正常
+			boolean status_ok = new JSONObject(message).getBoolean("status_ok");
+			if( status_ok ) {
+				String login_code = new JSONObject(message).getString("logincode");				
+				return login_code;
+			}
+			//若伺服器傳回為登入失敗
+			else {
+				//從伺服器取得錯誤代碼
+				String status = new JSONObject(message).getString("status");
+				if(status == "NoFound") {
+					throw new LoginException(LoginException.NO_FOUND);
+				}
+				else if(status == "NoActiveErr") {
+					throw new LoginException(LoginException.NO_ACTIVE);
+				}
+				else if(status == "PasswdErr") {
+					throw new LoginException(LoginException.PASSWORD_ERROR);
+				}
+				else {
+					throw new LoginException(LoginException.SERVER_ERROR);
+				}
+			}
 		}
 		else return null;
 	}
