@@ -25,8 +25,11 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
-import tw.edu.chu.csie.e_learning.server.ConnectConfig;
+import tw.edu.chu.csie.e_learning.server.BaseSettings;
+import tw.edu.chu.csie.e_learning.server.LoginException;
+import tw.edu.chu.csie.e_learning.server.ServerUtils;
 
 public class AccountUtils {
 	
@@ -67,31 +70,31 @@ public class AccountUtils {
 	 * @throws JSONException 
 	 */
 	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException
+			throws ClientProtocolException, IOException, JSONException, LoginException
 	{
-		//傳送的資料要用NameValuePair[]包裝
-		List<NameValuePair> data = new ArrayList<NameValuePair>();
-		data.add(new BasicNameValuePair("mID",inputLoginId));
-		data.add(new BasicNameValuePair("mPassword", inputLoginPasswd));
+		BaseSettings srvbs = new BaseSettings();
+		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
 		
+		ServerUtils server = new ServerUtils(srvbs);
 		
-		//建立HttpPost連線
-		HttpPost post = new HttpPost(ConnectConfig.API_URL+"Users/login.php?op=login");
-		//接收HttpResponse
-		post.setEntity(new UrlEncodedFormEntity(data,HTTP.UTF_8));
-		HttpResponse response = new DefaultHttpClient().execute(post);
-		if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
-		{
-			//解析從後端傳回的資料
-			String message = EntityUtils.toString(response.getEntity());
-			String status_code = new JSONObject(message).getString("code");
-			loginCode = status_code;
+		try {
+			this.loginCode = server.userLogin(inputLoginId, inputLoginPasswd);
+			
 			//將傳回來的資料寫入SQLite裡
-			clientdb.update("user", status_code, null, null);
-			isLogined = true;
+			this.clientdb.update("user", this.loginCode, null, null);
+			this.isLogined = true;
+			
 			return true;
+		} catch (ClientProtocolException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} catch (JSONException e) {
+			throw e;
+		} catch (LoginException e) {
+			throw e;
 		}
-		else return false;
+		
 	}
 	/**
 	 * 登出帳號

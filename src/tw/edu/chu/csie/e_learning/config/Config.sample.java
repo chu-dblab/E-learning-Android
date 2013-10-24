@@ -9,7 +9,13 @@
  */
 package tw.edu.chu.csie.e_learning.config;
 
-public class Config {
+public class CopyOfConfig {
+	/**
+	 * 後端連線
+	 */
+	public static final String REMOTE_BASE_URL = "http://localhost/";
+	public static final String REMOTE_TEXTBOOK_URL = REMOTE_BASE_URL+"textbooks/";
+	
 	/**
 	 * 此應用程式性質
 	 */

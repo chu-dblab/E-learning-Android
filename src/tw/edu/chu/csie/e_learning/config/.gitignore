@@ -1,0 +1,5 @@
+# 忽略所有檔案
+*.java
+
+# 但要紀錄帶有sample的檔案
+!*.sample.java
