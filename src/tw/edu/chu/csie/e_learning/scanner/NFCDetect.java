@@ -27,7 +27,7 @@ public class NFCDetect extends Activity
 		        // 指定該Activity為應用程式中的最上層Activity
 		        new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		
-		// 建立要處理的Intent Filter負責處理來自Tag或p2p交換的資料。
+		// 建立要處理的Intent Filter負責處理來自Tag的資料。
 		IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
 		try {
 		    ndefDetected.addDataType("text/plain");
