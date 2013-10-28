@@ -20,6 +20,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tw.edu.chu.csie.e_learning.server.exception.LoginException;
+import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
+
 public class ServerUtils {
 	
 	private BaseSettings baseSettings;
@@ -37,9 +40,10 @@ public class ServerUtils {
 	 * @throws IOException
 	 * @throws JSONException
 	 * @throws LoginException
+	 * @throws PostNotSameException 
 	 */
 	public String userLogin(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException
 	{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
@@ -57,28 +61,37 @@ public class ServerUtils {
 			//解析從後端傳回的資料
 			String message = EntityUtils.toString(response.getEntity());
 			
-			//如果伺服器傳回的狀態為正常
-			boolean status_ok = new JSONObject(message).getBoolean("status_ok");
-			if( status_ok ) {
-				String login_code = new JSONObject(message).getString("logincode");				
-				return login_code;
+			//若伺服端接到的uid與傳送的不合
+			if(new JSONObject(message).getString("uid") != inputLoginId) {
+				throw new PostNotSameException("uid");
 			}
-			//若伺服器傳回為登入失敗
+			//若傳送給的資料是否與伺服端接到的資料相同
 			else {
-				//從伺服器取得錯誤代碼
-				String status = new JSONObject(message).getString("status");
-				if(status == "NoFound") {
-					throw new LoginException(LoginException.NO_FOUND);
+				
+				//如果伺服器傳回的狀態為正常
+				boolean status_ok = new JSONObject(message).getBoolean("status_ok");
+				if( status_ok ) {
+					String login_code = new JSONObject(message).getString("logincode");				
+					return login_code;
 				}
-				else if(status == "NoActiveErr") {
-					throw new LoginException(LoginException.NO_ACTIVE);
-				}
-				else if(status == "PasswdErr") {
-					throw new LoginException(LoginException.PASSWORD_ERROR);
-				}
+				//若伺服器傳回為登入失敗
 				else {
-					throw new LoginException(LoginException.SERVER_ERROR);
-				}
+					//從伺服器取得錯誤代碼
+					String status = new JSONObject(message).getString("status");
+					if(status == "NoFound") {
+						throw new LoginException(LoginException.NO_FOUND);
+					}
+					else if(status == "NoActiveErr") {
+						throw new LoginException(LoginException.NO_ACTIVE);
+					}
+					else if(status == "PasswdErr") {
+						throw new LoginException(LoginException.PASSWORD_ERROR);
+					}
+					else {
+						throw new LoginException(LoginException.SERVER_ERROR);
+					}
+				}				
+				
 			}
 		}
 		else return null;

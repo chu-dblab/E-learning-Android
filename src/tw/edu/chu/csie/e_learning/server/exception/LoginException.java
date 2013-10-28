@@ -1,4 +1,4 @@
-package tw.edu.chu.csie.e_learning.server;
+package tw.edu.chu.csie.e_learning.server.exception;
 
 /**
  * 使用者登入例外處理

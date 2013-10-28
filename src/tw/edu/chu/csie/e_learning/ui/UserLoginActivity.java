@@ -37,7 +37,8 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
-import tw.edu.chu.csie.e_learning.server.LoginException;
+import tw.edu.chu.csie.e_learning.server.exception.LoginException;
+import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.animation.Animator;
@@ -288,6 +289,9 @@ public class UserLoginActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (LoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (PostNotSameException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
