@@ -63,7 +63,7 @@ public class ServerUtils {
 			
 			//若伺服端接到的uid與傳送的不合
 			if(new JSONObject(message).getString("uid") != inputLoginId) {
-				throw new PostNotSameException("uid");
+				throw new PostNotSameException();
 			}
 			//若傳送給的資料是否與伺服端接到的資料相同
 			else {
