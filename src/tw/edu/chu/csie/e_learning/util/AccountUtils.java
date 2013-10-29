@@ -97,8 +97,7 @@ public class AccountUtils {
 			throw e;
 		} catch (PostNotSameException e) {
 			throw e;
-		}
-		
+		}		
 	}
 	/**
 	 * 登出帳號
