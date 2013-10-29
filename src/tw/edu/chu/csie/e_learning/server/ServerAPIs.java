@@ -21,8 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
 public class ServerAPIs {
 	
@@ -45,19 +47,18 @@ public class ServerAPIs {
 	 * @throws LoginException
 	 * @throws PostNotSameException 
 	 * @throws HttpException 
+	 * @throws ServerException 
 	 */
 	public String userLogin(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException
 	{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
 		data.add(new BasicNameValuePair("uid",inputLoginId));
 		data.add(new BasicNameValuePair("upasswd", inputLoginPasswd));
 		
-		
 		//與伺服端連線
 		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=login", data);
-
 			
 		//若伺服端接到的uid與傳送的不合
 		if(new JSONObject(message).getString("uid") != inputLoginId) {
@@ -65,7 +66,6 @@ public class ServerAPIs {
 		}
 		//若傳送給的資料是否與伺服端接到的資料相同
 		else {
-			
 			//如果伺服器傳回的狀態為正常
 			boolean status_ok = new JSONObject(message).getBoolean("status_ok");
 			if( status_ok ) {
@@ -86,10 +86,56 @@ public class ServerAPIs {
 					throw new LoginException(LoginException.PASSWORD_ERROR);
 				}
 				else {
-					throw new LoginException(LoginException.SERVER_ERROR);
+					throw new ServerException();
 				}
 			}				
 			
+		}
+	}
+	
+	/**
+	 * 使用者登出
+	 * @param inputLoginCode
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException
+	 * @throws PostNotSameException
+	 * @throws LoginCodeException
+	 * @throws ServerException 
+	 */
+	public void userLogout(String inputLoginCode)
+			throws ClientProtocolException, IOException, HttpException, JSONException, PostNotSameException, LoginCodeException, ServerException {
+		//傳送的資料要用NameValuePair[]包裝
+		List<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("ucode",inputLoginCode));
+		
+		//與伺服端連線
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=logout", data);
+			
+		//若伺服端接到的uid與傳送的不合
+		if(new JSONObject(message).getString("ucode") != inputLoginCode) {
+			throw new PostNotSameException();
+		}
+		//若傳送給的資料是否與伺服端接到的資料相同
+		else {
+			//如果伺服器傳回的狀態為正常
+			boolean status_ok = new JSONObject(message).getBoolean("status_ok");
+			if( status_ok ) {
+				String login_code = new JSONObject(message).getString("logincode");
+			}
+			//若伺服器傳回為登入失敗
+			else {
+				//從伺服器取得錯誤代碼
+				String status = new JSONObject(message).getString("status");
+				
+				if(status == "NoUserFound") {
+					throw new LoginCodeException();
+				}
+				else {
+					throw new ServerException();
+				}
+			}
 		}
 	}
 }

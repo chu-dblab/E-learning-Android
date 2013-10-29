@@ -30,8 +30,10 @@ import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.ServerAPIs;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
 public class AccountUtils {
 	
@@ -39,7 +41,13 @@ public class AccountUtils {
 	private String loginedId;
 	private String loginCode;
 	private ClientDBProvider clientdb = new ClientDBProvider();
+	private ServerAPIs server;
 	
+	public AccountUtils() {
+		BaseSettings srvbs = new BaseSettings();
+		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
+		server = new ServerAPIs(srvbs);
+	}
 	
 	/**
 	 * 是否是已登入狀態
@@ -66,50 +74,42 @@ public class AccountUtils {
 	 * 登入帳號
 	 * @param inputLoginId 使用者輸入的ID
 	 * @param inputLoginPasswd 使用者輸入的密碼
-	 * @return 是否登入成功
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 * @throws JSONException 
 	 * @throws PostNotSameException 
 	 * @throws HttpException 
+	 * @throws ServerException 
+	 * 
+	 * TODO ClientProtocolException, IOException, JSONException 例外整理
 	 */
-	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException
+	public void loginUser(String inputLoginId, String inputLoginPasswd) 
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException
 	{
-		BaseSettings srvbs = new BaseSettings();
-		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
+		this.loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
 		
-		ServerAPIs server = new ServerAPIs(srvbs);
-		
-		try {
-			this.loginCode = server.userLogin(inputLoginId, inputLoginPasswd);
-			
-			//將傳回來的資料寫入SQLite裡
-			this.clientdb.update("user", this.loginCode, null, null);
-			this.isLogined = true;
-			
-			return true;
-		} catch (ClientProtocolException e) {
-			throw e;
-		} catch (IOException e) {
-			throw e;
-		} catch (JSONException e) {
-			throw e;
-		} catch (LoginException e) {
-			throw e;
-		} catch (PostNotSameException e) {
-			throw e;
-		}		
+		//將傳回來的資料寫入SQLite裡
+		this.clientdb.update("user", this.loginCode, null, null);
+		this.isLogined = true;
 	}
+	
 	/**
 	 * 登出帳號
-	 * @return 是否登出成功
+	 * @param loginCode
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException
+	 * @throws PostNotSameException
+	 * @throws LoginCodeException
+	 * @throws ServerException
 	 */
-	public boolean logoutUser(String loginID){
-		//TODO 將使用者的學習狀態傳送至後端
+	public void logoutUser(String loginCode) throws ClientProtocolException, IOException, HttpException, JSONException, PostNotSameException, LoginCodeException, ServerException{
+		//將使用者的學習狀態傳送至後端
+		this.server.userLogout(loginCode);
+		
 		//清除登入資訊
-		clientdb.delete("ID = "+loginID, "user");
+		clientdb.delete("ID = "+loginCode, "user");
 		isLogined = false;
-		return true;
 	}
 }
