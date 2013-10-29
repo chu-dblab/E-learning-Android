@@ -28,7 +28,8 @@ import org.json.JSONObject;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
-import tw.edu.chu.csie.e_learning.server.ServerUtils;
+import tw.edu.chu.csie.e_learning.server.ServerAPIs;
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 
@@ -70,14 +71,15 @@ public class AccountUtils {
 	 * @throws ClientProtocolException 
 	 * @throws JSONException 
 	 * @throws PostNotSameException 
+	 * @throws HttpException 
 	 */
 	public boolean loginUser(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException
 	{
 		BaseSettings srvbs = new BaseSettings();
 		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
 		
-		ServerUtils server = new ServerUtils(srvbs);
+		ServerAPIs server = new ServerAPIs(srvbs);
 		
 		try {
 			this.loginCode = server.userLogin(inputLoginId, inputLoginPasswd);
