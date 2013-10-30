@@ -61,7 +61,8 @@ public class ServerAPIs {
 		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=login", data);
 			
 		//若伺服端接到的uid與傳送的不合
-		if(new JSONObject(message).getString("uid") != inputLoginId) {
+		//判斷有沒有吻合，請用equals()函式，直接用==會有問題
+		if(!new JSONObject(message).getString("uid").equals(inputLoginId)) {
 			throw new PostNotSameException();
 		}
 		//若傳送給的資料是否與伺服端接到的資料相同
@@ -114,7 +115,7 @@ public class ServerAPIs {
 		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=logout", data);
 			
 		//若伺服端接到的uid與傳送的不合
-		if(new JSONObject(message).getString("ucode") != inputLoginCode) {
+		if(!new JSONObject(message).getString("ucode").equals(inputLoginCode)) {
 			throw new PostNotSameException();
 		}
 		//若傳送給的資料是否與伺服端接到的資料相同
