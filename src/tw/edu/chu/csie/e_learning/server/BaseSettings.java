@@ -3,38 +3,93 @@ package tw.edu.chu.csie.e_learning.server;
 /**
  * 
  * @author 元兒～ <yuan817@moztw.org>
- *
+ * @version 1.0
  */
 public class BaseSettings {
 	
+	private boolean sslEnable = false; //是否啟用SSL加密
 	private String base_url;
 	private static final String URLPART_API = "API/v1/";
 	
 	private boolean debugEnable = false;
 	
 	public BaseSettings() {
-		this.setDebugEnabled(false);
+		this.setDebugEnable(false);
 	}
 	
 	public BaseSettings(String inputBaseUrl) {
 		this.setBaseUrl(inputBaseUrl);
-		this.setDebugEnabled(false);
+		this.setDebugEnable(false);
 	}
 	
 	public BaseSettings(String inputBaseUrl, boolean inputDebugEnabled) {
 		this.setBaseUrl(inputBaseUrl);
-		this.setDebugEnabled(inputDebugEnabled);
+		this.setDebugEnable(inputDebugEnabled);
 	}
 	
 	// ===========================================================
+	
+	/**
+	 * 設定是否採用SSL加密
+	 * @param input 是否啟用加密
+	 */
+	public void setSSLEnable(boolean input) {
+		// TODO 同時檢查目前api網址有無加上"https://"字樣
+		
+		this.sslEnable = input;
+	}
+	
+	/**
+	 * 設定是否採用SSL加密
+	 * @param input 是否啟用加密
+	 */
+	public void setHttpsEnable(boolean input) {
+		this.setSSLEnable(input);
+	}
+	
+	/**
+	 * 取得是否啟用SSL加密
+	 * @return 是否啟用加密
+	 */
+	public boolean getSSLEnable() {
+		return this.sslEnable;
+	}
+	
+	/**
+	 * 取得是否啟用SSL加密
+	 * @return 是否啟用加密
+	 */
+	public boolean getHttpsEnable() {
+		return this.getSSLEnable();
+	}
+	
+	// -----------------------------------------------------------
 	
 	/**
 	 * 設定基底URL
 	 * @param input 輸入的基底URL
 	 */
 	public void setBaseUrl(String input) {
-		// TODO 判斷是否加上"http://"
-		// TODO 判斷最後一個字是不是為"/"
+		// 判斷是否加上"http://"
+		if(input.startsWith("http://")) {
+			this.setSSLEnable(false);
+		}
+		else if(input.startsWith("https://")) {
+			this.setSSLEnable(true);
+		}
+		else {
+			if(this.sslEnable) {
+				input = "https://" + input;
+			}
+			else {
+				input = "http://" + input;
+			}
+		}
+		
+		// 判斷最後一個字是不是為"/"
+		if(input.charAt( input.length()-1 ) != '/') {
+			input+='/';
+		}
 		this.base_url = input;
 	}
 	
@@ -59,7 +114,7 @@ public class BaseSettings {
 	 * 設定是否為開發模式
 	 * @param input
 	 */
-	public void setDebugEnabled(boolean input) {
+	public void setDebugEnable(boolean input) {
 		this.debugEnable = input;
 	}
 	
@@ -67,7 +122,7 @@ public class BaseSettings {
 	 * 取得是否為開發模式
 	 * @return
 	 */
-	public boolean getDebugEnabled() {
+	public boolean getDebugEnable() {
 		return this.debugEnable;
 	}
 
