@@ -52,6 +52,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -273,24 +275,33 @@ public class UserLoginActivity extends Activity {
 				check.loginUser(params[0], params[1]);
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
+				Toast.makeText(getBaseContext(), "ClientProtocolException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				//Toast.makeText(getBaseContext(), "IOException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
+				Toast.makeText(getBaseContext(), "JSONException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} catch (LoginException e) {
 				// TODO Auto-generated catch block
+				Toast.makeText(getBaseContext(), "LoginException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} catch (PostNotSameException e) {
 				// TODO Auto-generated catch block
+				Toast.makeText(getBaseContext(), "PostNotSameException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			} catch (HttpException e) {
 				// TODO Auto-generated catch block
+				//Toast.makeText(getBaseContext(), "HttpException", Toast.LENGTH_SHORT).show();
+				
+				Log.d(null, Integer.toString(e.getStatusCode()));
 				e.printStackTrace();
 			} catch (ServerException e) {
 				// TODO Auto-generated catch block
+				Toast.makeText(getBaseContext(), "ServerException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 			if(check.islogin()) return true;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-   <string name="app_name">E-Learning 數位學習導引系統</string>
+    <string name="app_name">E-Learning 數位學習導引系統</string>
     <string name="title_activity_main_function">主選單</string>
     <string name="action_settings">Settings</string>
     <string name="user_status">使用者狀態</string>
@@ -26,11 +26,10 @@
     <string name="user_account_name">暱稱:</string>
     <string name="login_time">登入時間:</string>
     <string name="login_how_many_people">線上人數:</string>
-    
+
     <!-- 學習地圖 -->
     <string name="learning_next_point">下個學習點:</string>
     <string name="learning_remaining_time">學習時間尚有:</string>
     <string name="learning_remaining_point">學習點剩餘:</string>
-
 
 </resources>

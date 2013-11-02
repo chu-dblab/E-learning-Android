@@ -7,10 +7,11 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.NFC"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -26,27 +27,31 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
             <intent-filter>
- 				<action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-    			<category android:name="android.intent.category.DEFAULT"/>
- 			</intent-filter>
- 			<intent-filter>
-				<action android:name="android.nfc.action.TAG_DISCOVERED"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <intent-filter>
- 				<action android:name="android.nfc.action.TECH_DISCOVERED"/>
- 			</intent-filter>
- 			<meta-data android:name="android.nfc.action.TECH_DISCOVERED" android:resource="@xml/nfc_tech_list"/>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc_tech_list" />
         </activity>
         <activity
             android:name="tw.edu.chu.csie.e_learning.ui.MainFunctionActivity"
             android:label="@string/title_activity_main_function" >
         </activity>
         <activity
-                android:name=".ui.TextbookDownloaderActivity"
-                android:label="@string/textbook_downloader" >
+            android:name="tw.edu.chu.csie.e_learning.ui.TextbookDownloaderActivity"
+            android:label="@string/textbook_downloader" >
         </activity>
     </application>
 
