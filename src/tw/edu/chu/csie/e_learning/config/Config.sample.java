@@ -9,7 +9,7 @@
  */
 package tw.edu.chu.csie.e_learning.config;
 
-public class CopyOfConfig {
+public class Config {
 	/**
 	 * 後端連線
 	 */
