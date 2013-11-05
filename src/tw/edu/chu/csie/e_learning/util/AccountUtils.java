@@ -89,7 +89,7 @@ public class AccountUtils {
 		this.loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
 		
 		//將傳回來的資料寫入SQLite裡
-		this.clientdb.update("user", this.loginCode, null, null);
+		//this.clientdb.user_insert(inputLoginId, "kobayshi", this.loginCode);
 		this.isLogined = true;
 	}
 	
