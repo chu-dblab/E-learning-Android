@@ -115,9 +115,7 @@ public class ServerAPIs {
 		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=logout", data);
 			
 		//若伺服端接到的uid與傳送的不合
-		if(!new JSONObject(message).getString("ucode").equals(inputLoginCode)) {
-			throw new PostNotSameException();
-		}
+		if(!new JSONObject(message).getString("ucode").equals(inputLoginCode)) throw new PostNotSameException();
 		//若傳送給的資料是否與伺服端接到的資料相同
 		else {
 			//如果伺服器傳回的狀態為正常
@@ -130,12 +128,8 @@ public class ServerAPIs {
 				//從伺服器取得錯誤代碼
 				String status = new JSONObject(message).getString("status");
 				
-				if(status == "NoUserFound") {
-					throw new LoginCodeException();
-				}
-				else {
-					throw new ServerException();
-				}
+				if(status == "NoUserFound") throw new LoginCodeException();
+				else throw new ServerException();
 			}
 		}
 	}
