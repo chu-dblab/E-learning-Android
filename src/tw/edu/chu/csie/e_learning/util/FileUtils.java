@@ -5,7 +5,11 @@
 package tw.edu.chu.csie.e_learning.util;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 
+import tw.edu.chu.csie.e_learning.config.Config;
 import android.content.Context;
 import android.os.*;
 
@@ -40,55 +44,47 @@ public class FileUtils
 	 * @param			None
 	 * @return 		學習教材在SD卡上的路徑
 	 */
-	public String getSDPath()
+	public String getPath()
 	{
-		return BasicSDPath+"/TeachingMaterial";
+		if(isSDCardInsert())return BasicSDPath+Config.MaterialDirectory;
+		else return BasicInternalPath+Config.MaterialDirectory;
 	}
 	
 	/**
-	 * @title			getInternalStorgePath
-	 * @description	取得在內部儲存裝置上的教材路徑
-	 * @param			None
-	 * @return 		學習教材在內部儲存裝置上的路徑
-	 */
-	public String getInternalStorgePath()
-	{
-		return BasicInternalPath+"/TeachingMaterial";
-	}
-	
-	
-	/**
-	 * TODO
 	 * @tile	saveFile
 	 * @description	下載檔案時存檔用
-	 * @param path
-	 * @return
+	 * @param 			path
+	 * @return			None
+	 * @throws 		IOException 
 	 */
-	public void saveFile(String path)
+	public void saveFile(String path,InputStream is) throws IOException
 	{
 		File savePath = new File(path);
 		if(!savePath.exists()) //如果傳進來的資料夾路徑沒有這個資料夾
 		{
 			savePath.mkdir();   //建立資料夾
-			
 			//將檔案存到該路徑底下
+			output(savePath,is);
 		}
-		else
-		{
-			//將檔案存到該路徑底下
-		}		
+		else output(savePath,is); //將檔案存到該路徑底下		
 	}
 	
 	/**
-	 * TODO
-	 * @tile	ReadFile
-	 * @description	讀檔
-	 * @param path
-	 * @return
+	 * @tile	output
+	 * @description	存檔工具函式
+	 * @param			path,input
+	 * @return			None
+	 * @throws 		IOException 
 	 */
-	public void ReadFile(String path)
+	private void output(File path,InputStream input) throws IOException
 	{
-		File readPath = new File(path);
-		//讀檔
+		FileWriter write = new FileWriter(path);
+		int str1 = 0;;
+		while((str1=input.read()) != -1)
+		{
+			write.write(str1);
+		}
+		write.close();
+		str1 = 0;
 	}
 }
