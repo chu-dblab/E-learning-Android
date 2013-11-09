@@ -89,10 +89,12 @@ public class AccountUtils {
 			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException, LoginCodeException
 	{
 		this.loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
-		ServerUser userinfo = this.server.userGetInfo(loginCode);
+		ServerUser userinfo = this.server.userGetInfo(this.loginCode);
+		String nickName = userinfo.getNickName();
+		String loginTime = userinfo.getLoginTime();
 		
 		//將傳回來的資料寫入SQLite裡
-		this.clientdb.user_insert(inputLoginId, userinfo.getNickName(), this.loginCode, userinfo.getLoginTime());
+		this.clientdb.user_insert(inputLoginId, nickName, this.loginCode, loginTime);
 		this.isLogined = true;
 	}
 	
