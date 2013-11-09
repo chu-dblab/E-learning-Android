@@ -38,6 +38,7 @@ import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
@@ -302,6 +303,9 @@ public class UserLoginActivity extends Activity {
 			} catch (ServerException e) {
 				// TODO Auto-generated catch block
 				Toast.makeText(getBaseContext(), "ServerException", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (LoginCodeException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(check.islogin()) return true;

@@ -29,6 +29,7 @@ import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.ServerAPIs;
+import tw.edu.chu.csie.e_learning.server.ServerUser;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
@@ -82,14 +83,16 @@ public class AccountUtils {
 	 * @throws ServerException 
 	 * 
 	 * TODO ClientProtocolException, IOException, JSONException 例外整理
+	 * @throws LoginCodeException 
 	 */
 	public void loginUser(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException, LoginCodeException
 	{
 		this.loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
+		ServerUser userinfo = this.server.userGetInfo(loginCode);
 		
 		//將傳回來的資料寫入SQLite裡
-		//this.clientdb.user_insert(inputLoginId, "kobayshi", this.loginCode);
+		this.clientdb.user_insert(inputLoginId, userinfo.getNickName(), this.loginCode, userinfo.getLoginTime());
 		this.isLogined = true;
 	}
 	

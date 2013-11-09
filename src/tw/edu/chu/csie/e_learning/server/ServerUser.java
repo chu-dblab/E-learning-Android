@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class ServerUser {
 
 	private String logincode;
+	private String login_time;
 	private String uid;
 	private String gid;
 	private String gname;
@@ -28,10 +29,16 @@ public class ServerUser {
 		this.realname = jsonData.getString("urealname");
 		this.nickname = jsonData.getString("unickname");
 		this.email = jsonData.getString("uemail");
+		this.login_time = jsonData.getString("ulogin_time");
 	}
 	
 	public String getLoginCode() {
 		return this.logincode;
+	}
+	
+	public String getLoginTime()
+	{
+		return this.login_time;
 	}
 	
 	public String getID() {
