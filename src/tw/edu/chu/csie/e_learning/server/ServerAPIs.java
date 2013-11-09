@@ -62,9 +62,7 @@ public class ServerAPIs {
 			
 		//若伺服端接到的uid與傳送的不合
 		//判斷有沒有吻合，請用equals()函式，直接用==會有問題
-		if(!new JSONObject(message).getString("uid").equals(inputLoginId)) {
-			throw new PostNotSameException();
-		}
+		if(!new JSONObject(message).getString("uid").equals(inputLoginId)) throw new PostNotSameException();
 		//若傳送給的資料是否與伺服端接到的資料相同
 		else {
 			//如果伺服器傳回的狀態為正常
@@ -77,18 +75,10 @@ public class ServerAPIs {
 			else {
 				//從伺服器取得錯誤代碼
 				String status = new JSONObject(message).getString("status");
-				if(status == "NoFound") {
-					throw new LoginException(LoginException.NO_FOUND);
-				}
-				else if(status == "NoActiveErr") {
-					throw new LoginException(LoginException.NO_ACTIVE);
-				}
-				else if(status == "PasswdErr") {
-					throw new LoginException(LoginException.PASSWORD_ERROR);
-				}
-				else {
-					throw new ServerException();
-				}
+				if(status == "NoFound") throw new LoginException(LoginException.NO_FOUND);
+				else if(status == "NoActiveErr") throw new LoginException(LoginException.NO_ACTIVE);
+				else if(status == "PasswdErr") throw new LoginException(LoginException.PASSWORD_ERROR);
+				else throw new ServerException();
 			}				
 			
 		}
