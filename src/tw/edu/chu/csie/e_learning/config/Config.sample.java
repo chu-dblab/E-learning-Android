@@ -15,7 +15,7 @@ public class Config {
 	 */
 	public static final String REMOTE_BASE_URL = "http://localhost/";
 	public static final String REMOTE_TEXTBOOK_URL = REMOTE_BASE_URL+"textbooks/";
-	//public static final String MaterialDirectory = REMOTE_BASE_URL+"/TeachingMaterial/";
+	public static final String MaterialDirectory = "/TeachingMaterial/";
 	/**
 	 * 此應用程式性質
 	 */
