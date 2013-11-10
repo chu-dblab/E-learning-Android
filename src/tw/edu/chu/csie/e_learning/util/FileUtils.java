@@ -51,7 +51,7 @@ public class FileUtils
 			File path = new File(BasicSDPath+"/"+Config.APP_DIRECTORY+Config.MATERIAL_DIRECTORY);
 			if(!path.exists()) 
 			{
-				path.mkdir();
+				path.mkdirs();
 				return path.getAbsolutePath();
 			}
 			else return BasicSDPath+"/"+Config.APP_DIRECTORY+Config.MATERIAL_DIRECTORY;
