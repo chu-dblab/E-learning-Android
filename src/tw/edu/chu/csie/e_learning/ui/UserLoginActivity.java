@@ -272,44 +272,50 @@ public class UserLoginActivity extends Activity {
 		private AccountUtils check = new AccountUtils();
 		@Override
 		protected Boolean doInBackground(String... params) {
-			try {
-				check.loginUser(params[0], params[1]);
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				Toast.makeText(getBaseContext(), "ClientProtocolException", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//Toast.makeText(getBaseContext(), "IOException", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				Toast.makeText(getBaseContext(), "JSONException", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (LoginException e) {
-				// TODO Auto-generated catch block
-				Toast.makeText(getBaseContext(), "LoginException", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (PostNotSameException e) {
-				// TODO Auto-generated catch block
-				Toast.makeText(getBaseContext(), "PostNotSameException", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (HttpException e) {
-				// TODO Auto-generated catch block
-				//Toast.makeText(getBaseContext(), "HttpException", Toast.LENGTH_SHORT).show();
-				
-				Log.d(null, Integer.toString(e.getStatusCode()));
-				e.printStackTrace();
-			} catch (ServerException e) {
-				// TODO Auto-generated catch block
-				Toast.makeText(getBaseContext(), "ServerException", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (LoginCodeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			// DEBUG 當啟用無連線登入，進入學習畫面
+			if(Config.DEBUG_NO_CONNECT_LOGIN) {
+				return true;
 			}
-			if(check.islogin()) return true;
-			else return false;
+			else {
+				try {
+					check.loginUser(params[0], params[1]);
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(getBaseContext(), "ClientProtocolException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//Toast.makeText(getBaseContext(), "IOException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(getBaseContext(), "JSONException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (LoginException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(getBaseContext(), "LoginException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (PostNotSameException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(getBaseContext(), "PostNotSameException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (HttpException e) {
+					// TODO Auto-generated catch block
+					//Toast.makeText(getBaseContext(), "HttpException", Toast.LENGTH_SHORT).show();
+					
+					Log.d(null, Integer.toString(e.getStatusCode()));
+					e.printStackTrace();
+				} catch (ServerException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(getBaseContext(), "ServerException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (LoginCodeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(check.islogin()) return true;
+				else return false;
+			}
 		}
 
 		@Override

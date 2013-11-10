@@ -11,6 +11,12 @@ package tw.edu.chu.csie.e_learning.config;
 
 public class Config {
 	/**
+	 * 除錯區
+	 */
+	// 無連線登入模擬
+	public static final boolean DEBUG_NO_CONNECT_LOGIN = false; 
+	
+	/**
 	 * 後端連線
 	 */
 	public static final String REMOTE_BASE_URL = "http://localhost/";
@@ -20,7 +26,7 @@ public class Config {
 	 * 本機端檔案存取設定
 	 */
 	public static final String APP_DIRECTORY = "CHU-Elearning/";
-	public static final String MATERIAL_DIRECTORY = "TeachingMaterial/";
+	public static final String MATERIAL_DIRECTORY = APP_DIRECTORY+"TeachingMaterial/";
 	/**
 	 * 此應用程式性質
 	 */
