@@ -15,7 +15,12 @@ public class Config {
 	 */
 	public static final String REMOTE_BASE_URL = "http://localhost/";
 	public static final String REMOTE_TEXTBOOK_URL = REMOTE_BASE_URL+"textbooks/";
-	public static final String MaterialDirectory = "/TeachingMaterial/";
+	
+	/**
+	 * 本機端檔案存取設定
+	 */
+	public static final String APP_DIRECTORY = "CHU-Elearning/";
+	public static final String MATERIAL_DIRECTORY = "TeachingMaterial/";
 	/**
 	 * 此應用程式性質
 	 */

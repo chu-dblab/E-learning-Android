@@ -48,23 +48,23 @@ public class FileUtils
 	{
 		if(isSDCardInsert())
 		{
-			File path = new File(BasicSDPath+Config.MaterialDirectory);
+			File path = new File(BasicSDPath+"/"+Config.APP_DIRECTORY+Config.MATERIAL_DIRECTORY);
 			if(!path.exists()) 
 			{
 				path.mkdir();
 				return path.getAbsolutePath();
 			}
-			else return BasicSDPath+Config.MaterialDirectory;
+			else return BasicSDPath+"/"+Config.APP_DIRECTORY+Config.MATERIAL_DIRECTORY;
 		}
 		else
 		{
-			File path = new File(BasicInternalPath+Config.MaterialDirectory);
+			File path = new File(BasicInternalPath+"/"+Config.MATERIAL_DIRECTORY);
 			if(!path.exists())
 			{
 				path.mkdir();
-				return BasicInternalPath+Config.MaterialDirectory;
+				return BasicInternalPath+"/"+Config.MATERIAL_DIRECTORY;
 			}
-			return BasicInternalPath+Config.MaterialDirectory;
+			return BasicInternalPath+"/"+Config.MATERIAL_DIRECTORY;
 		}
 	}
 	
