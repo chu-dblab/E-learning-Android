@@ -50,8 +50,8 @@
             android:label="@string/title_activity_main_function" >
         </activity>
         <activity
-            android:name="tw.edu.chu.csie.e_learning.ui.TextbookDownloaderActivity"
-            android:label="@string/textbook_downloader" >
+            android:name="tw.edu.chu.csie.e_learning.ui.MaterialDownloaderActivity"
+            android:label="@string/material_downloader" >
         </activity>
     </application>
 

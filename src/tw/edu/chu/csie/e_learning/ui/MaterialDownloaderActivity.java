@@ -17,13 +17,13 @@ import tw.edu.chu.csie.e_learning.config.*;
 /**
  * Created by yuan on 2013/6/3.
  */
-public class TextbookDownloaderActivity extends Activity implements OnClickListener {
+public class MaterialDownloaderActivity extends Activity implements OnClickListener {
 	
 	private Button textbook_update;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_textbook_downloader);
+        setContentView(R.layout.activity_material_downloader);
         textbook_update = (Button)findViewById(R.id.updateButton);
         textbook_update.setOnClickListener(this);
     }

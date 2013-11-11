@@ -107,8 +107,8 @@ public class MainFunctionActivity extends FragmentActivity implements
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
-        case R.id.menu_textbook_downloader:
-            Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, TextbookDownloaderActivity.class);
+        case R.id.menu_material_downloader:
+            Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
             startActivity(toTextbookDownloader);
             break;
 		}

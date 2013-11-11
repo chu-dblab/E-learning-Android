@@ -155,8 +155,8 @@ public class UserLoginActivity extends Activity {
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
-		case R.id.menu_textbook_downloader:
-			Intent toTextbookDownloader = new Intent(UserLoginActivity.this, TextbookDownloaderActivity.class);
+		case R.id.menu_material_downloader:
+			Intent toTextbookDownloader = new Intent(UserLoginActivity.this, MaterialDownloaderActivity.class);
 			startActivity(toTextbookDownloader);
 			break;
 		}
