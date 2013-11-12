@@ -118,7 +118,7 @@ public class MainFunctionActivity extends FragmentActivity implements
        // DEBUG 開啟教材內容測試
        case 213:
     	   Intent toLearning = new Intent(MainFunctionActivity.this, MaterialActivity.class);
-    	   toLearning.putExtra("materialId", "3478923");
+    	   toLearning.putExtra("materialId", "01");
     	   toLearning.putExtra("liveMaterial", false);
     	   startActivityForResult(toLearning, 1);
     	   
