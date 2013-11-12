@@ -53,6 +53,10 @@
             android:name="tw.edu.chu.csie.e_learning.ui.MaterialDownloaderActivity"
             android:label="@string/material_downloader" >
         </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.MaterialActivity"
+            android:label="@string/title_activity_learning" >
+        </activity>
     </application>
 
 </manifest>

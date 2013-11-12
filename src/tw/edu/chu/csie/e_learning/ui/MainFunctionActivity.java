@@ -99,6 +99,10 @@ public class MainFunctionActivity extends FragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main_function, menu);
+		
+		// DEBUG 開啟教材內容測試
+		menu.add(0, 213, 0, "教材測試");
+		
 		return true;
 	}
 	@Override
@@ -107,10 +111,17 @@ public class MainFunctionActivity extends FragmentActivity implements
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
-        case R.id.menu_material_downloader:
-            Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
-            startActivity(toTextbookDownloader);
-            break;
+       case R.id.menu_material_downloader:
+          Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
+          startActivity(toTextbookDownloader);
+          break;
+       // DEBUG 開啟教材內容測試
+       case 213:
+    	   Intent toLearning = new Intent(MainFunctionActivity.this, MaterialActivity.class);
+    	   toLearning.putExtra("materialId", "3478923");
+    	   toLearning.putExtra("liveMaterial", false);
+    	   startActivityForResult(toLearning, 1);
+    	   
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
