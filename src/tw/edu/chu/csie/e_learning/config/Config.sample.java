@@ -11,6 +11,12 @@ package tw.edu.chu.csie.e_learning.config;
 
 public class Config {
 	/**
+	 * 除錯區
+	 */
+	// 無連線登入模擬
+	public static final boolean DEBUG_NO_CONNECT_LOGIN = false; 
+	
+	/**
 	 * 後端連線
 	 */
 	public static final String REMOTE_BASE_URL = "http://localhost/";
