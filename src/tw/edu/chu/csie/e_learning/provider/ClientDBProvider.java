@@ -1,5 +1,7 @@
 package tw.edu.chu.csie.e_learning.provider;
 
+import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.ui.MainFunctionActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,10 +11,17 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 @SuppressWarnings("unused")
 public class ClientDBProvider {
-	
+	private Context context;
 	public String select ="";
 	private static int i = 0;
 	private SQLiteDatabase sqlitedatabase;
+	private ClientDBHelper db;
+	
+	public ClientDBProvider(Context context)
+	{
+		this.context = context;
+		db = new ClientDBHelper(this.context, Config.Chu_elearn, null, Config.version);
+	}
 	
 	//查詢資料庫內容，並將所有結果存到result裡
 	public String All(String chtab){

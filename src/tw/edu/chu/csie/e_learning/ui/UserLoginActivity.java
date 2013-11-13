@@ -273,7 +273,7 @@ public class UserLoginActivity extends Activity {
 	{
 		Bundle bundle = new Bundle();
 		
-		private AccountUtils check = new AccountUtils();
+		private AccountUtils check = new AccountUtils(getBaseContext());
 		@Override
 		protected Boolean doInBackground(String... params) {
 			// DEBUG 當啟用無連線登入，進入學習畫面
