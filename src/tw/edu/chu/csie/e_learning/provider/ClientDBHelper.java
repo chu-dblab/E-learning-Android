@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 public class ClientDBHelper extends SQLiteOpenHelper {
 	
@@ -12,26 +14,22 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	@SuppressWarnings("unused")
 	//private static final int VERSION = 1;//資料庫版本
 	
-	private SQLiteDatabase sqlitedatabase; 
-	private Context context;
-	private ClientDBHelper dbHelper;
+	//private SQLiteDatabase sqlitedatabase; 
+	//private Context context;
+	
+	public ClientDBHelper(Context c) {
+		super(c,Config.Chu_elearn,null,Config.version); //資料庫名稱=chu-elearn，目前版本=1
+	}
 	
 	//使用者資料表
 	private static final String us = 
-				"CREATE TABLE chu_user ( UID varchar(30) NOT NULL, UNickname varchar(20) DEFAULT NULL, ULogged_code varchar(32) DEFAULT NULL, In_Learn_Time datetime NOT NULL, PRIMARY KEY (UID));"; 
+				"CREATE TABLE chu_user ( UID varchar(30) NOT NULL, UNickname varchar(20) DEFAULT NULL, ULogged_code varchar(32) DEFAULT NULL, In_Learn_Time varchar(50) NOT NULL, PRIMARY KEY (UID));"; 
 	//標的資料表
 	private static final String tar = 
 				"CREATE TABLE chu_target ( TID INTEGER unsigned NOT NULL, MapID INTEGER unsigned NOT NULL, Map_Url varchar(150) NOT NULL, MaterialID INTEGER unsigned NOT NULL, Material_Url varchar(150) NOT NULL, PRIMARY KEY (TID));";
 	//學習關係資料表
 	private static final String sstudy = 
 				"CREATE TABLE chu_study ( TID INTEGER unsigned NOT NULL, UID varchar(30) NOT NULL, QID INTEGER unsigned default NULL, Answer varchar(5) default NULL, Answer_Time varchar(10) default NULL, In_TargetTime datetime NOT NULL, Out_TargetTime datetime default NULL, TCheck varchar(5) NOT NULL, FOREIGN KEY (UID) REFERENCES user, FOREIGN KEY (TID) REFERENCES target, PRIMARY KEY(UID,TID));";
-		
-	
-	public ClientDBHelper(Context context, String chu_elearn, CursorFactory factory, int version) {
-		super(context,chu_elearn,null,version); //資料庫名稱=chu-elearn，目前版本=1
-		// TODO Auto-generated constructor stub
-	}
-
 	//輔助類建立時運行該方法
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -39,44 +37,13 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 		db.execSQL(us); //建立chu_user
 		db.execSQL(tar); //建立chu_target
 		db.execSQL(sstudy); //建chu_立study
-
+		Log.d("success", "建表成功!!");
 	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		//oldVersion=舊的資料庫版本；newVersion=新的資料庫版本
 		// TODO Auto-generated method stub
-
 	}
-	
-	
-	public ClientDBHelper openToWrite() throws android.database.SQLException{
-		
-		dbHelper = new ClientDBHelper(context,Config.Chu_elearn,null,Config.version);
-		sqlitedatabase = dbHelper.getWritableDatabase();
-		
-		return this;
-	}
-
-	public ClientDBHelper openToRead() throws android.database.SQLException{ 
-		
-		dbHelper = new ClientDBHelper(context,Config.Chu_elearn,null,Config.version);
-		sqlitedatabase = dbHelper.getReadableDatabase();
-		
-		return this;
-	}
-	
-	@Override   
-	public void onOpen(SQLiteDatabase db) {    
-		super.onOpen(db);
-		// TODO 每次成功打開數據庫後首先被執行
-	}
-	
-	@Override
-        public synchronized void close() {
-		super.close();
-	}
-	
-
 }
 

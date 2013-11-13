@@ -6,13 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import tw.edu.chu.csie.e_learning.config.Config;
 
 @SuppressWarnings("unused")
-public class ClientDBProvider {
-	
+public class ClientDBProvider{
+
 	public String select ="";
 	private static int i = 0;
 	private SQLiteDatabase sqlitedatabase;
+	ClientDBHelper c2 = new ClientDBHelper();
 	
 	//查詢資料庫內容，並將所有結果存到result裡
 	public String All(String chtab){
@@ -126,6 +128,27 @@ public class ClientDBProvider {
 			}
 		return result;
 	}
+	public ClientDBProvider openToWrite() throws android.database.SQLException{
+		
+		sqlitedatabase = c2.getWritableDatabase();
+		
+		return this;
+	}
+
+	public ClientDBProvider openToRead() throws android.database.SQLException{ 
+		
+		sqlitedatabase = c2.getReadableDatabase();
+		
+		return this;
+	}
 	
+	public void onOpen(SQLiteDatabase db) {
+		c2.onOpen(db);
+		// TODO 每次成功打開數據庫後首先被執行
+	}
+	
+	public void close() {
+		c2.close();
+	}
 	
 }
