@@ -26,6 +26,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
@@ -94,8 +95,13 @@ public class AccountUtils {
 		String nickName = userinfo.getNickName();
 		String loginTime = userinfo.getLoginTime();
 		
+		Log.d("nickName",nickName );
+		Log.d("loginTime", loginTime);
+		Log.d("loginCode", loginCode);
+		Log.d("ID", userinfo.getID());
+		
 		//將傳回來的資料寫入SQLite裡
-		this.clientdb.user_insert(inputLoginId, nickName, this.loginCode, loginTime);
+		this.clientdb.user_insert(userinfo.getID(), nickName, this.loginCode, loginTime);
 		this.isLogined = true;
 	}
 	

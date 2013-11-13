@@ -24,10 +24,10 @@ public class FileUtils
 	}
 	
 	/**
-	 * @title			isSDCardInsert
-	 * @description	偵測這個裝置有沒有插入記憶卡
+	 * isSDCardInsert
 	 * @param			None
 	 * @return			Boolean
+	 * 偵測這個裝置有沒有插入記憶卡
 	 */
 	public boolean isSDCardInsert() 
 	{
@@ -39,10 +39,10 @@ public class FileUtils
 	}
 	
 	/**
-	 * @title			getSDPath
-	 * @description	取得在SD卡上的教材路徑
+	 * getSDPath
 	 * @param			None
 	 * @return 		學習教材在SD卡上的路徑
+	 * 取得在SD卡上的教材路徑
 	 */
 	public String getPath()
 	{
@@ -69,11 +69,11 @@ public class FileUtils
 	}
 	
 	/**
-	 * @tile	saveFile
-	 * @description	下載檔案時存檔用
+	 * saveFile
 	 * @param 			path
 	 * @return			None
 	 * @throws 		IOException 
+	 * 下載檔案時存檔用
 	 */
 	public void saveFile(String path,InputStream is) throws IOException
 	{
@@ -88,11 +88,11 @@ public class FileUtils
 	}
 	
 	/**
-	 * @tile	output
-	 * @description	存檔工具函式
+	 * output
 	 * @param			path,input
 	 * @return			None
 	 * @throws 		IOException 
+	 * 存檔工具函式
 	 */
 	private void output(File path,InputStream input) throws IOException
 	{

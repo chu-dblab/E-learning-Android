@@ -14,7 +14,7 @@
     <string name="logout">登出</string>
 
     <!-- 學習教材 -->
-    <string name="material_downloader">教材更新</string>
+    <string name="material_downloader">下載教材</string>
     <string name="material_client_version">裝置上的教材版本:</string>
     <string name="material_server_version">伺服器上的教材版本:</string>
     <string name="material_is_latest_version">裝置上的教材已是最新版本</string>

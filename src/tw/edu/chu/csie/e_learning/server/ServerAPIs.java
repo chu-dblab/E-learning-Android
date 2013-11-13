@@ -162,4 +162,21 @@ public class ServerAPIs {
 				}
 			}
 	}
+	
+	public ServerUser saveUserStatus(JSONObject jsonData) 
+			throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+	{
+		List<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("Data",jsonData.toString()));
+		
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/people.php?op=upgrade", data);
+		boolean status_ok = new JSONObject(message).getBoolean("status_ok");
+		if(status_ok) return new ServerUser(new JSONObject(message));
+		else
+		{
+			String status = new JSONObject(message).getString("status");
+			if(status == "CommandError")throw new ServerException();
+			else throw new ServerException();
+		}		
+	}
 }
