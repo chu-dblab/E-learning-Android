@@ -15,6 +15,8 @@
     <string name="error_invalid_password">密碼字數太少了</string>
     <string name="error_incorrect_password">密碼錯了</string>
     <string name="error_field_required">這個欄位還沒填喔～</string>
+    <string name="error_user_no_found">沒有這個帳號喔～</string>
+    <string name="error_user_no_active">你登入的帳號已停用～</string>
     
     <!-- 其他功能 -->
 

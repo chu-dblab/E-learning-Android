@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_connect">沒有連線</string>
+    <string name="server_no_found">找不到伺服器</string>
+    <string name="server_404">伺服端找不到對應呼叫</string>
+    <string name="server_input_err">伺服端參數對應錯誤</string>
+    <string name="server_receive_not_same">傳送的資料與伺服端接到的資料不吻合</string>
+    <string name="server_connect_fail">無法連接伺服器</string>
+    
+</resources>

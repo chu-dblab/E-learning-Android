@@ -22,6 +22,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.DefaultClientConnection;
 import org.apache.http.message.BasicNameValuePair;
@@ -96,6 +97,7 @@ public class UserLoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
+	private TextView mLoginErrMsgView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +127,7 @@ public class UserLoginActivity extends Activity {
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
+		mLoginErrMsgView = (TextView) findViewById(R.id.login_error_msg);
 		findViewById(R.id.login_in_button).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -269,6 +271,8 @@ public class UserLoginActivity extends Activity {
 	 */
 	public class UserLoginTask extends AsyncTask<String, Void, Boolean> 
 	{
+		Bundle bundle = new Bundle();
+		
 		private AccountUtils check = new AccountUtils();
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -280,38 +284,44 @@ public class UserLoginActivity extends Activity {
 				try {
 					check.loginUser(params[0], params[1]);
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
-					Toast.makeText(getBaseContext(), "ClientProtocolException", Toast.LENGTH_SHORT).show();
+					bundle.putString("exception", "ClientProtocolException");
+					bundle.putString("exception-msg", e.getMessage());
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					//Toast.makeText(getBaseContext(), "IOException", Toast.LENGTH_SHORT).show();
+					bundle.putString("exception", "IOException");
+					bundle.putString("exception-msg", e.getMessage());
 					e.printStackTrace();
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					Toast.makeText(getBaseContext(), "JSONException", Toast.LENGTH_SHORT).show();
+					bundle.putString("exception", "JSONException");
+					bundle.putString("exception-msg", e.getMessage());
 					e.printStackTrace();
 				} catch (LoginException e) {
 					// TODO Auto-generated catch block
-					Toast.makeText(getBaseContext(), "LoginException", Toast.LENGTH_SHORT).show();
+					bundle.putString("exception", "LoginException");
+					bundle.putString("exception-msg", e.getMessage());
+					bundle.putInt("LoginException-ID", e.getID());
 					e.printStackTrace();
 				} catch (PostNotSameException e) {
 					// TODO Auto-generated catch block
-					Toast.makeText(getBaseContext(), "PostNotSameException", Toast.LENGTH_SHORT).show();
+					bundle.putString("exception", "PostNotSameException");
+					bundle.putString("exception-msg", e.getMessage());
 					e.printStackTrace();
 				} catch (HttpException e) {
 					// TODO Auto-generated catch block
-					//Toast.makeText(getBaseContext(), "HttpException", Toast.LENGTH_SHORT).show();
-					
+					bundle.putString("exception", "HttpException");
+					bundle.putString("exception-msg", e.getMessage());
+					bundle.putInt("HttpException-ID", e.getStatusCode());
 					Log.d(null, Integer.toString(e.getStatusCode()));
 					e.printStackTrace();
 				} catch (ServerException e) {
-					// TODO Auto-generated catch block
-					Toast.makeText(getBaseContext(), "ServerException", Toast.LENGTH_SHORT).show();
+					bundle.putString("exception", "ServerException");
+					bundle.putString("exception-msg", e.getMessage());
+					bundle.putInt("ServerException-ID", e.getID());
 					e.printStackTrace();
 				} catch (LoginCodeException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					bundle.putString("exception", "LoginCodeException");
+					bundle.putString("exception-msg", e.getMessage());
 				}
 				if(check.islogin()) return true;
 				else return false;
@@ -328,9 +338,53 @@ public class UserLoginActivity extends Activity {
 				startActivity(toLogin);
 				//finish();
 			} else {
-				mPasswordView
+				String failKind = bundle.getString("exception");
+				
+				if(failKind == "LoginException") {
+					switch(bundle.getInt("LoginException-ID")) {
+					// 無此使用者
+					case LoginException.NO_FOUND:
+						mIdView.setError(getString(R.string.error_user_no_found));
+						mIdView.requestFocus();
+					// 密碼錯誤
+					case LoginException.PASSWORD_ERROR:
+						mPasswordView
 						.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
+						mPasswordView.requestFocus();
+						break;
+					// 登入的帳號已停用
+					case LoginException.NO_ACTIVE:
+						mIdView.setError(getString(R.string.error_user_no_active));
+						mIdView.requestFocus();
+						break;
+					// 其他錯誤
+					default:
+						mLoginErrMsgView.setText(getString(R.string.other_error));
+					}
+				}
+				else if(failKind == "PostNotSameException") {
+					mLoginErrMsgView.setText(getString(R.string.server_receive_not_same));
+				}
+				else if(failKind == "HttpException") {
+					switch(bundle.getInt("HttpException-ID")) {
+					case 404:
+						mLoginErrMsgView.setText(getString(R.string.server_404));
+					default:
+						mLoginErrMsgView.setText(getString(R.string.server_connect_fail));
+					}
+				}
+				else if(failKind == "ClientProtocolException") {
+					mLoginErrMsgView.setText(getString(R.string.server_connect_fail));
+				}
+				else {
+					mLoginErrMsgView.setText(getString(R.string.other_error));
+				}
+				
+				if(Config.DEBUG_SHOW_MESSAGE) {
+					Toast.makeText(getBaseContext(), bundle.getString("exception-msg"), Toast.LENGTH_SHORT).show();						
+				}
+				
+				
 			}
 		}
 

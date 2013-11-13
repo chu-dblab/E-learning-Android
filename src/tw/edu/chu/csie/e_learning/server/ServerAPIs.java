@@ -13,6 +13,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -50,7 +51,7 @@ public class ServerAPIs {
 	 * @throws ServerException 
 	 */
 	public String userLogin(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException, HttpHostConnectException
 	{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();

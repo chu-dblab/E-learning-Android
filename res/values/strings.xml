@@ -9,6 +9,7 @@
     <string name="learn_history">學習歷程</string>
     <string name="announcement">公告</string>
     <string name="inside_process_error">內部出錯</string>
+    <string name="other_error">其他錯誤</string>
     <string name="no_data">沒有資訊</string>
     <string name="logout">登出</string>
 
