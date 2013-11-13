@@ -76,9 +76,9 @@ public class ServerAPIs {
 			else {
 				//從伺服器取得錯誤代碼
 				String status = new JSONObject(message).getString("status");
-				if(status == "NoFound") throw new LoginException(LoginException.NO_FOUND);
-				else if(status == "NoActiveErr") throw new LoginException(LoginException.NO_ACTIVE);
-				else if(status == "PasswdErr") throw new LoginException(LoginException.PASSWORD_ERROR);
+				if(status.equals("NoFound")) throw new LoginException(LoginException.NO_FOUND);
+				else if(status.equals("NoActiveErr")) throw new LoginException(LoginException.NO_ACTIVE);
+				else if(status.equals("PasswdErr")) throw new LoginException(LoginException.PASSWORD_ERROR);
 				else throw new ServerException();
 			}				
 			
@@ -118,7 +118,7 @@ public class ServerAPIs {
 				//從伺服器取得錯誤代碼
 				String status = new JSONObject(message).getString("status");
 				
-				if(status == "NoUserFound") throw new LoginCodeException();
+				if(status.equals("NoUserFound")) throw new LoginCodeException();
 				else throw new ServerException();
 			}
 		}
@@ -157,7 +157,7 @@ public class ServerAPIs {
 					//從伺服器取得錯誤代碼
 					String status = new JSONObject(message).getString("status");
 					
-					if(status == "NoUserFound") throw new LoginCodeException();
+					if(status.equals("NoUserFound")) throw new LoginCodeException();
 					else throw new ServerException();
 				}
 			}

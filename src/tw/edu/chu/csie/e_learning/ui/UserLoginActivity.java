@@ -346,6 +346,7 @@ public class UserLoginActivity extends Activity {
 					case LoginException.NO_FOUND:
 						mIdView.setError(getString(R.string.error_user_no_found));
 						mIdView.requestFocus();
+						break;
 					// 密碼錯誤
 					case LoginException.PASSWORD_ERROR:
 						mPasswordView
