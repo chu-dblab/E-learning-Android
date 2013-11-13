@@ -18,6 +18,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -25,6 +26,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
@@ -39,13 +41,18 @@ import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
 public class AccountUtils {
 	
+	private Context context;
 	private boolean isLogined;
 	private String loginedId;
 	private String loginCode;
-	private ClientDBProvider clientdb = new ClientDBProvider();
+	private ClientDBProvider clientdb;
 	private ServerAPIs server;
 	
-	public AccountUtils() {
+	public AccountUtils(Context context) {
+		this.context = context;
+		clientdb = new ClientDBProvider(this.context);
+		
+		// 伺服端連線物件建立
 		BaseSettings srvbs = new BaseSettings();
 		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
 		server = new ServerAPIs(srvbs);

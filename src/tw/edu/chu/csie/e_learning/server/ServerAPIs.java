@@ -13,6 +13,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -50,7 +51,7 @@ public class ServerAPIs {
 	 * @throws ServerException 
 	 */
 	public String userLogin(String inputLoginId, String inputLoginPasswd) 
-			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException
+			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException, HttpHostConnectException
 	{
 		//傳送的資料要用NameValuePair[]包裝
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
@@ -75,9 +76,9 @@ public class ServerAPIs {
 			else {
 				//從伺服器取得錯誤代碼
 				String status = new JSONObject(message).getString("status");
-				if(status == "NoFound") throw new LoginException(LoginException.NO_FOUND);
-				else if(status == "NoActiveErr") throw new LoginException(LoginException.NO_ACTIVE);
-				else if(status == "PasswdErr") throw new LoginException(LoginException.PASSWORD_ERROR);
+				if(status.equals("NoFound")) throw new LoginException(LoginException.NO_FOUND);
+				else if(status.equals("NoActiveErr")) throw new LoginException(LoginException.NO_ACTIVE);
+				else if(status.equals("PasswdErr")) throw new LoginException(LoginException.PASSWORD_ERROR);
 				else throw new ServerException();
 			}				
 			
@@ -117,7 +118,7 @@ public class ServerAPIs {
 				//從伺服器取得錯誤代碼
 				String status = new JSONObject(message).getString("status");
 				
-				if(status == "NoUserFound") throw new LoginCodeException();
+				if(status.equals("NoUserFound")) throw new LoginCodeException();
 				else throw new ServerException();
 			}
 		}
@@ -156,7 +157,7 @@ public class ServerAPIs {
 					//從伺服器取得錯誤代碼
 					String status = new JSONObject(message).getString("status");
 					
-					if(status == "NoUserFound") throw new LoginCodeException();
+					if(status.equals("NoUserFound")) throw new LoginCodeException();
 					else throw new ServerException();
 				}
 			}

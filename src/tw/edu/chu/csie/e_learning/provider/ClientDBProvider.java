@@ -9,12 +9,18 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import tw.edu.chu.csie.e_learning.config.Config;
 
 @SuppressWarnings("unused")
-public class ClientDBProvider{
-
+public class ClientDBProvider {
+	private Context context;
 	public String select ="";
 	private static int i = 0;
 	private SQLiteDatabase sqlitedatabase;
-	ClientDBHelper c2 = new ClientDBHelper();
+	private ClientDBHelper db;
+	
+	public ClientDBProvider(Context context)
+	{
+		this.context = context;
+		db = new ClientDBHelper(this.context, Config.Chu_elearn, null, Config.version);
+	}
 	
 	//查詢資料庫內容，並將所有結果存到result裡
 	public String All(String chtab){
@@ -130,25 +136,25 @@ public class ClientDBProvider{
 	}
 	public ClientDBProvider openToWrite() throws android.database.SQLException{
 		
-		sqlitedatabase = c2.getWritableDatabase();
+		sqlitedatabase = db.getWritableDatabase();
 		
 		return this;
 	}
 
 	public ClientDBProvider openToRead() throws android.database.SQLException{ 
 		
-		sqlitedatabase = c2.getReadableDatabase();
+		sqlitedatabase = db.getReadableDatabase();
 		
 		return this;
 	}
 	
 	public void onOpen(SQLiteDatabase db) {
-		c2.onOpen(db);
+		this.db.onOpen(db);
 		// TODO 每次成功打開數據庫後首先被執行
 	}
 	
 	public void close() {
-		c2.close();
+		this.db.close();
 	}
 	
 }

@@ -9,6 +9,7 @@
     <string name="learn_history">學習歷程</string>
     <string name="announcement">公告</string>
     <string name="inside_process_error">內部出錯</string>
+    <string name="other_error">其他錯誤</string>
     <string name="no_data">沒有資訊</string>
     <string name="logout">登出</string>
 
@@ -31,5 +32,7 @@
     <string name="learning_next_point">下個學習點:</string>
     <string name="learning_remaining_time">學習時間尚有:</string>
     <string name="learning_remaining_point">學習點剩餘:</string>
+    <string name="title_activity_learning">LearningActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
