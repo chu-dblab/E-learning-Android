@@ -50,7 +50,7 @@ public class Config {
 	// 是否啟用自動登入
 	public static final boolean AUTO_NO_ID_LOGIN = false;
 	// 前端資料庫名稱
-	public static final String Chu_elearn= "chu-elearn.db";
+	public static final String CDB_NAME = "chu-elearn.db";
 	// 前端資料庫目前版本
-	public static final int version = 1;
+	public static final int CDB_VERSION = 1;
 }

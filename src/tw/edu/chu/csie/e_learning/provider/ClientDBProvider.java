@@ -19,7 +19,7 @@ public class ClientDBProvider {
 	public ClientDBProvider(Context context)
 	{
 		this.context = context;
-		db = new ClientDBHelper(this.context, Config.Chu_elearn, null, Config.version);
+		db = new ClientDBHelper(this.context, Config.CDB_NAME, null, Config.CDB_VERSION);
 	}
 	
 	//查詢資料庫內容，並將所有結果存到result裡

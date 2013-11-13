@@ -18,7 +18,7 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	//private Context context;
 	
 	public ClientDBHelper(Context context,String chu_elearn, CursorFactory factory, int version) {
-		super(context,Config.Chu_elearn,null,Config.version); //資料庫名稱=chu-elearn，目前版本=1
+		super(context,Config.CDB_NAME,null,Config.CDB_VERSION); //資料庫名稱=chu-elearn，目前版本=1
 	}
 	
 	//使用者資料表
