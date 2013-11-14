@@ -8,13 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import tw.edu.chu.csie.e_learning.config.Config;
 
-@SuppressWarnings("unused")
 public class ClientDBProvider {
 	private Context context;
 	public String select ="";
 	private static int i = 0;
 	private SQLiteDatabase sqlitedatabase;
-	private ClientDBHelper db;
+	ClientDBHelper db;
 	
 	public ClientDBProvider(Context context)
 	{
@@ -49,6 +48,7 @@ public class ClientDBProvider {
 
 	public long user_insert(String v1,String v2,String v3,String v4){ //"使用者"新增
 	
+		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("UID", v1);
 		contentvalues.put("UNickname", v2);
@@ -59,6 +59,7 @@ public class ClientDBProvider {
 
 	public long target_insert(String v1,String v2,String v3,String v4,String v5){ //"標的"新增
 		
+		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("TID", v1);
 		contentvalues.put("MapID", v2);
@@ -70,6 +71,7 @@ public class ClientDBProvider {
 
 	public long study_insert(String v1,String v2,String v3,String v4,String v5,String v6,String v7,String v8){ //"學習關係"新增
 		
+		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("TID", v1);
 		contentvalues.put("UID", v2);
@@ -84,6 +86,7 @@ public class ClientDBProvider {
 	
 	public long delete(String where_string,String user_table){ 
 		
+		openToWrite();
 		if(user_table == "chu_user")
 			return sqlitedatabase.delete(user_table, where_string, null);
 		else if(user_table == "chu_target")
@@ -95,6 +98,7 @@ public class ClientDBProvider {
 
 	public long update(String user_table,String newv1,String newv2,String where_string){
 		
+		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 			if(user_table == "chu_user")
 			{
@@ -111,6 +115,7 @@ public class ClientDBProvider {
 	
 	public long study_update(String user_table,String newv1,String newv2,String newv3,String newv4,String where_string){
 		
+		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 		
 				contentvalues.put("QID", newv1);
@@ -122,6 +127,7 @@ public class ClientDBProvider {
 	}
 	
 	public String search(String user_table,String search_item,String where_string){ //查詢
+		
 		select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
 		Cursor cursor = sqlitedatabase.rawQuery(select, null);
 		String result = "";

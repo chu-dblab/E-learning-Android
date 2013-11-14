@@ -11,12 +11,6 @@ import android.widget.Toast;
 public class ClientDBHelper extends SQLiteOpenHelper {
 	
 	//資料庫版本關係到App更新時，資料庫是否要調用onUpgrade()
-	@SuppressWarnings("unused")
-	//private static final int VERSION = 1;//資料庫版本
-	
-	//private SQLiteDatabase sqlitedatabase; 
-	//private Context context;
-	
 	public ClientDBHelper(Context context,String chu_elearn, CursorFactory factory, int version) {
 		super(context,Config.CDB_NAME,null,Config.CDB_VERSION); //資料庫名稱=chu-elearn，目前版本=1
 	}
