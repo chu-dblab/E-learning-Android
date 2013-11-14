@@ -4,10 +4,10 @@
  */
 package tw.edu.chu.csie.e_learning.util;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import tw.edu.chu.csie.e_learning.config.Config;
 import android.content.Context;
@@ -104,5 +104,57 @@ public class FileUtils
 		}
 		write.close();
 		str1 = 0;
+	}
+	
+	/**
+	 * decompressFile
+	 * 解壓縮檔案
+	 * @throws IOException
+	 */
+	
+	public void decompressFile() throws IOException
+	{
+		//打開要解壓縮的檔案
+		FileInputStream fin = new FileInputStream(getPath()+"TeachingMaterial.zip");
+		BufferedInputStream in = new BufferedInputStream(fin);
+		ZipInputStream zipInput = new ZipInputStream(in);
+		
+		//取得壓縮檔的目的資料夾
+		ZipEntry next = zipInput.getNextEntry();
+		if(!next.isDirectory()) //如果壓縮檔內的目的資料夾不是目錄的話
+		{
+			//先判斷上一層資料夾是否存在，若不存在則先建立資料夾，再解壓縮檔案
+			File tmp = new File(getPath()+next.getName());
+			File save = tmp.getParentFile();
+			if(!save.exists()) save.mkdirs();
+			
+			//解壓縮
+			outputToStorage(tmp,zipInput);
+			
+			//將解壓縮完成的zip檔刪除
+			File remove = new File(getPath()+"TeachingMaterial.zip");
+			remove.delete();
+		}
+	}
+	/**
+	 * outputToStorage
+	 * 將解壓縮後的資料寫入檔案之後儲存
+	 * @param fobj
+	 * @param zIn
+	 * @throws IOException
+	 */
+	private void outputToStorage(File fobj,ZipInputStream zIn) throws IOException
+	{
+		//開啟解壓縮要寫入的檔案
+		FileOutputStream output = new FileOutputStream(fobj);
+		
+		//以byte讀取解壓縮後的資料
+		int data;
+		byte[] buf = new byte[1024];
+		
+		//寫入檔案，然後關閉所有檔案相關串流
+		while((data=zIn.read()) > 0) output.write(buf,0,data);
+		output.close();
+		zIn.close();
 	}
 }

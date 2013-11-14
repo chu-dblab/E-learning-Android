@@ -9,7 +9,6 @@ package tw.edu.chu.csie.e_learning.sync;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.zip.*;
 
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
@@ -38,16 +37,9 @@ public class TextbookSyncUtils
 		{
 			String path = saveFile.getPath();
 			saveFile.saveFile(path, url.getInputStream());
+			saveFile.decompressFile();
 			return true;
 		}
 		return false;
-	}
-	
-	/**TODO
-	 * 解壓縮檔案
-	 */
-	public void decompression()
-	{
-		
 	}
 }
