@@ -35,4 +35,7 @@
     <string name="title_activity_learning">LearningActivity</string>
     <string name="hello_world">Hello world!</string>
 
+    <!-- 學習中 -->
+    <string name="learning_not_leave_point">你現在還在學習中，學習完再離開吧！！</string>
+    <string name="learning_leaved_point">離開學習點囉～</string>
 </resources>

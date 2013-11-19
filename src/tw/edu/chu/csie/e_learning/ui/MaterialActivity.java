@@ -1,6 +1,7 @@
 package tw.edu.chu.csie.e_learning.ui;
 
 import tw.edu.chu.csie.e_learning.R;
+import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -49,6 +50,19 @@ public class MaterialActivity extends Activity {
 	}
 	
 	
+
+	@Override
+	public void onBackPressed() {
+		// 判斷木前的設定檔是否允許中途離開學習點
+		if(Config.LEARNING_BACK_ENABLE) {
+			// 離開學習點
+			Toast.makeText(getBaseContext(), R.string.learning_leaved_point, Toast.LENGTH_LONG).show();
+			super.onBackPressed();
+		} else {
+			// 不允許離開學習點回到學習地圖
+			Toast.makeText(getBaseContext(), R.string.learning_not_leave_point, Toast.LENGTH_LONG).show();
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
