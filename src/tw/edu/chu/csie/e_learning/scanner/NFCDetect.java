@@ -1,5 +1,6 @@
 package tw.edu.chu.csie.e_learning.scanner;
 
+import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -34,6 +35,17 @@ public class NFCDetect extends Activity
 		} catch (MalformedMimeTypeException e) { }
 		gNdefExchangeFilters = new IntentFilter[] { ndefDetected };
 	}
+	
+	
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		gNfcAdapter.disableForegroundDispatch(this);
+	}
+
+
 
 	@Override
 	protected void onResume() {
@@ -101,5 +113,14 @@ public class NFCDetect extends Activity
 	    if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
 			NdefMessage[] msgs = getNdefMessages(intent);
 	    }
-	}	
+	}
+	
+	public void searchFileInDatabase(final NdefMessage msg)
+	{
+		String str = new String(msg.getRecords()[0].getPayload());
+		//發送Intent給webview
+		Intent startLearning = new Intent(NFCDetect.this,MaterialActivity.class);
+		startLearning.putExtra("ID", str);
+		startActivityForResult(startLearning,1);
+	}
 }
