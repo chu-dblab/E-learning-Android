@@ -28,7 +28,7 @@ public class MaterialActivity extends Activity {
 	}
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
@@ -38,18 +38,26 @@ public class MaterialActivity extends Activity {
 		this.thisMaterialId = intent.getStringExtra("materialId");
 		this.liveMaterial = intent.getBooleanExtra("liveMaterial", false);
 		
-		// 將網頁內容顯示出來
-		webSettings = mWebView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
+		if (savedInstanceState != null) {
+			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
+		} else {
+			// 將網頁內容顯示出來
+			webSettings = mWebView.getSettings();
+			webSettings.setJavaScriptEnabled(true);
+			
+			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
+			mWebView.loadUrl("file://"+fileUtils.getPath()+this.thisMaterialId+".html");			
+		}
 		
-		mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
-		mWebView.loadUrl("file://"+fileUtils.getPath()+this.thisMaterialId+".html");
 		
 		// DEBUG 測試FileUtils
 		Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
 	}
 	
 	
+	protected void onSaveInstanceState(Bundle outState) {
+	      mWebView.saveState(outState);
+   }
 
 	@Override
 	public void onBackPressed() {
