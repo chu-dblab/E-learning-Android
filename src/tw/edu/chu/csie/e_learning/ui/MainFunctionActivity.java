@@ -93,6 +93,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		mViewPager.setCurrentItem(1);
 	}
 
 	@Override
