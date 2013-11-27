@@ -5,6 +5,7 @@
 package tw.edu.chu.csie.e_learning.util;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -12,6 +13,7 @@ import java.util.zip.ZipInputStream;
 import tw.edu.chu.csie.e_learning.config.Config;
 import android.content.Context;
 import android.os.*;
+import android.util.Log;
 
 public class FileUtils 
 {
@@ -75,35 +77,20 @@ public class FileUtils
 	 * @throws 		IOException 
 	 * 下載檔案時存檔用
 	 */
-	public void saveFile(String path,InputStream is) throws IOException
+	public void saveFile(String path,InputStream is,HttpURLConnection con) throws IOException
 	{
 		File savePath = new File(path);
-		if(!savePath.exists()) //如果傳進來的資料夾路徑沒有這個資料夾
-		{
-			savePath.mkdir();   //建立資料夾
-			//將檔案存到該路徑底下
-			output(savePath,is);
-		}
-		else output(savePath,is); //將檔案存到該路徑底下		
-	}
-	
-	/**
-	 * output
-	 * @param			path,input
-	 * @return			None
-	 * @throws 		IOException 
-	 * 存檔工具函式
-	 */
-	private void output(File path,InputStream input) throws IOException
-	{
-		FileWriter write = new FileWriter(path);
+		FileOutputStream write = new FileOutputStream(path);
 		int str1 = 0;;
-		while((str1=input.read()) != -1)
+		byte[] data = new byte[1024];
+		while((str1=is.read(data)) != -1)
 		{
-			write.write(str1);
+			write.write(data,0,str1);
 		}
+		write.flush();
 		write.close();
-		str1 = 0;
+		is.close();
+		con.disconnect();
 	}
 	
 	/**
@@ -115,16 +102,18 @@ public class FileUtils
 	public void decompressFile() throws IOException
 	{
 		//打開要解壓縮的檔案
-		FileInputStream fin = new FileInputStream(getPath()+"TeachingMaterial.zip");
+		FileInputStream fin = new FileInputStream(getPath()+Config.ZIP_FILE_NAME_OF_MATERIAL);
 		BufferedInputStream in = new BufferedInputStream(fin);
 		ZipInputStream zipInput = new ZipInputStream(in);
-		
+
 		//取得壓縮檔的目的資料夾
 		ZipEntry next = zipInput.getNextEntry();
+		Log.d("Name", next.getName());
+		File tmp = new File(getPath()+next.getName());
+		String unzipDirectory = getPath();
 		if(!next.isDirectory()) //如果壓縮檔內的目的資料夾不是目錄的話
 		{
-			//先判斷上一層資料夾是否存在，若不存在則先建立資料夾，再解壓縮檔案
-			File tmp = new File(getPath()+next.getName());
+			//先判斷上一層資料夾是否存在，若不存在則先建立資料夾，再解壓縮檔案			
 			File save = tmp.getParentFile();
 			if(!save.exists()) save.mkdirs();
 			
@@ -132,9 +121,10 @@ public class FileUtils
 			outputToStorage(tmp,zipInput);
 			
 			//將解壓縮完成的zip檔刪除
-			File remove = new File(getPath()+"TeachingMaterial.zip");
-			remove.delete();
+			//File remove = new File(getPath()+Config.FILE_NAME_OF_MATERIAL);
+			//remove.delete();
 		}
+		else outputToStorage(tmp,zipInput);
 	}
 	/**
 	 * outputToStorage
@@ -149,11 +139,12 @@ public class FileUtils
 		FileOutputStream output = new FileOutputStream(fobj);
 		
 		//以byte讀取解壓縮後的資料
-		int data;
+		int data = 0;
 		byte[] buf = new byte[1024];
 		
 		//寫入檔案，然後關閉所有檔案相關串流
-		while((data=zIn.read()) > 0) output.write(buf,0,data);
+		while((data=zIn.read(buf)) != -1) output.write(buf,0,data);
+		output.flush();
 		output.close();
 		zIn.close();
 	}
