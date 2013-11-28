@@ -137,5 +137,8 @@ public class FileUtils
                 bo.flush();
             }
 		}
+		
+		File remove = new File(getPath()+Config.ZIP_FILE_NAME_OF_MATERIAL);
+		remove.delete();
 	}
 }
