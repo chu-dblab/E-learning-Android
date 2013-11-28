@@ -10,6 +10,9 @@ package tw.edu.chu.csie.e_learning.sync;
 import java.io.IOException;
 import java.net.*;
 
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+
+import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 
@@ -17,7 +20,8 @@ public class TextbookSyncUtils
 {
 	private HttpURLConnection url;
 	private URL downloadPath;
-	private FileUtils saveFile;
+	private FileUtils saveFile = new FileUtils();
+	private int fileSize;
 	
 	
 	/**
@@ -25,21 +29,29 @@ public class TextbookSyncUtils
 	 * @param 　urlPath
 	 * @return true/false
 	 * @throws IOException
+	 * @throws HttpException 
 	 */
-	public boolean downloadTeachingMaterial(String urlPath) throws IOException
+	public void downloadTeachingMaterial(String urlPath) throws IOException,HttpException
 	{
 		downloadPath = new URL(urlPath);
 		url = (HttpURLConnection)downloadPath.openConnection();
 		url.setDoInput(true);
 		url.setRequestMethod("POST");
-		url.setConnectTimeout(10000);
+		url.setConnectTimeout(20000);
+		fileSize = url.getContentLength();
 		if(url.getResponseCode() == HttpURLConnection.HTTP_OK)
 		{
 			String path = saveFile.getPath();
-			saveFile.saveFile(path, url.getInputStream());
+			saveFile.saveFile(path+Config.ZIP_FILE_NAME_OF_MATERIAL, url.getInputStream(),url);
+			Log.d("Download", "存檔成功～！！");
 			saveFile.decompressFile();
-			return true;
+			Log.d("Download", "解壓縮檔案成功～！！");
 		}
-		return false;
+		else throw new HttpException(url.getResponseCode());
+	}
+	
+	public int getFileSize()
+	{
+		return fileSize;
 	}
 }

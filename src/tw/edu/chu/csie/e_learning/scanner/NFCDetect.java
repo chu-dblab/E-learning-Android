@@ -10,11 +10,11 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.NfcA;
+import android.os.Bundle;
 import android.util.Log;
 
-public class NFCDetect
+public class NFCDetect extends Activity
 {
-	private Context baseContext;
 	private NfcManager manager;
 	private NfcAdapter adapter;
 	private IntentFilter nfc_tech;
@@ -22,18 +22,42 @@ public class NFCDetect
 	private PendingIntent nfcPendingIntent;
 	private Intent nfc_intent;
 	private String[][] tech_list;
-	private Activity act;
-	public NFCDetect(Context context)
-	{
-		this.baseContext = context;
-	}
+	private String materialID;
 	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		InitialDetect();
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+		callMaterial(intent);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		adapter.disableForegroundDispatch(this);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		adapter.enableForegroundDispatch(this, nfcPendingIntent, nfcFilter, tech_list);
+	}
+
 	public void InitialDetect()
 	{
-		manager = (NfcManager)act.getSystemService(Context.NFC_SERVICE);
+		manager = (NfcManager)getSystemService(Context.NFC_SERVICE);
 		adapter = manager.getDefaultAdapter();
-		nfc_intent = new Intent(this.baseContext,getClass());
-		nfcPendingIntent = PendingIntent.getActivity(this.baseContext, 0, nfc_intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		nfc_intent = new Intent(this,getClass());
+		nfcPendingIntent = PendingIntent.getActivity(this, 0, nfc_intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		nfc_tech = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
 		nfcFilter = new IntentFilter[]{nfc_tech};
 		tech_list = new String[][]{new String[]{NfcA.class.getName()}};
@@ -46,14 +70,20 @@ public class NFCDetect
 		if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
 		{
 			Tag tagContent = intent.getParcelableExtra(action);
+			materialID = readTagContent(tagContent);
+			sentIntentToMaterial(materialID);
 		}
 		else if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(action))
 		{
-			
+			Tag tagContent = intent.getParcelableExtra(action);
+			materialID = readTagContent(tagContent);
+			sentIntentToMaterial(materialID);
 		}
 		else if(NfcAdapter.ACTION_TAG_DISCOVERED.equals(action))
 		{
-			
+			Tag tagContent = intent.getParcelableExtra(action);
+			materialID = readTagContent(tagContent);
+			sentIntentToMaterial(materialID);
 		}
 		else
 		{
@@ -68,18 +98,8 @@ public class NFCDetect
 	
 	private void sentIntentToMaterial(String targetID)
 	{
-		Intent learningTarget = new Intent(this.baseContext,MaterialActivity.class);
+		Intent learningTarget = new Intent(this,MaterialActivity.class);
 		learningTarget.putExtra("materialID", targetID);
-		act.startActivityForResult(learningTarget,1);
-	}
-	
-	public void setForegroundDispatchOnPause(Activity activity)
-	{
-		adapter.disableForegroundDispatch(activity);
-	}
-	
-	public void setForegroundDispatchOnResume(Activity activity)
-	{
-		adapter.enableForegroundDispatch(activity, nfcPendingIntent, nfcFilter, tech_list);
+		startActivityForResult(learningTarget,1);
 	}
 }

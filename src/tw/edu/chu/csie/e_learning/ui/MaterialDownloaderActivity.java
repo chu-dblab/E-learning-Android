@@ -1,16 +1,22 @@
 package tw.edu.chu.csie.e_learning.ui;
 
 import java.io.*;
+
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.*;
+import tw.edu.chu.csie.e_learning.server.BaseSettings;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.sync.TextbookSyncUtils;
 
 /**
@@ -55,8 +61,14 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
     	protected Void doInBackground(String... params) {
     		try {
 				download.downloadTeachingMaterial(params[0]);
+				
 			} catch (IOException e) {
-				Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+				Log.d("Message", e.getMessage());
+				e.printStackTrace();
+			} catch (HttpException e) {
+				// TODO Auto-generated catch block
+				Log.d("Message", Integer.toString(e.getStatusCode()));
 				e.printStackTrace();
 			}
     		return null;
