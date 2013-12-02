@@ -60,8 +60,7 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
     	@Override
     	protected Void doInBackground(String... params) {
     		try {
-				download.downloadTeachingMaterial(params[0]);
-				
+				download.downloadTeachingMaterial(params[0]);				
 			} catch (IOException e) {
 				//Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
 				Log.d("Message", e.getMessage());
@@ -86,9 +85,9 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
     		// TODO 自動產生的方法 Stub
     		super.onPreExecute();
     		updateProgress = new ProgressDialog(message);
-    		updateProgress.setMessage("下載教材中......");
+    		updateProgress.setMessage("下載教材並解壓縮中......");
     		updateProgress.setCancelable(false);
-    		updateProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+    		updateProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     		updateProgress.show();
     	}
 

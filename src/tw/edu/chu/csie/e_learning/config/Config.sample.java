@@ -27,6 +27,8 @@ public class Config {
 	 */
 	public static final String APP_DIRECTORY = "CHU-Elearning/";
 	public static final String MATERIAL_DIRECTORY = "TeachingMaterial/";
+	public static final String ZIP_FILE_NAME_OF_MATERIAL ="/DownloadZip.zip";
+	public static final String FILE_DIRECTORY = "DownloadZip";
 	/**
 	 * 此應用程式性質
 	 */
