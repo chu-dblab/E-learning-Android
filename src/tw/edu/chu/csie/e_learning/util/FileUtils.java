@@ -52,13 +52,13 @@ public class FileUtils
 	{
 		if(isSDCardInsert())
 		{
-			File path = new File(BasicSDPath+"/"+Config.APP_DIRECTORY+Config.MATERIAL_DIRECTORY);
+			File path = new File(BasicSDPath+"/"+Config.APP_DIRECTORY);
 			if(!path.exists()) 
 			{
 				path.mkdirs();
 				return path.getAbsolutePath();
 			}
-			else return BasicSDPath+"/"+Config.APP_DIRECTORY+Config.MATERIAL_DIRECTORY;
+			else return BasicSDPath+"/"+Config.APP_DIRECTORY;
 		}
 		else
 		{
