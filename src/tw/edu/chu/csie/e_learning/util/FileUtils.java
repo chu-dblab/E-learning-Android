@@ -60,16 +60,7 @@ public class FileUtils
 			}
 			else return BasicSDPath+"/"+Config.APP_DIRECTORY;
 		}
-		else
-		{
-			File path = new File(BasicInternalPath+"/"+Config.MATERIAL_DIRECTORY);
-			if(!path.exists())
-			{
-				path.mkdir();
-				return BasicInternalPath+"/"+Config.MATERIAL_DIRECTORY;
-			}
-			return BasicInternalPath+"/"+Config.MATERIAL_DIRECTORY;
-		}
+		else return BasicInternalPath+"/";
 	}
 	
 	/**
