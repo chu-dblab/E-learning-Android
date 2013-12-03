@@ -37,14 +37,17 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 			{
 				if(URLUtil.isNetworkUrl(text))
 				{
-					Toast.makeText(this, "取得的URL"+text, Toast.LENGTH_LONG).show();
-					Uri uri=Uri.parse(text);
-					Intent intent=new Intent(Intent.ACTION_VIEW,uri);
-					startActivity(intent);
+					Toast.makeText(this, "此 QR-code內容 是個網址，非「標的編號」!!", Toast.LENGTH_LONG).show();
 				}
 				else
 				{
-					Toast.makeText(this, "此 QR-code內容 不是網址!!", Toast.LENGTH_LONG).show();
+					if(text.length()>2)
+					{
+						Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
+					}
+					else{
+						Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
+					}
 				}
 			}
 			else
