@@ -7,18 +7,27 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.app.Activity;
+import android.test.PerformanceTestCase;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnPreferenceClickListener {
 
+	CheckBoxPreference student_modeView, learn_unfinish_backView, learn_exitView;
+	EditTextPreference remote_urlView;
+	ListPreference learn_modeView, sync_learn_frequencyView;
+	Preference reset_all_settingsView, exitView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,6 +37,17 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		// 顯示設定選項
 		addPreferencesFromResource(R.xml.pref_settings);
+		
+		// 界面物件對應
+		student_modeView = (CheckBoxPreference)findPreference("student_mode");
+		remote_urlView = (EditTextPreference)findPreference("remote_url");
+		learn_modeView = (ListPreference)findPreference("learn_mode");
+		learn_unfinish_backView = (CheckBoxPreference)findPreference("learn_unfinish_back");
+		learn_exitView = (CheckBoxPreference)findPreference("learn_exit");
+		sync_learn_frequencyView = (ListPreference)findPreference("sync_learn_frequency");
+		reset_all_settingsView = (Preference)findPreference("reset_all_settings");
+		exitView = (Preference)findPreference("exit");
+		exitView.setOnPreferenceClickListener(this);
 		
 		// 將描述部份顯示為設定值
 		bindPreferenceSummaryToValue(findPreference("remote_url"));
@@ -89,7 +109,17 @@ public class SettingsActivity extends PreferenceActivity {
 			return true;
 		}
 	};
-
+	
+	// 動作======================================================================================
+	@Override
+	public boolean onPreferenceClick(Preference preference) {
+		if(preference.getKey().equals("exit")){
+			// 關閉程式
+			// TODO 修正會回到進入點的問題
+			android.os.Process.killProcess(android.os.Process.myPid());
+		}
+		return false;
+	}
 	
 	// 選單======================================================================================
 	@Override
@@ -108,5 +138,6 @@ public class SettingsActivity extends PreferenceActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
 
 }
