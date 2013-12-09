@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">系統設定</string>
+    
+    <string name="pref_general" >一般設定</string><string name="pref_student_mode">學生模式</string><string name="pref_title_network">網路設定</string>
+    <string name="pref_remote_url">伺服器網址</string>
+
+    <string name="pref_learn">學習相關</string>
+    <string name="pref_learn_mode">學習模式</string>
+    <string name="pref_learn_unfinish_back">允許未完成學習離開</string>
+    <string name="pref_learn_unfinish_back_summary">允許未完成此學習點就返回學習地圖頁面</string>
+    <string name="pref_learn_exit">允許離開此應用程式</string>
+    
+    
+    <string name="pref_data_sync">資料傳輸</string>
+    <string name="pref_sync_learn_frequency">多久傳輸學習中狀態</string>
+    
+</resources>

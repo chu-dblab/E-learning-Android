@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/pref_general">
+        <CheckBoxPreference android:title="@string/pref_student_mode" android:key="student_mode"/>
+    </PreferenceCategory><PreferenceCategory android:title="@string/pref_title_network">
+        <EditTextPreference 
+            android:key="remote_url" 
+            android:title="@string/pref_remote_url" android:summary="sdhdhdhdf"/>
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/pref_learn">
+        <ListPreference android:title="@string/pref_learn_mode" android:key="learn_mode" android:entryValues="@array/entryvalues_student_mode" android:entries="@array/entries_student_mode" android:dialogTitle="@string/pref_learn_mode"/>
+        <CheckBoxPreference android:key="learn_unfinish_back" android:summary="@string/pref_learn_unfinish_back_summary" android:title="@string/pref_learn_unfinish_back"/>
+        <CheckBoxPreference android:title="@string/pref_learn_exit" android:key="pref_learn_exit"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_data_sync">
+        <ListPreference android:title="@string/pref_sync_learn_frequency"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/other">
+        <Preference android:title="@string/exit" android:key="exit"/>
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>
