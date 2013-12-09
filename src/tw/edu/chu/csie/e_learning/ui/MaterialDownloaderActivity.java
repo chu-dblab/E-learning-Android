@@ -3,13 +3,14 @@ package tw.edu.chu.csie.e_learning.ui;
 import java.io.*;
 
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -31,6 +32,8 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
         setContentView(R.layout.activity_material_downloader);
         textbook_update = (Button)findViewById(R.id.updateButton);
         textbook_update.setOnClickListener(this);
+        
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
     
     @Override
@@ -99,4 +102,20 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
     	}
     	
     }
+    
+    // menu=============================================================
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return super.onCreateOptionsMenu(menu);
+	}
+	@Override
+	 public boolean onOptionsItemSelected(MenuItem item) {
+	     switch (item.getItemId()) {
+	      case android.R.id.home:
+	          finish();
+	          return true;
+	      default:
+	          return super.onOptionsItemSelected(item);
+	     }
+	 }
 }
