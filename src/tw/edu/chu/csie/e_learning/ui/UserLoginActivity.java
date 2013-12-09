@@ -50,7 +50,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -278,6 +281,19 @@ public class UserLoginActivity extends Activity {
 	{
 		Bundle bundle = new Bundle();
 		
+		//check internet connetion
+		public boolean checkInternetConnection(){
+			ConnectivityManager cm=(ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo ni=cm.getActiveNetworkInfo();
+			if(ni!=null && ni.isConnected()){
+				// System.out.println("ni.isConnected() = "+ni.isConnected());
+				return ni.isConnected();
+			}else{
+				// System.out.println("ni.isConnected() = "+ni.isConnected());
+				return false;
+			}
+		}
+		
 		private AccountUtils check = new AccountUtils(getBaseContext());
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -286,50 +302,55 @@ public class UserLoginActivity extends Activity {
 				return true;
 			}
 			else {
-				try {
-					check.loginUser(params[0], params[1]);
-				} catch (ClientProtocolException e) {
-					bundle.putString("exception", "ClientProtocolException");
-					bundle.putString("exception-msg", e.getMessage());
-					e.printStackTrace();
-				} catch (IOException e) {
-					bundle.putString("exception", "IOException");
-					bundle.putString("exception-msg", e.getMessage());
-					e.printStackTrace();
-				} catch (JSONException e) {
-					bundle.putString("exception", "JSONException");
-					bundle.putString("exception-msg", e.getMessage());
-					e.printStackTrace();
-				} catch (LoginException e) {
-					// TODO Auto-generated catch block
-					bundle.putString("exception", "LoginException");
-					bundle.putString("exception-msg", e.getMessage());
-					bundle.putInt("LoginException-ID", e.getID());
-					e.printStackTrace();
-				} catch (PostNotSameException e) {
-					// TODO Auto-generated catch block
-					bundle.putString("exception", "PostNotSameException");
-					bundle.putString("exception-msg", e.getMessage());
-					e.printStackTrace();
-				} catch (HttpException e) {
-					// TODO Auto-generated catch block
-					bundle.putString("exception", "HttpException");
-					bundle.putString("exception-msg", e.getMessage());
-					bundle.putInt("HttpException-ID", e.getStatusCode());
-					Log.d(null, Integer.toString(e.getStatusCode()));
-					e.printStackTrace();
-				} catch (ServerException e) {
-					bundle.putString("exception", "ServerException");
-					bundle.putString("exception-msg", e.getMessage());
-					bundle.putInt("ServerException-ID", e.getID());
-					e.printStackTrace();
-				} catch (LoginCodeException e) {
-					// TODO Auto-generated catch block
-					bundle.putString("exception", "LoginCodeException");
-					bundle.putString("exception-msg", e.getMessage());
+				if(checkInternetConnection()) {
+					try {
+						check.loginUser(params[0], params[1]);
+					} catch (ClientProtocolException e) {
+						bundle.putString("exception", "ClientProtocolException");
+						//bundle.putString("exception-msg", e.getMessage());
+						e.printStackTrace();
+					} catch (IOException e) {
+						bundle.putString("exception", "IOException");
+						bundle.putString("exception-msg", e.getMessage());
+						e.printStackTrace();
+					} catch (JSONException e) {
+						bundle.putString("exception", "JSONException");
+						bundle.putString("exception-msg", e.getMessage());
+						e.printStackTrace();
+					} catch (LoginException e) {
+						// TODO Auto-generated catch block
+						bundle.putString("exception", "LoginException");
+						bundle.putString("exception-msg", e.getMessage());
+						bundle.putInt("LoginException-ID", e.getID());
+						e.printStackTrace();
+					} catch (PostNotSameException e) {
+						// TODO Auto-generated catch block
+						bundle.putString("exception", "PostNotSameException");
+						bundle.putString("exception-msg", e.getMessage());
+						e.printStackTrace();
+					} catch (HttpException e) {
+						// TODO Auto-generated catch block
+						bundle.putString("exception", "HttpException");
+						bundle.putString("exception-msg", e.getMessage());
+						bundle.putInt("HttpException-ID", e.getStatusCode());
+						Log.d(null, Integer.toString(e.getStatusCode()));
+						e.printStackTrace();
+					} catch (ServerException e) {
+						bundle.putString("exception", "ServerException");
+						bundle.putString("exception-msg", e.getMessage());
+						bundle.putInt("HttpException-ID", e.getID());
+						e.printStackTrace();
+					} catch (LoginCodeException e) {
+						// TODO Auto-generated catch block
+						bundle.putString("exception", "LoginCodeException");
+						bundle.putString("exception-msg", e.getMessage());
+					}
+					if(check.islogin()) return true;
+					else return false;
+				} else {
+					bundle.putString("exception", "NoConnect");
+					return false;
 				}
-				if(check.islogin()) return true;
-				else return false;
 			}
 		}
 
@@ -383,6 +404,9 @@ public class UserLoginActivity extends Activity {
 				}
 				else if(failKind == "ClientProtocolException") {
 					mLoginErrMsgView.setText(getString(R.string.server_connect_fail));
+				}
+				else if(failKind == "NoConnect") {
+					mLoginErrMsgView.setText(getString(R.string.no_connect));
 				}
 				else {
 					mLoginErrMsgView.setText(getString(R.string.other_error));
