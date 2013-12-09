@@ -17,6 +17,7 @@
         <ListPreference android:title="@string/pref_sync_learn_frequency"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/other">
+        <Preference android:title="@string/reset_all_settings" android:key="reset_all_settings"/>
         <Preference android:title="@string/exit" android:key="exit"/>
     </PreferenceCategory>
     

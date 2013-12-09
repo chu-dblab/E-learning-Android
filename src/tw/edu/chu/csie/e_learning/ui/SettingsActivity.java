@@ -29,6 +29,7 @@ public class SettingsActivity extends PreferenceActivity {
 		// 顯示設定選項
 		addPreferencesFromResource(R.xml.pref_settings);
 		
+		// 將描述部份顯示為設定值
 		bindPreferenceSummaryToValue(findPreference("remote_url"));
 		bindPreferenceSummaryToValue(findPreference("learn_mode"));
 		
