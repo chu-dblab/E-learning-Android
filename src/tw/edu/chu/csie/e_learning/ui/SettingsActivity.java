@@ -63,7 +63,12 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		// 顯示設定值
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		updateStudentModeUI(pref.getBoolean("student_mode", Config.STUDENT_MODE));
-		learn_modeView.setSummary(pref.getString("learn_mode", Config.LEARN_MODE));
+		
+		// TODO 防呆: 無此選項會例外
+		learn_modeView.setSummary(
+				(String)learn_modeView.getEntries()[
+					learn_modeView.findIndexOfValue(pref.getString("learn_mode", Config.LEARN_MODE))]
+				);
 	}
 	
 
@@ -155,11 +160,6 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			//if() {
 				// 選項
 				updateStudentModeUI( (Boolean)newValue );
-				/*if( (Boolean)newValue ) {
-					updateStudentModeUI(true);
-				}else {
-					updateStudentModeUI(false);
-				}*/
 				return true;				
 			//}
 			//不是管理員的話，拒絕更改
@@ -179,11 +179,23 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			student_modeView.setChecked(true);
 			learn_unfinish_backView.setEnabled(false);
 			learn_exitView.setEnabled(false);
+			reset_all_settingsView.setEnabled(false);
 		}else {
 			student_modeView.setChecked(false);
 			learn_unfinish_backView.setEnabled(true);
 			learn_exitView.setEnabled(true);
+			reset_all_settingsView.setEnabled(true);
 		}
+
+		// 控制是否允許離開程式
+		if(!tf || PreferenceManager.getDefaultSharedPreferences(
+				learn_exitView.getContext()).getBoolean(learn_exitView.getKey(),
+				false)) {
+			exitView.setEnabled(true);
+		} else {
+			exitView.setEnabled(false);
+		}
+		
 	}
 	
 	// 選單======================================================================================
