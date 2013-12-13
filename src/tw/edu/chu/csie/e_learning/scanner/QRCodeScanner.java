@@ -1,6 +1,8 @@
 package tw.edu.chu.csie.e_learning.scanner;
 
 import tw.edu.chu.csie.e_learning.R;
+import tw.edu.chu.csie.e_learning.ui.MainFunctionActivity;
+import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
@@ -46,6 +48,9 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 						Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
 					}
 					else{
+						Intent toLearning = new Intent(this, MaterialActivity.class);
+						toLearning.putExtra("materialId", text);
+						startActivityForResult(toLearning, 1);
 						Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
 					}
 				}
