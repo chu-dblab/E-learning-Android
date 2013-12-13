@@ -64,6 +64,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		updateStudentModeUI(pref.getBoolean("student_mode", Config.STUDENT_MODE));
 		
+		// 顯示學習模式設定值
 		// TODO 防呆: 無此選項會例外
 		learn_modeView.setSummary(
 				(String)learn_modeView.getEntries()[
@@ -120,7 +121,15 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			}else {
 				// For all other preferences, set the summary to the value's
 				// simple string representation.
-				preference.setSummary(stringValue);
+				if(preference.getKey().equals("remote_url")) {
+					if(stringValue.equals("")) {
+						preference.setSummary(Config.REMOTE_BASE_URL);
+					}else {
+						preference.setSummary(stringValue);
+					}
+				}else {
+					preference.setSummary(stringValue);
+				}
 			}
 			return true;
 		}
@@ -160,7 +169,6 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			//if() {
 				// 選項
 				updateStudentModeUI( (Boolean)newValue );
-				return true;				
 			//}
 			//不是管理員的話，拒絕更改
 			//else {
@@ -170,7 +178,13 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			//}
 		}
 		
-		return false;
+		if(key.equals("remote_url")) {
+			if(newValue.equals("")) {
+				newValue = null;
+			}
+		}
+		
+		return true;
 	}
 	
 	private void updateStudentModeUI(boolean tf) {
