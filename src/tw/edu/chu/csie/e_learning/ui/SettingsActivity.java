@@ -48,6 +48,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		// 界面物件對應
 		student_modeView = (CheckBoxPreference)findPreference("student_mode");
 		student_modeView.setOnPreferenceChangeListener(this);
+		student_modeView.setOnPreferenceClickListener(this);
 		remote_urlView = (EditTextPreference)findPreference("remote_url");
 		learn_modeView = (ListPreference)findPreference("learn_mode");
 		learn_unfinish_backView = (CheckBoxPreference)findPreference("learn_unfinish_back");
@@ -141,11 +142,18 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
 		String key = preference.getKey(); 
-		if(key.equals("exit")){
+		if(key.equals("student_mode")) {
+			// 顯示對話框
+			new AccountUtils(SettingsActivity.this).showLoginDialog();
+			
+			// 修改設定值
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+			updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
+			
+		} else if(key.equals("exit")){
 			// 關閉程式
 			// TODO 修正會回到進入點的問題
-			Toast.makeText(getBaseContext(), "url: ", Toast.LENGTH_SHORT).show();
-			//android.os.Process.killProcess(android.os.Process.myPid());
+			android.os.Process.killProcess(android.os.Process.myPid());
 		}else if(key.equals("reset_all_settings")) {
 			SharedPreferences.Editor pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
 			pref.clear();
@@ -167,18 +175,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		String key = preference.getKey(); 
 		if(key.equals("student_mode")){
-			// TODO 檢查是否為管理員
-			new AccountUtils(SettingsActivity.this).showLoginDialog();
-			//if() {
-				// 選項
-				updateStudentModeUI( (Boolean)newValue );
-			//}
-			//不是管理員的話，拒絕更改
-			//else {
-				// TODO 顯示拒絕訊息
-				
-			//	return false;
-			//}
+			// 不要設定，改由onPreferenceClick處理
+			return false;
 		}
 		
 		if(key.equals("remote_url")) {
