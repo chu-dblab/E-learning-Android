@@ -4,6 +4,7 @@ import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.test.PerformanceTestCase;
@@ -166,6 +168,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		String key = preference.getKey(); 
 		if(key.equals("student_mode")){
 			// TODO 檢查是否為管理員
+			new AccountUtils(SettingsActivity.this).showLoginDialog();
 			//if() {
 				// 選項
 				updateStudentModeUI( (Boolean)newValue );

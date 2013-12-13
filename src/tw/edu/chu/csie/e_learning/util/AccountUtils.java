@@ -26,8 +26,13 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
@@ -130,4 +135,43 @@ public class AccountUtils {
 		clientdb.delete("ID = "+loginCode, "user");
 		isLogined = false;
 	}
+	
+	public void showLoginDialog() {
+		//LoginDialog dialog = new LoginDialog(context);
+		LoginDialog dialog = new LoginDialog(context);
+		dialog.show();
+	}
+}
+
+class LoginDialog extends Dialog implements android.view.View.OnClickListener {
+
+	// TODO 視窗標題 -> R.String...
+	String dialogTitle = "登入視窗";
+	
+	EditText uidView, upasswdView;
+	Button okView, cancelView;
+	
+	public LoginDialog(Context context) {
+		super(context);
+		setTitle(dialogTitle);
+		setContentView(R.layout.dialog_user_login);
+		
+		uidView = (EditText)findViewById(R.id.dialog_login_uid);
+		upasswdView = (EditText)findViewById(R.id.dialog_login_upasswd);
+		
+		okView = (Button)findViewById(R.id.dialog_login_ok);
+		okView.setOnClickListener(this);
+		cancelView = (Button)findViewById(R.id.dialog_login_cancel);
+		cancelView.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId()) {
+		case R.id.dialog_login_cancel:
+			dismiss();
+		}
+	}
+	
 }
