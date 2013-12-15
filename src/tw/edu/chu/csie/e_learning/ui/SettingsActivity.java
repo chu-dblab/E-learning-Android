@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+import tw.edu.chu.csie.e_learning.ui.dialog.LoginDialogBuilder;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceClickListener, OnPreferenceChangeListener {
 
@@ -147,19 +148,25 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		String key = preference.getKey(); 
 		if(key.equals("student_mode")) {
 			// 顯示對話框
-			//new AccountUtils(SettingsActivity.this).showLoginDialog();
-			AlertDialog.Builder dialogBuilder = new AccountUtils(SettingsActivity.this).loginDialog();
-			dialogBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			final LoginDialogBuilder dialogBuilder = new LoginDialogBuilder(SettingsActivity.this);
+			dialogBuilder.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
+					// 取得界面上的資料
+					EditText uidView = (EditText)dialogBuilder.view.findViewById(R.id.dialog_login_uid);
 					
-					// 修改設定值
+					// TODO DEBUG 顯示使用者輸入的內容
+					Toast.makeText(getBaseContext(), uidView.getText(), Toast.LENGTH_SHORT).show();
+					
+					// TODO 判斷是否為管理者
+					
+					// 確認為管理者-修改設定值
 					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 					updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
 				}
 			});
+			
 			
 			// 顯示出管理者登入Dialog
 			AlertDialog dialog = dialogBuilder.create();
