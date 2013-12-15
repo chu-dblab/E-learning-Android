@@ -19,13 +19,16 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.test.PerformanceTestCase;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceClickListener, OnPreferenceChangeListener {
@@ -144,12 +147,23 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		String key = preference.getKey(); 
 		if(key.equals("student_mode")) {
 			// 顯示對話框
-			new AccountUtils(SettingsActivity.this).showLoginDialog();
+			//new AccountUtils(SettingsActivity.this).showLoginDialog();
+			AlertDialog.Builder dialogBuilder = new AccountUtils(SettingsActivity.this).loginDialog();
+			dialogBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+					// 修改設定值
+					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+					updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
+				}
+			});
 			
-			// 修改設定值
-			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-			updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
-			
+			// 顯示出管理者登入Dialog
+			AlertDialog dialog = dialogBuilder.create();
+			dialog.show();
 		} else if(key.equals("exit")){
 			// 關閉程式
 			// TODO 修正會回到進入點的問題
