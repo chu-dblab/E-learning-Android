@@ -159,38 +159,49 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	// 動作======================================================================================
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
-		String key = preference.getKey(); 
+		String key = preference.getKey();
+		// 當使用者按下切換學生模式
 		if(key.equals("student_mode")) {
-			// 顯示對話框
-			final LoginDialogBuilder dialogBuilder = new LoginDialogBuilder(SettingsActivity.this);
-			dialogBuilder.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
+			// 如果當前是學生模式要切換到管理模式
+			if(settingUtils.isStudentMode()) {
+				// 顯示對話框
+				final LoginDialogBuilder dialogBuilder = new LoginDialogBuilder(SettingsActivity.this);
+				dialogBuilder.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 取得界面上的資料
+						EditText uidView = (EditText)dialogBuilder.view.findViewById(R.id.dialog_login_uid);
+						
+						// TODO DEBUG 顯示使用者輸入的內容
+						Toast.makeText(getBaseContext(), uidView.getText(), Toast.LENGTH_SHORT).show();
+						
+						// TODO 判斷是否為管理者
+						
+						// 確認為管理者-修改設定值
+						//SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+						//updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
+						updateStudentModeUI( !settingUtils.isStudentMode() );
+					}
+				});
 				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// 取得界面上的資料
-					EditText uidView = (EditText)dialogBuilder.view.findViewById(R.id.dialog_login_uid);
-					
-					// TODO DEBUG 顯示使用者輸入的內容
-					Toast.makeText(getBaseContext(), uidView.getText(), Toast.LENGTH_SHORT).show();
-					
-					// TODO 判斷是否為管理者
-					
-					// 確認為管理者-修改設定值
-					//SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-					//updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
-					updateStudentModeUI( !settingUtils.isStudentMode() );
-				}
-			});
-			
-			
-			// 顯示出管理者登入Dialog
-			AlertDialog dialog = dialogBuilder.create();
-			dialog.show();
-		} else if(key.equals("exit")){
+				// 顯示出管理者登入Dialog
+				AlertDialog dialog = dialogBuilder.create();
+				dialog.show();
+			}
+			// 如果當前是管理模式
+			else {
+				updateStudentModeUI( !settingUtils.isStudentMode() );
+			}
+		}
+		// 如果按下離開程式鈕
+		else if(key.equals("exit")){
 			// 關閉程式
 			// TODO 修正會回到進入點的問題
 			android.os.Process.killProcess(android.os.Process.myPid());
-		}else if(key.equals("reset_all_settings")) {
+		}
+		// 如果按下重設鍵
+		else if(key.equals("reset_all_settings")) {
 			settingUtils.reset();
 			
 			// TODO 顯示清除完畢提示
