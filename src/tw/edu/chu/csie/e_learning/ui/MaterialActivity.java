@@ -18,7 +18,6 @@ import android.widget.Toast;
 public class MaterialActivity extends Activity {
 	
 	private String thisMaterialId; //教材編號
-	private boolean liveMaterial = false; //是否為實體教材
 	
 	private FileUtils fileUtils;
 	private WebView mWebView;
@@ -37,7 +36,6 @@ public class MaterialActivity extends Activity {
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
 		this.thisMaterialId = intent.getStringExtra("materialId");
-		this.liveMaterial = intent.getBooleanExtra("liveMaterial", false);
 		
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
@@ -62,7 +60,7 @@ public class MaterialActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// 判斷木前的設定檔是否允許中途離開學習點
+		// 判斷目前的設定檔是否允許中途離開學習點
 		if(new SettingUtils(this).isLearningBackEnable()) {
 			// 離開學習點
 			Toast.makeText(getBaseContext(), R.string.learning_leaved_point, Toast.LENGTH_LONG).show();
