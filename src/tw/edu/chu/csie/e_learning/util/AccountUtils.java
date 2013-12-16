@@ -56,14 +56,15 @@ public class AccountUtils {
 	private String loginCode;
 	private ClientDBProvider clientdb;
 	private ServerAPIs server;
+	private SettingUtils settingUtils;
 	
 	public AccountUtils(Context context) {
 		this.context = context;
 		clientdb = new ClientDBProvider(this.context);
-		
+		settingUtils = new SettingUtils(this.context);
 		// 伺服端連線物件建立
 		BaseSettings srvbs = new BaseSettings();
-		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
+		srvbs.setBaseUrl(settingUtils.getRemoteURL());
 		server = new ServerAPIs(srvbs);
 	}
 	
