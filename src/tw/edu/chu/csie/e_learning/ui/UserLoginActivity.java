@@ -167,6 +167,10 @@ public class UserLoginActivity extends Activity {
 			Intent toTextbookDownloader = new Intent(UserLoginActivity.this, MaterialDownloaderActivity.class);
 			startActivity(toTextbookDownloader);
 			break;
+		case R.id.menu_settings:
+			Intent toSettings = new Intent(UserLoginActivity.this, SettingsActivity.class);
+			startActivity(toSettings);
+			break;
 		}
 		
 		return super.onMenuItemSelected(featureId, item);

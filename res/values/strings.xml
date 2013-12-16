@@ -11,7 +11,10 @@
     <string name="inside_process_error">內部出錯</string>
     <string name="other_error">其他錯誤</string>
     <string name="no_data">沒有資訊</string>
+    <string name="other">其他</string>
     <string name="logout">登出</string>
+    <string name="reset_all_settings">重設所有設定</string>
+    <string name="exit">離開程式</string>
 
     <!-- 學習教材 -->
     <string name="material_downloader">下載教材</string>
@@ -38,4 +41,8 @@
     <!-- 學習中 -->
     <string name="learning_not_leave_point">你現在還在學習中，學習完再離開吧！！</string>
     <string name="learning_leaved_point">離開學習點囉～</string>
+    
+    <!-- 設定 -->
+    <string name="title_activity_preference">系統設定</string>
+
 </resources>

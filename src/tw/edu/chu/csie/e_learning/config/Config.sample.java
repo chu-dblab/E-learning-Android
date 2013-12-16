@@ -19,8 +19,8 @@ public class Config {
 	/**
 	 * 後端連線
 	 */
-	public static final String REMOTE_BASE_URL = "http://140.126.11.163/elearning";
-	public static final String REMOTE_TEXTBOOK_URL = REMOTE_BASE_URL+"/API/v1/Material/DownloadZip.zip";
+	public static final String REMOTE_BASE_URL = "http://localhost/";
+	public static final String REMOTE_TEXTBOOK_URL = REMOTE_BASE_URL+"API/v1/Material/DownloadZip.zip";
 	
 	/**
 	 * 本機端檔案存取設定
@@ -34,11 +34,18 @@ public class Config {
 	 */
 	// 在應用程式上顯示詳細錯誤訊息
 	public static final boolean DEBUG_SHOW_MESSAGE = false;
-	// 此程式是否為使用者自行下載的
-	// 若false就代表這程式是給導覽專用的裝置
-	public static final boolean THE_APP_IS_PUBLIC = true;
+	
+	/**
+	 * 此應用程式預設設定值
+	 */
+	//此程式是否為學生模式
+	public static final boolean STUDENT_MODE = true;
+	//預設的學習模式
+	public static final String LEARN_MODE = "line-learn";
 	// 是否允許未經作答就返回
 	public static final boolean LEARNING_BACK_ENABLE = true;
+	// 是否允許離開此程式
+	public static final boolean EXIT_ENABLE = true;
 	
 	/**
 	 * 無帳號登入

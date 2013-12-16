@@ -41,8 +41,7 @@
             android:name="tw.edu.chu.csie.e_learning.ui.MaterialActivity"
             android:label="@string/title_activity_learning" >
         </activity>
-        <activity 
-            android:name="tw.edu.chu.csie.e_learning.scanner.NFCDetect" >
+        <activity android:name="tw.edu.chu.csie.e_learning.scanner.NFCDetect" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -60,6 +59,10 @@
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_list" />
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.SettingsActivity"
+            android:label="@string/title_activity_preference" >
         </activity>
     </application>
 
