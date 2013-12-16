@@ -48,7 +48,7 @@ public class SettingUtils {
 	}
 	
 	public String getRemoteMaterialURL() {
-		return pref.getString("remote_material_url", Config.REMOTE_TEXTBOOK_URL);
+		return pref.getString("remote_material_url", Config.REMOTE_MATERIAL_URL);
 	}
 	public void setRemoteMaterialURL(String value) {
 		SharedPreferences.Editor prefEdit = this.pref.edit();

@@ -142,7 +142,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 					}
 				} else if(preference.getKey().equals("remote_material_url")) {
 					if(stringValue.equals("")) {
-						preference.setSummary(Config.REMOTE_TEXTBOOK_URL);
+						preference.setSummary(Config.REMOTE_MATERIAL_URL);
 					}else {
 						preference.setSummary(stringValue);
 					}

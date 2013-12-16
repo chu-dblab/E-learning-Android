@@ -1,5 +1,5 @@
 /**
- * TextbookSyncUtils　下載教材的類別
+ * MaterialSyncUtils　下載教材的類別
  * @author kobayashi
  * @version v1.0
  * 
@@ -16,7 +16,7 @@ import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 
-public class TextbookSyncUtils 
+public class MaterialSyncUtils 
 {
 	private HttpURLConnection url;
 	private URL downloadPath;
