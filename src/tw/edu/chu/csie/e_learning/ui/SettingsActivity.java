@@ -38,7 +38,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	SettingUtils settingUtils;
 	
 	CheckBoxPreference student_modeView, learn_unfinish_backView, learn_exitView;
-	EditTextPreference remote_urlView;
+	EditTextPreference remote_urlView, remote_material_urlView;
 	ListPreference learn_modeView, sync_learn_frequencyView;
 	Preference reset_all_settingsView, exitView;
 	
@@ -59,6 +59,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		student_modeView.setOnPreferenceChangeListener(this);
 		student_modeView.setOnPreferenceClickListener(this);
 		remote_urlView = (EditTextPreference)findPreference("remote_url");
+		remote_material_urlView = (EditTextPreference)findPreference("remote_material_url");
 		learn_modeView = (ListPreference)findPreference("learn_mode");
 		learn_unfinish_backView = (CheckBoxPreference)findPreference("learn_unfinish_back");
 		learn_exitView = (CheckBoxPreference)findPreference("learn_exit");
@@ -70,6 +71,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		
 		// 將描述部份顯示為設定值
 		bindPreferenceSummaryToValue(findPreference("remote_url"));
+		bindPreferenceSummaryToValue(findPreference("remote_material_url"));
 		bindPreferenceSummaryToValue(findPreference("learn_mode"));
 		
 		// 顯示設定值
@@ -138,9 +140,17 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 					}else {
 						preference.setSummary(stringValue);
 					}
+				} else if(preference.getKey().equals("remote_material_url")) {
+					if(stringValue.equals("")) {
+						preference.setSummary(Config.REMOTE_TEXTBOOK_URL);
+					}else {
+						preference.setSummary(stringValue);
+					}
 				}else {
 					preference.setSummary(stringValue);
 				}
+				
+				
 			}
 			return true;
 		}
@@ -221,25 +231,27 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			prefEdit.remove("learn_unfinish_back");
 			prefEdit.commit();
 		}
+		if(!settingUtils.getSharedPreferences().contains("learn_exit")) {
+			learn_exitView.setChecked(Config.EXIT_ENABLE);
+			SharedPreferences.Editor prefEdit = settingUtils.getSharedPreferences().edit(); 
+			
+			prefEdit.remove("learn_exit");
+			prefEdit.commit();
+		}
 		
 		
 		// 選項
-		if( tf ) {
-			student_modeView.setChecked(true);
-			learn_unfinish_backView.setEnabled(false);
-			learn_exitView.setEnabled(false);
-			reset_all_settingsView.setEnabled(false);
-		}else {
-			student_modeView.setChecked(false);
-			learn_unfinish_backView.setEnabled(true);
-			learn_exitView.setEnabled(true);
-			reset_all_settingsView.setEnabled(true);
-		}
-
+		student_modeView.setChecked(tf);
+		learn_modeView.setEnabled(!tf);
+		learn_unfinish_backView.setEnabled(!tf);
+		learn_exitView.setEnabled(!tf);
+		sync_learn_frequencyView.setEnabled(!tf);
+		reset_all_settingsView.setEnabled(!tf);
+		
 		// 控制是否允許離開程式
 		if(!tf || PreferenceManager.getDefaultSharedPreferences(
 				learn_exitView.getContext()).getBoolean(learn_exitView.getKey(),
-				false)) {
+				Config.EXIT_ENABLE)) {
 			exitView.setEnabled(true);
 		} else {
 			exitView.setEnabled(false);

@@ -4,7 +4,8 @@
         <CheckBoxPreference android:title="@string/pref_student_mode" android:key="student_mode"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_title_network">
-        <EditTextPreference android:key="remote_url" android:title="@string/pref_remote_url"/>
+        <EditTextPreference android:key="remote_url" android:title="@string/pref_remote_url" android:enabled="false"/>
+        <EditTextPreference android:key="remote_material_url" android:title="@string/pref_remote_material_url" android:enabled="false"/>
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/pref_learn">

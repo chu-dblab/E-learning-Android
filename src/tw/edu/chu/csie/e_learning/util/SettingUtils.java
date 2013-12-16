@@ -47,6 +47,19 @@ public class SettingUtils {
 		}
 	}
 	
+	public String getRemoteMaterialURL() {
+		return pref.getString("remote_material_url", Config.REMOTE_TEXTBOOK_URL);
+	}
+	public void setRemoteMaterialURL(String value) {
+		SharedPreferences.Editor prefEdit = this.pref.edit();
+		if(value.isEmpty() || value.equals("")) {
+			prefEdit.remove("remote_material_url");
+			prefEdit.commit();
+		} else {
+			prefEdit.putString("remote_material_url", value);
+			prefEdit.commit();
+		}
+	}
 	
 	// ----------------------------------------------------------------------------
 	
@@ -98,4 +111,19 @@ public class SettingUtils {
 	public boolean isLearningBackEnable() {
 		return this.pref.getBoolean("learn_unfinish_back", Config.LEARNING_BACK_ENABLE);
 	}
+	public void setLearningBackEnable(boolean value) {
+		SharedPreferences.Editor prefEdit = this.pref.edit();
+		prefEdit.putBoolean("learn_unfinish_back", value);
+		prefEdit.commit();
+	}
+	public boolean isExitEnable() {
+		return this.pref.getBoolean("learn_exit", Config.EXIT_ENABLE);
+	}
+	public void setExitEnable(boolean value) {
+		SharedPreferences.Editor prefEdit = this.pref.edit();
+		prefEdit.putBoolean("learn_exit", value);
+		prefEdit.commit();
+	}
+	
+	
 }

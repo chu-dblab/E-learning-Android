@@ -4,6 +4,7 @@
     
     <string name="pref_general" >一般設定</string><string name="pref_student_mode">學生模式</string><string name="pref_title_network">網路設定</string>
     <string name="pref_remote_url">伺服器網址</string>
+    <string name="pref_remote_material_url">教材下載網址</string>
 
     <string name="pref_learn">學習相關</string>
     <string name="pref_learn_mode">學習模式</string>
