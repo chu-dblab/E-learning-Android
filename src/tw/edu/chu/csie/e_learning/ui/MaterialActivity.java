@@ -3,6 +3,7 @@ package tw.edu.chu.csie.e_learning.ui;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
+import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +47,7 @@ public class MaterialActivity extends Activity {
 			webSettings.setJavaScriptEnabled(true);
 			
 			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
-			mWebView.loadUrl("file://"+fileUtils.getPath()+this.thisMaterialId+".html");			
+			mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
 		}
 		
 		
@@ -62,7 +63,7 @@ public class MaterialActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		// 判斷木前的設定檔是否允許中途離開學習點
-		if(Config.LEARNING_BACK_ENABLE) {
+		if(new SettingUtils(this).isLearningBackEnable()) {
 			// 離開學習點
 			Toast.makeText(getBaseContext(), R.string.learning_leaved_point, Toast.LENGTH_LONG).show();
 			super.onBackPressed();
