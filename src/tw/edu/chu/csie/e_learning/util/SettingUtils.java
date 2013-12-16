@@ -32,6 +32,24 @@ public class SettingUtils {
 	
 	// ============================================================================
 	
+	public String getRemoteURL() {
+		return pref.getString("remote_url", Config.REMOTE_BASE_URL);
+	}
+	
+	public void setRemoteURL(String value) {
+		SharedPreferences.Editor prefEdit = this.pref.edit();
+		if(value.isEmpty() || value.equals("")) {
+			prefEdit.remove("remote_url");
+			prefEdit.commit();
+		} else {
+			prefEdit.putString("remote_url", value);
+			prefEdit.commit();
+		}
+	}
+	
+	
+	// ----------------------------------------------------------------------------
+	
 	public boolean isStudentMode() {
 		return this.pref.getBoolean("student_mode", Config.STUDENT_MODE);
 	}
