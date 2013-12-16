@@ -213,6 +213,16 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	}
 	
 	private void updateStudentModeUI(boolean tf) {
+		//
+		if(!settingUtils.getSharedPreferences().contains("learn_unfinish_back")) {
+			learn_unfinish_backView.setChecked(Config.LEARNING_BACK_ENABLE);
+			SharedPreferences.Editor prefEdit = settingUtils.getSharedPreferences().edit(); 
+			
+			prefEdit.remove("learn_unfinish_back");
+			prefEdit.commit();
+		}
+		
+		
 		// 選項
 		if( tf ) {
 			student_modeView.setChecked(true);

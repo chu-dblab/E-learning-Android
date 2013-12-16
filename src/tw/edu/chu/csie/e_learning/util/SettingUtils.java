@@ -93,4 +93,9 @@ public class SettingUtils {
 		return true;
 	}
 
+	// ----------------------------------------------------------------------------
+	
+	public boolean isLearningBackEnable() {
+		return this.pref.getBoolean("learn_unfinish_back", Config.LEARNING_BACK_ENABLE);
+	}
 }
