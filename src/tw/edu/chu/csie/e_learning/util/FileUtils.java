@@ -94,31 +94,28 @@ public class FileUtils
 	
 	public void decompressFile() throws IOException
 	{
-		//
 		InputStream is = null;
        BufferedInputStream bi = null;
        BufferedOutputStream bo = null;
 		File zipFile = new File(getPath()+Config.ZIP_FILE_NAME_OF_MATERIAL);
 		ZipFile unzip = new ZipFile(zipFile);
-		Enumeration<? extends ZipEntry> entryEnum  = unzip.entries();
+		Enumeration<? extends ZipEntry> entryEnum  = unzip.entries();   //取得壓縮黨內的第一個目錄或檔案
 		
 		//如果壓縮黨內還有目錄或檔案的話
 		while(entryEnum.hasMoreElements())
 		{
-			entry = entryEnum.nextElement();
+			entry = entryEnum.nextElement(); //取得下一個檔案或目錄
+			//存檔程序
 			File outFile = new File(getPath(), entry.getName());
-          if (entry.isDirectory()) 
-            {
+          if (entry.isDirectory()) {
               Log.d("decompress", "Add a folder: " + outFile.getAbsolutePath());
               outFile.mkdir();
-              if (!outFile.exists()) 
-                {
+              if (!outFile.exists()) {
                   Log.e("decompress","Can't create this path: "+ outFile.getAbsolutePath());
                   return;
                 }
             }
-          else 
-            {
+          else {
                 Log.d("decompress", "Add a file: " + outFile.getAbsolutePath());
                 is = unzip.getInputStream(entry);
                 bi = new BufferedInputStream(is);
