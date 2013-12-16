@@ -5,6 +5,7 @@ import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
+import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -34,6 +35,8 @@ import tw.edu.chu.csie.e_learning.ui.dialog.LoginDialogBuilder;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceClickListener, OnPreferenceChangeListener {
 
+	SettingUtils settingUtils;
+	
 	CheckBoxPreference student_modeView, learn_unfinish_backView, learn_exitView;
 	EditTextPreference remote_urlView;
 	ListPreference learn_modeView, sync_learn_frequencyView;
@@ -42,6 +45,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		settingUtils = new SettingUtils(getBaseContext());
 		
 		// 設定ActionBar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,14 +73,13 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		bindPreferenceSummaryToValue(findPreference("learn_mode"));
 		
 		// 顯示設定值
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		updateStudentModeUI(pref.getBoolean("student_mode", Config.STUDENT_MODE));
+		updateStudentModeUI(settingUtils.isStudentMode());
 		
 		// 顯示學習模式設定值
 		// TODO 防呆: 無此選項會例外
 		learn_modeView.setSummary(
 				(String)learn_modeView.getEntries()[
-					learn_modeView.findIndexOfValue(pref.getString("learn_mode", Config.LEARN_MODE))]
+					learn_modeView.findIndexOfValue(settingUtils.getSharedPreferences().getString("learn_mode", Config.LEARN_MODE))]
 				);
 	}
 	
@@ -162,8 +166,9 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 					// TODO 判斷是否為管理者
 					
 					// 確認為管理者-修改設定值
-					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-					updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
+					//SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+					//updateStudentModeUI( !pref.getBoolean("student_mode", Config.STUDENT_MODE) );
+					updateStudentModeUI( !settingUtils.isStudentMode() );
 				}
 			});
 			
@@ -176,9 +181,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 			// TODO 修正會回到進入點的問題
 			android.os.Process.killProcess(android.os.Process.myPid());
 		}else if(key.equals("reset_all_settings")) {
-			SharedPreferences.Editor pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-			pref.clear();
-			pref.commit();
+			settingUtils.reset();
 			
 			// TODO 顯示清除完畢提示
 			//Toast.makeText(getBaseContext(), "url: "+test1, Toast.LENGTH_SHORT).show();
