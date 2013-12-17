@@ -46,6 +46,7 @@ public class MaterialActivity extends Activity {
 			
 			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
 			mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
+			//mWebView.loadUrl("file:///android_asset/0a.html");			
 		}
 		
 		
