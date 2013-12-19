@@ -40,7 +40,7 @@ public class ClientDBProvider {
 		else
 		{
 			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+"："+ cursor.getString(5)+"："+ cursor.getString(6)+"："+ cursor.getString(7)+ "\n";
+				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+ "\n";
 			}	
 		}
 		return result;
@@ -69,18 +69,15 @@ public class ClientDBProvider {
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
 
-	public long study_insert(String v1,String v2,String v3,String v4,String v5,String v6,String v7,String v8){ //"學習關係"新增
+	public long study_insert(String v1,String v2,String v3,String v4,String v5){ //"學習關係"新增
 		
 		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("TID", v1);
 		contentvalues.put("UID", v2);
-		contentvalues.put("QID", v3);
-		contentvalues.put("Answer", v4);
-		contentvalues.put("Answer_Time", v5);
-		contentvalues.put("In_TargetTime", v6);
-		contentvalues.put("Out_TargetTime", v7);
-		contentvalues.put("TCheck", v8);
+		contentvalues.put("In_TargetTime", v3);
+		contentvalues.put("Out_TargetTime", v4);
+		contentvalues.put("TCheck", v5);
 		return sqlitedatabase.insert("chu_study", null, contentvalues);
 	}		
 	
