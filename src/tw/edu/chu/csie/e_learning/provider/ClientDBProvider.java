@@ -63,8 +63,8 @@ public class ClientDBProvider {
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("TID", v1);
 		contentvalues.put("MapID", v2);
-		contentvalues.put("Map_Url", v3);
-		contentvalues.put("MaterialID", v4);
+		contentvalues.put("MaterialID", v3);
+		contentvalues.put("Map_Url", v4);
 		contentvalues.put("Material_Url", v5);
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
