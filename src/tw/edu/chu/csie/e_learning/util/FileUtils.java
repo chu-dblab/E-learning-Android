@@ -91,42 +91,37 @@ public class FileUtils
 	 * 解壓縮檔案
 	 * @throws IOException
 	 */
-	
 	public void decompressFile() throws IOException
 	{
 		InputStream is = null;
        BufferedInputStream bi = null;
        BufferedOutputStream bo = null;
-		File zipFile = new File(getPath()+Config.ZIP_FILE_NAME_OF_MATERIAL);
+		File zipFile = new File(getPath()+Config.ZIP_FILE_NAME_OF_MATERIAL); //取得壓縮檔
 		ZipFile unzip = new ZipFile(zipFile);
 		Enumeration<? extends ZipEntry> entryEnum  = unzip.entries();   //取得壓縮黨內的第一個目錄或檔案
 		
 		//如果壓縮黨內還有目錄或檔案的話
-		while(entryEnum.hasMoreElements())
-		{
+		while(entryEnum.hasMoreElements()) {
 			entry = entryEnum.nextElement(); //取得下一個檔案或目錄
 			//存檔程序
-			File outFile = new File(getPath(), entry.getName());
-          if (entry.isDirectory()) {
+			File outFile = new File(getPath(), entry.getName()); //開啟要存的檔案或目錄
+          if(entry.isDirectory()) {  //如果entry的值是一個目錄 
               Log.d("decompress", "Add a folder: " + outFile.getAbsolutePath());
-              outFile.mkdir();
-              if (!outFile.exists()) {
-                  Log.e("decompress","Can't create this path: "+ outFile.getAbsolutePath());
-                  return;
-                }
+              outFile.mkdir();	//建立資料夾
+              if (!outFile.exists()) //確認資料夾是否有建立成功
+            	  	Log.e("decompress","Can't create this path: "+ outFile.getAbsolutePath());
             }
-          else {
+          else {	//entry的值是一個檔案
                 Log.d("decompress", "Add a file: " + outFile.getAbsolutePath());
-                is = unzip.getInputStream(entry);
+                is = unzip.getInputStream(entry);	//取得壓縮檔的輸入串流
                 bi = new BufferedInputStream(is);
                 bo = new BufferedOutputStream(new FileOutputStream(outFile));
                 int data = 0;
                 while ((data = bi.read()) != -1) bo.write(data);
-                bo.flush();
+                bo.flush();		//將Buffer的空間清空
+                bo.close(); bi.close(); is.close();  //關閉所有的I/O串流
             }
 		}
-		
-		File remove = new File(getPath()+Config.ZIP_FILE_NAME_OF_MATERIAL);
-		remove.delete();
+		zipFile.delete(); //將壓縮檔刪除
 	}
 }
