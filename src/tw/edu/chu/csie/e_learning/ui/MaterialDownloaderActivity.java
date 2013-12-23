@@ -18,7 +18,8 @@ import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.*;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
-import tw.edu.chu.csie.e_learning.sync.TextbookSyncUtils;
+import tw.edu.chu.csie.e_learning.sync.MaterialSyncUtils;
+import tw.edu.chu.csie.e_learning.util.SettingUtils;
 
 /**
  * Created by yuan on 2013/6/3.
@@ -40,7 +41,9 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
 	public void onClick(View v) {
 		// TODO 自動產生的方法 Stub
     	DownloadTextBookTask downloadTextBook = new DownloadTextBookTask(this);
-    	downloadTextBook.execute(Config.REMOTE_TEXTBOOK_URL);
+//    	downloadTextBook.execute(Config.REMOTE_MATERIAL_URL);
+    	SettingUtils setting = new SettingUtils(this);
+    	downloadTextBook.execute(setting.getRemoteMaterialURL());
 	}
     
     /**
@@ -51,7 +54,7 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
      */
     public class DownloadTextBookTask extends AsyncTask<String, Integer, Void>
     {
-    	private TextbookSyncUtils download = new TextbookSyncUtils();
+    	private MaterialSyncUtils download = new MaterialSyncUtils();
     	private ProgressDialog updateProgress;
     	private Context message;
     	

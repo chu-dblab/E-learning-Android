@@ -46,6 +46,7 @@ import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
+import tw.edu.chu.csie.e_learning.util.NetworkUtils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -136,6 +137,7 @@ public class UserLoginActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
+						mLoginErrMsgView.setText("");
 						attemptLogin();
 					}
 				});
@@ -164,6 +166,10 @@ public class UserLoginActivity extends Activity {
 		case R.id.menu_material_downloader:
 			Intent toTextbookDownloader = new Intent(UserLoginActivity.this, MaterialDownloaderActivity.class);
 			startActivity(toTextbookDownloader);
+			break;
+		case R.id.menu_settings:
+			Intent toSettings = new Intent(UserLoginActivity.this, SettingsActivity.class);
+			startActivity(toSettings);
 			break;
 		}
 		
@@ -279,15 +285,7 @@ public class UserLoginActivity extends Activity {
 		
 		//check internet connetion
 		public boolean checkInternetConnection(){
-			ConnectivityManager cm=(ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo ni=cm.getActiveNetworkInfo();
-			if(ni!=null && ni.isConnected()){
-				// System.out.println("ni.isConnected() = "+ni.isConnected());
-				return ni.isConnected();
-			}else{
-				// System.out.println("ni.isConnected() = "+ni.isConnected());
-				return false;
-			}
+			return new NetworkUtils().isNetworkConnected(getBaseContext());
 		}
 		
 		private AccountUtils check = new AccountUtils(getBaseContext());

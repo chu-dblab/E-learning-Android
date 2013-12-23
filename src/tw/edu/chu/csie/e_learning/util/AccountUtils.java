@@ -26,8 +26,17 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
@@ -47,14 +56,15 @@ public class AccountUtils {
 	private String loginCode;
 	private ClientDBProvider clientdb;
 	private ServerAPIs server;
+	private SettingUtils settingUtils;
 	
 	public AccountUtils(Context context) {
 		this.context = context;
 		clientdb = new ClientDBProvider(this.context);
-		
+		settingUtils = new SettingUtils(this.context);
 		// 伺服端連線物件建立
 		BaseSettings srvbs = new BaseSettings();
-		srvbs.setBaseUrl(Config.REMOTE_BASE_URL);
+		srvbs.setBaseUrl(settingUtils.getRemoteURL());
 		server = new ServerAPIs(srvbs);
 	}
 	
@@ -130,4 +140,5 @@ public class AccountUtils {
 		clientdb.delete("ID = "+loginCode, "user");
 		isLogined = false;
 	}
+	
 }

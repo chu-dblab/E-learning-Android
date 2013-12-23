@@ -3,6 +3,7 @@ package tw.edu.chu.csie.e_learning.ui;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
+import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 public class MaterialActivity extends Activity {
 	
 	private String thisMaterialId; //教材編號
-	private boolean liveMaterial = false; //是否為實體教材
 	
 	private FileUtils fileUtils;
 	private WebView mWebView;
@@ -36,7 +36,6 @@ public class MaterialActivity extends Activity {
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
 		this.thisMaterialId = intent.getStringExtra("materialId");
-		this.liveMaterial = intent.getBooleanExtra("liveMaterial", false);
 		
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
@@ -46,7 +45,8 @@ public class MaterialActivity extends Activity {
 			webSettings.setJavaScriptEnabled(true);
 			
 			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
-			mWebView.loadUrl("file://"+fileUtils.getPath()+this.thisMaterialId+".html");			
+			mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
+			//mWebView.loadUrl("file:///android_asset/0a.html");			
 		}
 		
 		
@@ -61,8 +61,8 @@ public class MaterialActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// 判斷木前的設定檔是否允許中途離開學習點
-		if(Config.LEARNING_BACK_ENABLE) {
+		// 判斷目前的設定檔是否允許中途離開學習點
+		if(new SettingUtils(this).isLearningBackEnable()) {
 			// 離開學習點
 			Toast.makeText(getBaseContext(), R.string.learning_leaved_point, Toast.LENGTH_LONG).show();
 			super.onBackPressed();

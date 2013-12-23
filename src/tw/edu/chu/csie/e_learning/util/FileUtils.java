@@ -64,6 +64,17 @@ public class FileUtils
 	}
 	
 	/**
+	 * getMaterialPath
+	 * @param			None
+	 * @return 		學習教材在SD卡上的路徑
+	 * 取得在SD卡上的教材路徑
+	 */
+	public String getMaterialPath()
+	{
+		return this.getPath()+Config.MATERIAL_DIRECTORY;
+	}
+	
+	/**
 	 * saveFile
 	 * @param 			path
 	 * @return			None
