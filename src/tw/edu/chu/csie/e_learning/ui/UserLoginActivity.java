@@ -132,7 +132,7 @@ public class UserLoginActivity extends Activity {
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-		mLoginErrMsgView = (TextView) findViewById(R.id.login_error_msg);
+		mLoginErrMsgView = (TextView) findViewById(R.id.err_msg);
 		findViewById(R.id.login_in_button).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
