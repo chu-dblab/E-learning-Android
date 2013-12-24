@@ -16,10 +16,13 @@ import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
+import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressWarnings("unused")
@@ -196,7 +200,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * ���
+	 * 學生狀態
 	 */
 	public static class UserStatusFragment extends Fragment {
 
@@ -214,17 +218,64 @@ public class MainFunctionActivity extends FragmentActivity implements
 		}
 	}
 	
+	/**
+	 * 學習地圖
+	 *
+	 */
 	public static class LearnMapFragment extends Fragment {
-
+		
+		private FileUtils fileUtils;
+		
+		private View rootView;
+		private ImageView mapView;
+		private Bitmap bmp;
+		private TextView nextPointView, nextPointTimeView;
+		
 		public LearnMapFragment() {
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main_function_learn_map, container, false);
+			fileUtils = new FileUtils();
+			rootView = inflater.inflate(R.layout.fragment_main_function_learn_map, container, false);
+			mapView = (ImageView)rootView.findViewById(R.id.learning_map);
+			// TODO DEBUG
+			//bmp = BitmapFactory.decodeFile("file://"+fileUtils.getMaterialPath()+"map/map_01.jpg");
+			//mapView.setImageBitmap(bmp);
+			
+			nextPointView = (TextView)rootView.findViewById(R.id.learning_next_point);
+			nextPointTimeView = (TextView)rootView.findViewById(R.id.learning_next_point_time);
+			
+			
 			return rootView;
 		}
+		
+		private void updateNextPointUI() {
+			
+		}
+		
+		/**
+		 * 變更學習地圖的學習點
+		 * @param pointNum 學習點編號
+		 * @return 是否輸入正確
+		 */
+		private void changeMapToPoint(int pointNum) {
+			//bmp = BitmapFactory.decodeFile("file://"+fileUtils.getMaterialPath()+"map/map_"+pointNum+".jpg");
+			//mapView.setImageURI();
+		}
+		
+		/*private String getMapFileNameToPoint(int pointNum) {
+			String prefix = "map_";
+			if(pointNum>=1 && pointNum<=15) {
+				if(pointNum<=3) {
+					
+				}
+			}
+			else {
+				return null;
+			}
+		}*/
 	}
 
 }
