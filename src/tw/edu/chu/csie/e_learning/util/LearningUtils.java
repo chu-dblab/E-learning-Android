@@ -84,8 +84,11 @@ public class LearningUtils
 		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=recommand", param);
 		boolean status = new JSONObject(message).getBoolean("status");
 		if(!status) return new JSONObject(message).getString("status");
-		else return new JSONObject(message).getString("data");
+		else 
+		{
+			String tmp = new JSONObject(message).getString("data");
+			return new JSONObject(tmp).getString("nextNode");
+		}
 	}
-	
 	
 }
