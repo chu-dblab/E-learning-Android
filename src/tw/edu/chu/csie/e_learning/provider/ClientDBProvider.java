@@ -125,7 +125,12 @@ public class ClientDBProvider {
 	
 	public String search(String user_table,String search_item,String where_string){ //查詢
 		
-		select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
+		if(where_string == "NULL"){
+			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table;
+		}
+		else{
+			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
+		}
 		Cursor cursor = sqlitedatabase.rawQuery(select, null);
 		String result = "";
 		int num = cursor.getCount();

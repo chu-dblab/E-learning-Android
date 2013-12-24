@@ -16,6 +16,7 @@ public class MaterialJSCall {
 	// Annotation is needed for SDK version 17 or above.
 	@JavascriptInterface
 	public void learnFinish() {
+		
 		Toast.makeText(this.context, "Test", 0).show();
 		((Activity)this.context).finish();
 	}
