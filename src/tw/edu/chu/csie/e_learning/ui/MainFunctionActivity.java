@@ -9,13 +9,22 @@
  */
 package tw.edu.chu.csie.e_learning.ui;
 
+import java.io.IOException;
 import java.util.Locale;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
 
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
+import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
+import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.app.ActionBar;
@@ -38,6 +47,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressWarnings("unused")
 public class MainFunctionActivity extends FragmentActivity implements
@@ -115,10 +125,13 @@ public class MainFunctionActivity extends FragmentActivity implements
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
-       case R.id.menu_material_downloader:
-          Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
-          startActivity(toTextbookDownloader);
-          break;
+		case R.id.menu_material_downloader:
+			Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
+			startActivity(toTextbookDownloader);
+			break;
+		case R.id.menu_logout:
+			Toast.makeText(this, new AccountUtils(this).getLoginId(), 0).show();
+			break;
        // DEBUG 開啟教材內容測試
        case 213:
     	   Intent toLearning = new Intent(MainFunctionActivity.this, MaterialActivity.class);
