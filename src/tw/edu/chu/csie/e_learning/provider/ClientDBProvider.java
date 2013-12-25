@@ -56,6 +56,23 @@ public class ClientDBProvider {
 		contentvalues.put("In_Learn_Time", v4);
 		return sqlitedatabase.insert("chu_user", null, contentvalues);
 	}
+	
+	//public String user_getCurrentID() {
+		
+		// 查詢已登入使用者
+		/*select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table;
+		Cursor cursor = sqlitedatabase.rawQuery(select, null);*/
+		
+		
+		// 查到已登入使用者
+		//if() {
+			
+		//}
+		// 若無已登入使用者
+		//else {
+		//	return null;
+		//}
+	//}
 
 	public long target_insert(String v1,String v2,String v3,String v4,String v5){ //"標的"新增
 		
@@ -126,7 +143,7 @@ public class ClientDBProvider {
 	public String search(String user_table,String search_item,String where_string){ //查詢
 		
 		if(where_string == null){
-			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table;
+			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + ";";
 		}
 		else{
 			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
@@ -142,6 +159,7 @@ public class ClientDBProvider {
 			}
 		return result;
 	}
+	
 	public ClientDBProvider openToWrite() throws android.database.SQLException{
 		
 		sqlitedatabase = db.getWritableDatabase();
