@@ -31,17 +31,11 @@ public class ClientDBProvider {
 					result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+ "\n";
 			}
 		}
-		else if(chtab == "chu_target")
-		{
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+ "\n";
-			}
-		}
 		else
 		{
 			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
 				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+ "\n";
-			}	
+			}
 		}
 		return result;
 	}
@@ -68,25 +62,11 @@ public class ClientDBProvider {
 		contentvalues.put("Material_Url", v5);
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
-
-	public long study_insert(String v1,String v2,String v3,String v4,String v5){ //"學習關係"新增
-		
-		openToWrite();
-		ContentValues contentvalues = new ContentValues();
-		contentvalues.put("TID", v1);
-		contentvalues.put("UID", v2);
-		contentvalues.put("In_TargetTime", v3);
-		contentvalues.put("Out_TargetTime", v4);
-		contentvalues.put("TCheck", v5);
-		return sqlitedatabase.insert("chu_study", null, contentvalues);
-	}		
 	
 	public long delete(String where_string,String user_table){ 
 		
 		openToWrite();
 		if(user_table == "chu_user")
-			return sqlitedatabase.delete(user_table, where_string, null);
-		else if(user_table == "chu_target")
 			return sqlitedatabase.delete(user_table, where_string, null);
 		else
 			return sqlitedatabase.delete(user_table, where_string, null);
@@ -107,19 +87,6 @@ public class ClientDBProvider {
 				contentvalues.put("Map_Url", newv1);
 				contentvalues.put("Material_Url", newv2);
 			}
-			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
-	}
-	
-	public long study_update(String user_table,String newv1,String newv2,String newv3,String newv4,String where_string){
-		
-		openToWrite();
-		ContentValues contentvalues = new ContentValues();
-		
-				contentvalues.put("QID", newv1);
-				contentvalues.put("Answer", newv2);
-				contentvalues.put("Answer_Time", newv3);
-				contentvalues.put("Out_TargetTime", newv4);
-				
 			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
 	}
 	

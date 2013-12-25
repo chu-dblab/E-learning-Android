@@ -21,6 +21,7 @@ public class MaterialJSCall {
 			
 			//Toast.makeText(this.context, ansQID[i], Toast.LENGTH_SHORT).show();			
 		}
+		
 		((Activity)this.context).finish();
 	}
 }
