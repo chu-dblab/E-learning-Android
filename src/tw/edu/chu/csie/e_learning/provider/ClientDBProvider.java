@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import tw.edu.chu.csie.e_learning.config.Config;
+import android.widget.Toast;
 
 public class ClientDBProvider {
 	private Context context;
@@ -92,6 +93,7 @@ public class ClientDBProvider {
 	
 	public String search(String user_table,String search_item,String where_string){ //查詢
 		
+		openToRead();
 		if(where_string == null){
 			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table;
 		}
@@ -99,8 +101,8 @@ public class ClientDBProvider {
 			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
 		}
 		Cursor cursor = sqlitedatabase.rawQuery(select, null);
+		int num = cursor.getCount();	
 		String result = "";
-		int num = cursor.getCount();
 			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
 				for(i=0;i<num;i++){
 					result = result + cursor.getString(i) +" ";
