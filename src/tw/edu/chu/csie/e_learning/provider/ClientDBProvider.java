@@ -125,7 +125,7 @@ public class ClientDBProvider {
 	
 	public String search(String user_table,String search_item,String where_string){ //查詢
 		
-		if(where_string == "NULL"){
+		if(where_string == null){
 			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table;
 		}
 		else{

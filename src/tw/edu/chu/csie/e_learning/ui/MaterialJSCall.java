@@ -17,8 +17,9 @@ public class MaterialJSCall {
 	@JavascriptInterface
 	public void learnFinish(String[] ansQID, String[] ansCheck) {
 		int i;
-		for(i = 0; i<ansQID.length ; i++){
-			Toast.makeText(this.context, ansQID[i], Toast.LENGTH_SHORT).show();			
+		for(i = 0; i < ansQID.length ; i++){
+			
+			//Toast.makeText(this.context, ansQID[i], Toast.LENGTH_SHORT).show();			
 		}
 		((Activity)this.context).finish();
 	}
