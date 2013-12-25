@@ -82,7 +82,8 @@ public class AccountUtils {
 	 * 察看已登入的ID
 	 */
 	public String getLoginId() {
-		String getedID = clientdb.search("chu_user", "UID", null);
+		String query[] = clientdb.search("chu_user", "UID", null);
+		String getedID = query[0];
 		return getedID;
 	}
 	

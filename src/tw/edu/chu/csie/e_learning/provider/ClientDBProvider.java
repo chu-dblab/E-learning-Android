@@ -108,7 +108,7 @@ public class ClientDBProvider {
 			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
 	}
 	
-	public String search(String user_table,String search_item,String where_string){ //查詢
+	public String[] search(String user_table,String search_item,String where_string){ //查詢
 		
 		openToRead();
 		if(where_string == null){
@@ -118,15 +118,20 @@ public class ClientDBProvider {
 			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
 		}
 		Cursor cursor = sqlitedatabase.rawQuery(select, null);
-		int num = cursor.getCount();	
+		int num = cursor.getCount(); //取得資料表列數
+		String[] sNote = new String[cursor.getCount()];
 		String result = "";
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				for(i=0;i<num;i++){
-					result = result + cursor.getString(i) +" ";
-				}	
-				result = result + "\n";
-			}
-		return result;
+		if(num != 0) {
+			  cursor.moveToFirst();   //將指標移至第一筆資料
+			  for(int i=0; i<num; i++) {
+			   String strCr = cursor.getString(0);
+			   sNote[i]=strCr;
+			    
+			   cursor.moveToNext();//將指標移至下一筆資料
+			  }
+			 }
+			 cursor.close(); //關閉Cursor
+		return sNote;
 	}
 	
 	public ClientDBProvider openToWrite() throws android.database.SQLException{
