@@ -16,6 +16,7 @@ import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
+import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.app.ActionBar;
@@ -115,10 +116,12 @@ public class MainFunctionActivity extends FragmentActivity implements
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
-       case R.id.menu_material_downloader:
-          Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
-          startActivity(toTextbookDownloader);
-          break;
+		case R.id.menu_material_downloader:
+			Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
+			startActivity(toTextbookDownloader);
+			break;
+		case R.id.menu_logout:
+			new AccountUtils(this).logoutUser();
        // DEBUG 開啟教材內容測試
        case 213:
     	   Intent toLearning = new Intent(MainFunctionActivity.this, MaterialActivity.class);
