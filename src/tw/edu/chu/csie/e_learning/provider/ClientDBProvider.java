@@ -22,25 +22,6 @@ public class ClientDBProvider {
 		db = new ClientDBHelper(this.context, Config.CDB_NAME, null, Config.CDB_VERSION);
 	}
 	
-	//查詢資料庫內容，並將所有結果存到result裡
-	public String All(String chtab){
-		select = "SELECT * FROM"+" "+chtab;
-		Cursor cursor = sqlitedatabase.rawQuery(select, null);
-		String result = "";
-		if(chtab == "chu_user"){
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-					result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+ "\n";
-			}
-		}
-		else
-		{
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+ "\n";
-			}
-		}
-		return result;
-	}
-
 	public long user_insert(String v1,String v2,String v3,String v4){ //"使用者"新增
 	
 		openToWrite();
