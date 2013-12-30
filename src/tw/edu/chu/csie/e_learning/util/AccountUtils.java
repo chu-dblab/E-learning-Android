@@ -51,9 +51,6 @@ import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 public class AccountUtils {
 	
 	private Context context;
-	private boolean isLogined;
-	private String loginedId;
-	private String loginCode;
 	private ClientDBProvider clientdb;
 	private ServerAPIs server;
 	private SettingUtils settingUtils;
@@ -72,10 +69,11 @@ public class AccountUtils {
 	 * 是否是已登入狀態
 	 */
 	public boolean islogin(){
-		//String loginedID = this.clientdb.search("chu_user", "UID", where_string) 
-		
-		//openToRead();
-		return isLogined;
+		if(this.getLoginId() != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -83,15 +81,30 @@ public class AccountUtils {
 	 */
 	public String getLoginId() {
 		String query[] = clientdb.search("chu_user", "UID", null);
-		String getedID = query[0];
-		return getedID;
+		
+		// 如果有任何東西的話
+		if(query.length > 0) {
+			String getedID = query[0];
+			return getedID;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	/**
 	 * 取得登入碼
 	 */
 	public String getLoginCode() {
-		return loginCode;
+		String query[] = clientdb.search("chu_user", "ULogged_code", null);
+		
+		// 如果有任何東西的話
+		if(query.length > 0) {
+			return query[0];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	/**
@@ -111,8 +124,8 @@ public class AccountUtils {
 	public void loginUser(String inputLoginId, String inputLoginPasswd) 
 			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException, LoginCodeException
 	{
-		this.loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
-		ServerUser userinfo = this.server.userGetInfo(this.loginCode);
+		String loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
+		ServerUser userinfo = this.server.userGetInfo(loginCode);
 		String nickName = userinfo.getNickName();
 		String loginTime = userinfo.getLoginTime();
 		
@@ -122,8 +135,7 @@ public class AccountUtils {
 		Log.d("ID", userinfo.getID());
 		
 		//將傳回來的資料寫入SQLite裡
-		this.clientdb.user_insert(userinfo.getID(), nickName, this.loginCode, loginTime);
-		this.isLogined = true;
+		this.clientdb.user_insert(userinfo.getID(), nickName, loginCode, loginTime);
 	}
 	
 	/**
@@ -138,14 +150,14 @@ public class AccountUtils {
 	 * @throws ServerException
 	 */
 	public void logoutUser() throws ClientProtocolException, IOException, HttpException, JSONException, PostNotSameException, LoginCodeException, ServerException{
+		// 取得目前登入的登入碼
+		String loginCode = this.getLoginCode();
 		
+		//清除登入資訊
+		clientdb.delete(null, "chu_user");
 		
 		//將使用者的學習狀態傳送至後端
 		this.server.userLogout(loginCode);
-		
-		//清除登入資訊
-		clientdb.delete("ID = "+loginCode, "user");
-		isLogined = false;
 	}
 	
 }
