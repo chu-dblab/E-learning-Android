@@ -98,7 +98,10 @@ public class ClientDBProvider {
 				contentvalues.put("Map_Url", newv1);
 				contentvalues.put("Material_Url", newv2);
 			}
-			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
+			if(where_string == null)
+				return sqlitedatabase.update(user_table, contentvalues, null, null);
+			else
+				return sqlitedatabase.update(user_table, contentvalues, where_string, null);
 	}
 	
 	public String[] search(String user_table,String search_item,String where_string){ //查詢
