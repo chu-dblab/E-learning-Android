@@ -27,8 +27,8 @@ public class MaterialJSCall {
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
-		String daystr = format.format(curDate);
-		Toast.makeText(this.context, daystr , Toast.LENGTH_SHORT).show();	
+		String leave_target = format.format(curDate);
+		Toast.makeText(this.context, leave_target , Toast.LENGTH_SHORT).show();	
 		((Activity)this.context).finish();
 	}
 }
