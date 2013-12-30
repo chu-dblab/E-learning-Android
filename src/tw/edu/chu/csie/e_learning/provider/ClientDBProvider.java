@@ -51,23 +51,6 @@ public class ClientDBProvider {
 		contentvalues.put("In_Learn_Time", v4);
 		return sqlitedatabase.insert("chu_user", null, contentvalues);
 	}
-	
-	//public String user_getCurrentID() {
-		
-		// 查詢已登入使用者
-		/*select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table;
-		Cursor cursor = sqlitedatabase.rawQuery(select, null);*/
-		
-		
-		// 查到已登入使用者
-		//if() {
-			
-		//}
-		// 若無已登入使用者
-		//else {
-		//	return null;
-		//}
-	//}
 
 	public long target_insert(String v1,String v2,String v3,String v4,String v5){ //"標的"新增
 		
@@ -85,9 +68,19 @@ public class ClientDBProvider {
 		
 		openToWrite();
 		if(user_table == "chu_user")
-			return sqlitedatabase.delete(user_table, where_string, null);
+		{
+			if(where_string == null)
+				return sqlitedatabase.delete(user_table, null, null);
+			else
+				return sqlitedatabase.delete(user_table, where_string, null);
+		}
 		else
-			return sqlitedatabase.delete(user_table, where_string, null);
+		{
+			if(where_string == null)
+				return sqlitedatabase.delete(user_table, null, null);
+			else
+				return sqlitedatabase.delete(user_table, where_string, null);
+		}
 	}
 
 
@@ -121,16 +114,16 @@ public class ClientDBProvider {
 		int num = cursor.getCount(); //取得資料表列數
 		String[] sNote = new String[cursor.getCount()];
 		String result = "";
-		if(num != 0) {
-			  cursor.moveToFirst();   //將指標移至第一筆資料
-			  for(int i=0; i<num; i++) {
-			   String strCr = cursor.getString(0);
-			   sNote[i]=strCr;
-			    
-			   cursor.moveToNext();//將指標移至下一筆資料
-			  }
-			 }
-			 cursor.close(); //關閉Cursor
+		if(num != 0) 
+		{
+			cursor.moveToFirst();   //將指標移至第一筆資料
+			for(int i=0; i<num; i++) {
+				String strCr = cursor.getString(0);
+				sNote[i]=strCr; 
+				cursor.moveToNext();//將指標移至下一筆資料
+			}
+		}
+		cursor.close(); //關閉Cursor
 		return sNote;
 	}
 	

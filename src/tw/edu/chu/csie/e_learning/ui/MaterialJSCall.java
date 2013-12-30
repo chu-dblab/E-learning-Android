@@ -20,8 +20,9 @@ public class MaterialJSCall {
 	// Annotation is needed for SDK version 17 or above.
 	@JavascriptInterface
 	public void learnFinish(String[] ansQID, String[] ansCheck) {
-		int i;
-		for(i = 0; i < ansQID.length ; i++){
+		int i;	
+		for(i = 0; i < ansQID.length ; i++)
+		{
 			
 			//Toast.makeText(this.context, ansQID[i], Toast.LENGTH_SHORT).show();			
 		}
@@ -29,6 +30,7 @@ public class MaterialJSCall {
 		Date curDate = new Date(System.currentTimeMillis()) ;
 		String leave_target = format.format(curDate);
 		Toast.makeText(this.context, leave_target , Toast.LENGTH_SHORT).show();	
+		
 		((Activity)this.context).finish();
 	}
 }
