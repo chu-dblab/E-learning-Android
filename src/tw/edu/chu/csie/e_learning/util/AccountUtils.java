@@ -72,6 +72,9 @@ public class AccountUtils {
 	 * 是否是已登入狀態
 	 */
 	public boolean islogin(){
+		//String loginedID = this.clientdb.search("chu_user", "UID", where_string) 
+		
+		//openToRead();
 		return isLogined;
 	}
 	
@@ -79,7 +82,9 @@ public class AccountUtils {
 	 * 察看已登入的ID
 	 */
 	public String getLoginId() {
-		return loginedId;
+		String query[] = clientdb.search("chu_user", "UID", null);
+		String getedID = query[0];
+		return getedID;
 	}
 	
 	/**
@@ -132,7 +137,9 @@ public class AccountUtils {
 	 * @throws LoginCodeException
 	 * @throws ServerException
 	 */
-	public void logoutUser(String loginCode) throws ClientProtocolException, IOException, HttpException, JSONException, PostNotSameException, LoginCodeException, ServerException{
+	public void logoutUser() throws ClientProtocolException, IOException, HttpException, JSONException, PostNotSameException, LoginCodeException, ServerException{
+		
+		
 		//將使用者的學習狀態傳送至後端
 		this.server.userLogout(loginCode);
 		

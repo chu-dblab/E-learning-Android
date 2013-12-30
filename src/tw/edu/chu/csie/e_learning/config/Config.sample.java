@@ -20,7 +20,7 @@ public class Config {
 	 * 後端連線
 	 */
 	public static final String REMOTE_BASE_URL = "http://localhost/";
-	public static final String REMOTE_TEXTBOOK_URL = REMOTE_BASE_URL+"API/v1/Material/DownloadZip.zip";
+	public static final String REMOTE_MATERIAL_URL = REMOTE_BASE_URL+"API/v1/Material/DownloadZip.zip";
 	
 	/**
 	 * 本機端檔案存取設定

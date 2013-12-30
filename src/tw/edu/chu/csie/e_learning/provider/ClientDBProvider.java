@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import tw.edu.chu.csie.e_learning.config.Config;
+import android.widget.Toast;
 
 public class ClientDBProvider {
 	private Context context;
@@ -21,31 +22,6 @@ public class ClientDBProvider {
 		db = new ClientDBHelper(this.context, Config.CDB_NAME, null, Config.CDB_VERSION);
 	}
 	
-	//查詢資料庫內容，並將所有結果存到result裡
-	public String All(String chtab){
-		select = "SELECT * FROM"+" "+chtab;
-		Cursor cursor = sqlitedatabase.rawQuery(select, null);
-		String result = "";
-		if(chtab == "chu_user"){
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-					result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+ "\n";
-			}
-		}
-		else if(chtab == "chu_target")
-		{
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+ "\n";
-			}
-		}
-		else
-		{
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				result = result + cursor.getString(0) +"："+ cursor.getString(1) +"："+ cursor.getString(2)+"："+ cursor.getString(3)+"："+ cursor.getString(4)+ "\n";
-			}	
-		}
-		return result;
-	}
-
 	public long user_insert(String v1,String v2,String v3,String v4){ //"使用者"新增
 	
 		openToWrite();
@@ -68,28 +44,24 @@ public class ClientDBProvider {
 		contentvalues.put("Material_Url", v5);
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
-
-	public long study_insert(String v1,String v2,String v3,String v4,String v5){ //"學習關係"新增
-		
-		openToWrite();
-		ContentValues contentvalues = new ContentValues();
-		contentvalues.put("TID", v1);
-		contentvalues.put("UID", v2);
-		contentvalues.put("In_TargetTime", v3);
-		contentvalues.put("Out_TargetTime", v4);
-		contentvalues.put("TCheck", v5);
-		return sqlitedatabase.insert("chu_study", null, contentvalues);
-	}		
 	
 	public long delete(String where_string,String user_table){ 
 		
 		openToWrite();
 		if(user_table == "chu_user")
-			return sqlitedatabase.delete(user_table, where_string, null);
-		else if(user_table == "chu_target")
-			return sqlitedatabase.delete(user_table, where_string, null);
+		{
+			if(where_string == null)
+				return sqlitedatabase.delete(user_table, null, null);
+			else
+				return sqlitedatabase.delete(user_table, where_string, null);
+		}
 		else
-			return sqlitedatabase.delete(user_table, where_string, null);
+		{
+			if(where_string == null)
+				return sqlitedatabase.delete(user_table, null, null);
+			else
+				return sqlitedatabase.delete(user_table, where_string, null);
+		}
 	}
 
 
@@ -107,36 +79,38 @@ public class ClientDBProvider {
 				contentvalues.put("Map_Url", newv1);
 				contentvalues.put("Material_Url", newv2);
 			}
-			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
+			if(where_string == null)
+				return sqlitedatabase.update(user_table, contentvalues, null, null);
+			else
+				return sqlitedatabase.update(user_table, contentvalues, where_string, null);
 	}
 	
-	public long study_update(String user_table,String newv1,String newv2,String newv3,String newv4,String where_string){
+	public String[] search(String user_table,String search_item,String where_string){ //查詢
 		
-		openToWrite();
-		ContentValues contentvalues = new ContentValues();
-		
-				contentvalues.put("QID", newv1);
-				contentvalues.put("Answer", newv2);
-				contentvalues.put("Answer_Time", newv3);
-				contentvalues.put("Out_TargetTime", newv4);
-				
-			return sqlitedatabase.update(user_table, contentvalues, where_string, null);
-	}
-	
-	public String search(String user_table,String search_item,String where_string){ //查詢
-		
-		select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
+		openToRead();
+		if(where_string == null){
+			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + ";";
+		}
+		else{
+			select = "SELECT" + " " + search_item + " " + "FROM" + " " + user_table + " " + "WHERE" + " " + where_string;
+		}
 		Cursor cursor = sqlitedatabase.rawQuery(select, null);
+		int num = cursor.getCount(); //取得資料表列數
+		String[] sNote = new String[cursor.getCount()];
 		String result = "";
-		int num = cursor.getCount();
-			for(cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()){
-				for(i=0;i<num;i++){
-					result = result + cursor.getString(i) +" ";
-				}	
-				result = result + "\n";
+		if(num != 0) 
+		{
+			cursor.moveToFirst();   //將指標移至第一筆資料
+			for(int i=0; i<num; i++) {
+				String strCr = cursor.getString(0);
+				sNote[i]=strCr; 
+				cursor.moveToNext();//將指標移至下一筆資料
 			}
-		return result;
+		}
+		cursor.close(); //關閉Cursor
+		return sNote;
 	}
+	
 	public ClientDBProvider openToWrite() throws android.database.SQLException{
 		
 		sqlitedatabase = db.getWritableDatabase();

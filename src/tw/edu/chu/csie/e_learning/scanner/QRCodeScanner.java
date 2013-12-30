@@ -7,6 +7,9 @@ import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PointF;
@@ -35,6 +38,12 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	    // "points" : points where QR control points are placed
 		@Override
 		public void onQRCodeRead(String text, PointF[] points) {
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date curDate = new Date(System.currentTimeMillis()) ;
+			String in_target = format.format(curDate);
+			Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();	
+			
 			if(text!="")
 			{
 				if(URLUtil.isNetworkUrl(text))
