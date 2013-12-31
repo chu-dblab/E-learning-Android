@@ -6,24 +6,25 @@
     android:orientation="vertical"
     tools:context=".MainFunctionActivity$DummySectionFragment" >
 
-        <ScrollView
-            android:id="@+id/scrollView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+    <ImageView
+        android:id="@+id/learning_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+<!--         <ScrollView -->
+<!--             android:id="@+id/scrollView1" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_weight="1" > -->
 
-                <ImageView
-                    android:id="@+id/learning_map"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+<!--             <LinearLayout -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="match_parent" -->
+<!--                 android:orientation="vertical" > -->
 
-            </LinearLayout>
-        </ScrollView>
+<!--             </LinearLayout> -->
+<!--         </ScrollView> -->
 
 
     <LinearLayout

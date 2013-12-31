@@ -310,7 +310,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 		
 		private View rootView;
 		private ImageView mapView;
-		private Bitmap bmp;
+//		private Bitmap bmp;
 		private TextView nextPointView, nextPointTimeView;
 		
 		public LearnMapFragment() {
@@ -323,8 +323,9 @@ public class MainFunctionActivity extends FragmentActivity implements
 			rootView = inflater.inflate(R.layout.fragment_main_function_learn_map, container, false);
 			mapView = (ImageView)rootView.findViewById(R.id.learning_map);
 			// TODO DEBUG
-			//bmp = BitmapFactory.decodeFile("file://"+fileUtils.getMaterialPath()+"map/map_01.jpg");
-			//mapView.setImageBitmap(bmp);
+			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/map_04.jpg");
+			Toast.makeText(getActivity(), "file://"+fileUtils.getMaterialPath()+"map/map_04.jpg", 1).show();
+			mapView.setImageBitmap(bmp);
 			
 			nextPointView = (TextView)rootView.findViewById(R.id.learning_next_point);
 			nextPointTimeView = (TextView)rootView.findViewById(R.id.learning_next_point_time);
