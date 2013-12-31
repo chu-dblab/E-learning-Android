@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class JSONDecodeUtils 
 {
 	private int nextPoint;
-	private String estimatedStudyTime;
+	private int estimatedStudyTime;
 	private String mapURL;
 	private String materialURL;
 	private JSONObject jsonData;
@@ -17,7 +17,7 @@ public class JSONDecodeUtils
 	public JSONDecodeUtils()
 	{
 		nextPoint = 0;
-		estimatedStudyTime = "";
+		estimatedStudyTime = 0;
 		mapURL = "";
 		materialURL = "";
 	}
@@ -31,7 +31,7 @@ public class JSONDecodeUtils
 	{
 		jsonData = new JSONObject(data).getJSONObject(orderOfNode);
 		nextPoint = jsonData.getInt("node");
-		estimatedStudyTime = jsonData.getString("LearnTime");
+		estimatedStudyTime = jsonData.getInt("LearnTime");
 		mapURL = jsonData.getString("MapUrl");
 		materialURL = jsonData.getString("MaterialUrl");
 	}
@@ -40,16 +40,16 @@ public class JSONDecodeUtils
 	 * 取得下一個學習點的編號
 	 * @return nextPoint
 	 */
-	public String getNextPoint()
+	public int getNextPoint()
 	{
-		return Integer.toString(nextPoint);
+		return nextPoint;
 	}
 	
 	/**
 	 *  取得下一個學習點的預估學習時間
 	 * @return　estimatedStudyTime
 	 */
-	public String getEstimatedStudyTime()
+	public int getEstimatedStudyTime()
 	{
 		return estimatedStudyTime;
 	}
