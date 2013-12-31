@@ -13,20 +13,26 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.ServerUtils;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
 public class LearningUtils 
 {
 	private ServerUtils connect;
 	private BaseSettings bs;
 	private JSONDecodeUtils decode;
-	public LearningUtils()
+	private ClientDBProvider dbcon;
+	public LearningUtils(Context context)
 	{
 		connect = new ServerUtils();
 		decode = new JSONDecodeUtils();
+		dbcon = new ClientDBProvider(context);
 	}
+	
 	
 	/**
 	 * 加人數
@@ -35,16 +41,15 @@ public class LearningUtils
 	 * @throws IOException
 	 * @throws HttpException
 	 * @throws JSONException 
-	 * 請用Log.d();來Debug~!!
+	 * @throws ServerException 
 	 */
-	public String addPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException
+	public void addPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
 		param.add(new BasicNameValuePair("amount",pointNumber ));
 		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=addPeople", param);
 		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) return new JSONObject(message).getString("status");
-		else return new JSONObject(message).getString("status");
+		if(!status) throw new ServerException();
 	}
 	
 	/**
@@ -56,15 +61,15 @@ public class LearningUtils
 	 * @throws HttpException
 	 * @throws JSONException
 	 * 請用Log.d();來Debug~!!
+	 * @throws ServerException 
 	 */
-	public String subPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException
+	public void subPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
 		param.add(new BasicNameValuePair("amount",pointNumber ));
 		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=subPeople", param);
 		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) return new JSONObject(message).getString("status");
-		else return new JSONObject(message).getString("status");
+		if(!status) throw new ServerException();
 	}
 	
 	/**
@@ -72,25 +77,25 @@ public class LearningUtils
 	 * 取得系統推薦的下個學習點
 	 * @param userID
 	 * @param pointNumber
-	 * @return
 	 * @throws HttpException 
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 * @throws JSONException 
+	 * @throws ServerException
 	 */
-	public String getPointIdOfLearningPoint(String userID,String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException 
+	public void getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException,ClientProtocolException, IOException, HttpException, JSONException 
 	{
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
 		param.add(new BasicNameValuePair("uid",userID));
 		param.add(new BasicNameValuePair("point",pointNumber));
 		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=recommand", param);
 		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) return new JSONObject(message).getString("status");
+		if(!status) throw new ServerException(ServerException.DB_ERR);
 		else 
 		{
 			String tmp = new JSONObject(message).getString("nextNode");
 			decode.DecodeJSONData(tmp,"first");
-			return decode.getNextPoint();
+			//dbcon.target_insert(decode.getNextPoint(), decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
 		}
 	}
 	
@@ -118,11 +123,5 @@ public class LearningUtils
 		boolean status = new JSONObject(message).getBoolean("status_ok");
 		if(!status) return new JSONObject(message).getString("status");
 		else return new JSONObject(message).getString("status");
-	}
-	
-	public String updateDataToServer()
-	{
-		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		return null;
 	}
 }

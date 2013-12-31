@@ -5,7 +5,6 @@ import android.content.Context;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +15,7 @@ import org.json.JSONException;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.scanner.QRCodeScanner;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 
 public class MaterialJSCall {
@@ -28,7 +28,7 @@ public class MaterialJSCall {
 	
 	// Annotation is needed for SDK version 17 or above.
 	@JavascriptInterface
-	public void learnFinish(String[] ansQID, String[] ansCheck)  throws ClientProtocolException, IOException, HttpException, JSONException
+	public void learnFinish(String[] ansQID, String[] ansCheck)  throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
 		int i;	
 		String[] userid;
