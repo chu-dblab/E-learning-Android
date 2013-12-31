@@ -21,9 +21,11 @@ public class LearningUtils
 {
 	private ServerUtils connect;
 	private BaseSettings bs;
+	private JSONDecodeUtils decode;
 	public LearningUtils()
 	{
 		connect = new ServerUtils();
+		decode = new JSONDecodeUtils();
 	}
 	
 	/**
@@ -79,16 +81,48 @@ public class LearningUtils
 	public String getPointIdOfLearningPoint(String userID,String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException 
 	{
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		param.add(new BasicNameValuePair("ID",userID));
+		param.add(new BasicNameValuePair("uid",userID));
 		param.add(new BasicNameValuePair("point",pointNumber));
 		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=recommand", param);
-		boolean status = new JSONObject(message).getBoolean("status");
+		boolean status = new JSONObject(message).getBoolean("status_ok");
 		if(!status) return new JSONObject(message).getString("status");
 		else 
 		{
-			String tmp = new JSONObject(message).getString("data");
-			return new JSONObject(tmp).getString("nextNode");
+			String tmp = new JSONObject(message).getString("nextNode");
+			decode.DecodeJSONData(tmp,"first");
+			return decode.getNextPoint();
 		}
 	}
 	
+	/**
+	 * 
+	 * @param userID
+	 * @param pointNumber
+	 * @param inTime
+	 * @param outTime
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException
+	 */
+	public String postDataToServer(String userID,String pointNumber,String inTime,String outTime) throws ClientProtocolException, IOException, HttpException, JSONException 
+	{
+		List<NameValuePair> param = new ArrayList<NameValuePair>();
+		param.add(new BasicNameValuePair("uid", userID));
+		param.add(new BasicNameValuePair("point", pointNumber));
+		param.add(new BasicNameValuePair("inTime", inTime));
+		param.add(new BasicNameValuePair("outTime", outTime));
+		
+		String message = connect.getServerData(bs.getApiUrl()+"Learn/update.php?op=upgrade", param);
+		boolean status = new JSONObject(message).getBoolean("status_ok");
+		if(!status) return new JSONObject(message).getString("status");
+		else return new JSONObject(message).getString("status");
+	}
+	
+	public String updateDataToServer()
+	{
+		List<NameValuePair> param = new ArrayList<NameValuePair>();
+		return null;
+	}
 }
