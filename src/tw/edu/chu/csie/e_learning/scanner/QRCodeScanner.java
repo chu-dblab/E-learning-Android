@@ -4,8 +4,8 @@ import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.ui.MainFunctionActivity;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 
-import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
-import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
+import qrcodereaderview.QRCodeReaderView;
+import qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
