@@ -81,16 +81,15 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
 
     	@Override
     	protected void onPostExecute(Void result) {
-    		// TODO 自動產生的方法 Stub
     		updateProgress.dismiss();
     		super.onPostExecute(result);
     	}
 
     	@Override
     	protected void onPreExecute() {
-    		// TODO 自動產生的方法 Stub
     		super.onPreExecute();
     		updateProgress = new ProgressDialog(message);
+    		// TODO 拉開成String
     		updateProgress.setMessage("下載教材並解壓縮中......");
     		updateProgress.setCancelable(false);
     		updateProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);

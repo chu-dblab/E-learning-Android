@@ -20,18 +20,24 @@ import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
+import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
+import tw.edu.chu.csie.e_learning.ui.UserLoginActivity.UserLoginTask;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -53,6 +59,7 @@ import android.widget.Toast;
 public class MainFunctionActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
+	private LogoutTask mLogoutTask;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -130,7 +137,9 @@ public class MainFunctionActivity extends FragmentActivity implements
 			startActivity(toTextbookDownloader);
 			break;
 		case R.id.menu_logout:
-			Toast.makeText(this, new AccountUtils(this).getLoginId(), 0).show();
+			mLogoutTask = new LogoutTask();
+			mLogoutTask.execute();
+			//Toast.makeText(this, String.valueOf(new AccountUtils(this).islogin()), 0).show();
 			break;
        // DEBUG 開啟教材內容測試
        case 213:
@@ -209,6 +218,66 @@ public class MainFunctionActivity extends FragmentActivity implements
 				return getString(R.string.learn_map).toUpperCase(l);
 			}
 			return null;
+		}
+	}
+	
+	public class LogoutTask extends AsyncTask<Void, Integer, Boolean> {
+
+		private AccountUtils accountUtils = new AccountUtils(getBaseContext());
+		private ProgressDialog updateProgress;
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			// DEBUG 當啟用無連線登入，進入學習畫面
+			if(Config.DEBUG_NO_CONNECT_LOGIN) {
+				return true;
+			}
+			else {
+				try {
+					accountUtils.logoutUser();
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (HttpException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (PostNotSameException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (LoginCodeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ServerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			return true;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			updateProgress = new ProgressDialog((Activity)MainFunctionActivity.this);
+			// TODO 拉開成String
+			updateProgress.setMessage("登出中......");
+    		updateProgress.setCancelable(false);
+    		updateProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    		updateProgress.show();
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			updateProgress.dismiss();
+			((Activity)MainFunctionActivity.this).finish();
+			//super.onPostExecute(result);
 		}
 	}
 

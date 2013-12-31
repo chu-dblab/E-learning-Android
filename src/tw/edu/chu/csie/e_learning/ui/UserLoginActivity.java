@@ -147,6 +147,14 @@ public class UserLoginActivity extends Activity {
 			mIdView.setText(Config.DEFAULT_LOGIN_ID);
 			mPasswordView.setText(Config.DEFAULT_LOGIN_PASSWORD);
 		}
+		
+		// 檢查是否已登入
+		AccountUtils accountUtils = new AccountUtils(this);
+		if(accountUtils.islogin()) {
+			Intent toLogin = new Intent(UserLoginActivity.this, MainFunctionActivity.class);
+			startActivity(toLogin);
+		}
+		
 		//自動登入
 		if(Config.AUTO_NO_ID_LOGIN) attemptLogin();
 	}
