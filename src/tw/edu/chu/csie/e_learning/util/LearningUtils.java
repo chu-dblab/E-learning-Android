@@ -95,7 +95,7 @@ public class LearningUtils
 		{
 			String tmp = new JSONObject(message).getString("nextNode");
 			decode.DecodeJSONData(tmp,"first");
-			//dbcon.target_insert(decode.getNextPoint(), decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
+			dbcon.target_insert(decode.getNextPoint(), decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
 		}
 	}
 	
