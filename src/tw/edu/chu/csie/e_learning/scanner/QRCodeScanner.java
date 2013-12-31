@@ -21,7 +21,9 @@ import android.widget.Toast;
 public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	    //private TextView myTextView;
 		private QRCodeReaderView mydecoderview;
-
+		
+		private String gettext = "";
+		
 		@Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -42,7 +44,9 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date curDate = new Date(System.currentTimeMillis()) ;
 			String in_target = format.format(curDate);
-			Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();	
+			Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
+			
+			gettext = text;
 			
 			if(text!="")
 			{
@@ -70,6 +74,11 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 			}
 		}
 
+		// 回傳標地編號，方便其他Class使用
+			public String getext() 
+			{
+				return gettext;
+			}
 		
 		// 當行動裝置裝置沒有Camera
 		@Override
