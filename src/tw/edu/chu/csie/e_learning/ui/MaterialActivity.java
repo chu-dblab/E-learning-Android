@@ -26,7 +26,7 @@ import android.widget.Toast;
 @SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 public class MaterialActivity extends Activity {
 	
-	private String thisMaterialId; //教材編號
+	private int thisMaterialId; //教材編號
 	
 	private FileUtils fileUtils;
 	private WebView mWebView;
@@ -45,7 +45,7 @@ public class MaterialActivity extends Activity {
 		mWebView = (WebView)findViewById(R.id.material_webview);
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
-		this.thisMaterialId = intent.getStringExtra("materialId");
+		this.thisMaterialId = intent.getIntExtra("materialId",0);
 		
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
@@ -56,7 +56,8 @@ public class MaterialActivity extends Activity {
 			webSettings.setJavaScriptEnabled(true);
 			
 			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
-			mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
+			mWebView.loadUrl("file://"+fileUtils.getMaterialFilePath(this, thisMaterialId));			
+			//mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
 			//mWebView.loadUrl("file:///android_assets/01.html");			
 		}
 		

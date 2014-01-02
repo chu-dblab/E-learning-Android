@@ -8,6 +8,7 @@
     <string name="learn_map">學習地圖</string>
     <string name="learn_history">學習歷程</string>
     <string name="announcement">公告</string>
+    <string name="qrcode_scan">QR掃描</string>
     <string name="inside_process_error">內部出錯</string>
     <string name="other_error">其他錯誤</string>
     <string name="no_data">沒有資訊</string>
@@ -42,8 +43,9 @@
     <!-- 學習中 -->
     <string name="learning_not_leave_point">你現在還在學習中，學習完再離開吧！！</string>
     <string name="learning_leaved_point">離開學習點囉～</string>
-    
+
     <!-- 設定 -->
     <string name="title_activity_preference">系統設定</string>
+    <string name="title_activity_tester">TesterActivity</string>
 
 </resources>
