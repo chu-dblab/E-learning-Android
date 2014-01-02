@@ -154,8 +154,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 			break;
        case 213:
     	   Intent toLearning = new Intent(MainFunctionActivity.this, MaterialActivity.class);
-    	   toLearning.putExtra("materialId", "01");
-    	   toLearning.putExtra("liveMaterial", false);
+    	   toLearning.putExtra("materialId", 1);
     	   startActivityForResult(toLearning, 1);
     	   break;
 		}

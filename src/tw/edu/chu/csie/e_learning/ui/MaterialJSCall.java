@@ -52,8 +52,9 @@ public class MaterialJSCall {
 		String leave_target = format.format(curDate);
 		Toast.makeText(this.context, leave_target , Toast.LENGTH_SHORT).show();	
 		
-		learn.getPointIdOfLearningPoint(struserid, tid);
+//		learn.getPointIdOfLearningPoint(struserid, tid);
 		
 		((Activity)this.context).finish();
+		Toast.makeText(this.context, "Test", 0).show();
 	}
 }

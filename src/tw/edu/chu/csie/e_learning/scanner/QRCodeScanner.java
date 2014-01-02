@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	    //private TextView myTextView;
+		private boolean tabEnable = true;
 		private QRCodeReaderView mydecoderview;
-		
 		private String gettext = "";
 		
 		@Override
@@ -40,49 +40,56 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	    // "points" : points where QR control points are placed
 		@Override
 		public void onQRCodeRead(String text, PointF[] points) {
-			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date curDate = new Date(System.currentTimeMillis()) ;
-			String in_target = format.format(curDate);
-			Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
-			
-			gettext = text;
-			
-			if(text!="")
-			{
-				if(URLUtil.isNetworkUrl(text))
+			if(tabEnable){
+				tabEnable = false;
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date curDate = new Date(System.currentTimeMillis()) ;
+				String in_target = format.format(curDate);
+				Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
+				
+				gettext = text;
+				
+				if(text!="")
 				{
-					// TODO 拉開成String
-					Toast.makeText(this, "此 QR-code內容 是個網址，非「標的編號」!!", Toast.LENGTH_LONG).show();
-				}
-				else
-				{
-					if(text.length()>2)
+					if(URLUtil.isNetworkUrl(text))
 					{
 						// TODO 拉開成String
-						Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
+						Toast.makeText(this, "此 QR-code內容 是個網址，非「標的編號」!!", Toast.LENGTH_LONG).show();
+						finish();
 					}
-					else{
-						try {
-							int materialId = Integer.valueOf(text);
-							// 解讀正確，進入學習教材
-							Intent toLearning = new Intent(this, MaterialActivity.class);
-							toLearning.putExtra("materialId", materialId);
-							startActivityForResult(toLearning, 1);
+					else
+					{
+						if(text.length()>2)
+						{
+							// TODO 拉開成String
+							Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
 							finish();
-							// TODO 拉開成String
-							Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
-						} catch(IllegalArgumentException ex) {
-							// TODO 拉開成String
-							Toast.makeText(this, "此內容不是數字喔!!", Toast.LENGTH_LONG).show();
+						}
+						else{
+							try {
+								int materialId = Integer.valueOf(text);
+								// 解讀正確，進入學習教材
+								Intent toLearning = new Intent(this, MaterialActivity.class);
+								toLearning.putExtra("materialId", materialId);
+								startActivityForResult(toLearning, 1);
+								finish();
+								// TODO 拉開成String
+								Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_SHORT).show();
+							} catch(IllegalArgumentException ex) {
+								// TODO 拉開成String
+								Toast.makeText(this, "此內容不是數字喔!!", Toast.LENGTH_LONG).show();
+								finish();
+							}
 						}
 					}
 				}
-			}
-			else
-			{
-				// TODO 拉開成String
-				Toast.makeText(this, "掃描內容為空!!", Toast.LENGTH_LONG).show();
+				else
+				{
+					// TODO 拉開成String
+					Toast.makeText(this, "掃描內容為空!!", Toast.LENGTH_LONG).show();
+					finish();
+				}
 			}
 		}
 
