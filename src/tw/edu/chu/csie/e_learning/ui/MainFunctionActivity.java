@@ -21,6 +21,7 @@ import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.scanner.NFCDetect;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
@@ -328,8 +329,6 @@ public class MainFunctionActivity extends FragmentActivity implements
 			
 			nextPointView = (TextView)rootView.findViewById(R.id.learning_next_point);
 			nextPointTimeView = (TextView)rootView.findViewById(R.id.learning_next_point_time);
-			
-			
 			return rootView;
 		}
 		
