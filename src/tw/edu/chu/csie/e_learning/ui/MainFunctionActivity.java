@@ -123,6 +123,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 		getMenuInflater().inflate(R.menu.main_function, menu);
 		
 		// DEBUG 開啟教材內容測試
+		menu.add(0, 212, 0, "Tester");
 		menu.add(0, 213, 0, "教材測試");
 		
 		return true;
@@ -147,12 +148,16 @@ public class MainFunctionActivity extends FragmentActivity implements
 			startActivity(toQRScan);
 			break;
        // DEBUG 開啟教材內容測試
+		case 212:
+			Intent toTester = new Intent(MainFunctionActivity.this, TesterActivity.class);
+			startActivity(toTester);
+			break;
        case 213:
     	   Intent toLearning = new Intent(MainFunctionActivity.this, MaterialActivity.class);
     	   toLearning.putExtra("materialId", "01");
     	   toLearning.putExtra("liveMaterial", false);
     	   startActivityForResult(toLearning, 1);
-    	   
+    	   break;
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}

@@ -12,6 +12,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import android.content.Context;
 import android.os.*;
 import android.util.Log;
@@ -72,6 +73,29 @@ public class FileUtils
 	public String getMaterialPath()
 	{
 		return this.getPath()+Config.MATERIAL_DIRECTORY;
+	}
+	
+	/**
+	 * 
+	 * @param materialId
+	 * @return
+	 */
+	public String getMaterialFilePath(Context context, int materialId)
+	{
+		ClientDBProvider db = new ClientDBProvider(context);
+		
+		String query[] = db.search("chu_target", "MaterialID", "TID="+materialId);
+		
+		// 如果有任何東西的話
+		if(query.length > 0) {
+			String fileName = query[0];
+			
+			return this.getMaterialPath()+fileName;
+		}
+		else {
+			// 沒有查詢到，回傳null
+			return null;
+		}
 	}
 	
 	/**
