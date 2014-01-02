@@ -163,13 +163,29 @@ public class ServerAPIs {
 			}
 	}
 	
-	public ServerUser saveUserStatus(JSONObject jsonData) 
+	/**
+	 * 儲存使用者的學習狀態
+	 * @param pointNumber
+	 * @param userID
+	 * @param inTime
+	 * @param outTime
+	 * @return　ServerUser　Object
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException
+	 * @throws ServerException
+	 */
+	public ServerUser saveUserStatus(int pointNumber,String userID,String inTime,String outTime) 
 			throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
-		data.add(new BasicNameValuePair("data",jsonData.toString()));
+		data.add(new BasicNameValuePair("ID",userID));
+		data.add(new BasicNameValuePair("point",Integer.toString(pointNumber)));
+		data.add(new BasicNameValuePair("inTime",inTime));
+		data.add(new BasicNameValuePair("outTime", outTime));
 		
-		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/people.php?op=upgrade", data);
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/update.php?op=upgrade", data);
 		boolean status_ok = new JSONObject(message).getBoolean("status_ok");
 		if(status_ok) return new ServerUser(new JSONObject(message));
 		else
