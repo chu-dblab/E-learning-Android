@@ -52,26 +52,36 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 			{
 				if(URLUtil.isNetworkUrl(text))
 				{
+					// TODO 拉開成String
 					Toast.makeText(this, "此 QR-code內容 是個網址，非「標的編號」!!", Toast.LENGTH_LONG).show();
 				}
 				else
 				{
 					if(text.length()>2)
 					{
+						// TODO 拉開成String
 						Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
 					}
 					else{
-						// 解讀正確，進入學習教材
-						Intent toLearning = new Intent(this, MaterialActivity.class);
-						toLearning.putExtra("materialId", text);
-						startActivityForResult(toLearning, 1);
-						finish();
-						Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
+						try {
+							int materialId = Integer.valueOf(text);
+							// 解讀正確，進入學習教材
+							Intent toLearning = new Intent(this, MaterialActivity.class);
+							toLearning.putExtra("materialId", materialId);
+							startActivityForResult(toLearning, 1);
+							finish();
+							// TODO 拉開成String
+							Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
+						} catch(IllegalArgumentException ex) {
+							// TODO 拉開成String
+							Toast.makeText(this, "此內容不是數字喔!!", Toast.LENGTH_LONG).show();
+						}
 					}
 				}
 			}
 			else
 			{
+				// TODO 拉開成String
 				Toast.makeText(this, "掃描內容為空!!", Toast.LENGTH_LONG).show();
 			}
 		}
@@ -85,6 +95,7 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 		// 當行動裝置裝置沒有Camera
 		@Override
 		public void cameraNotFound() {
+			// TODO 拉開成String
 			Toast.makeText(this, "行動裝置找不到Camera!!", Toast.LENGTH_LONG).show();
 		}
 
