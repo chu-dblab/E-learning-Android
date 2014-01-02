@@ -1,13 +1,21 @@
 package tw.edu.chu.csie.e_learning.ui;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.webkit.WebSettings;
@@ -23,9 +31,11 @@ public class MaterialActivity extends Activity {
 	private FileUtils fileUtils;
 	private WebView mWebView;
 	private WebSettings webSettings;
+	private RequestToServer request;
 
 	public MaterialActivity() {
 		this.fileUtils = new FileUtils();
+		this.request = new RequestToServer();
 	}
 	
 	@Override
@@ -78,6 +88,44 @@ public class MaterialActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.learning, menu);
 		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public class RequestToServer extends AsyncTask<String, Void, Void>
+	{
+		private LearningUtils learn = new LearningUtils(getBaseContext());
+		@Override
+		protected Void doInBackground(String... params) 
+		{
+			try {
+				changeOfPerson(params[0],params[1]);
+			} catch (IOException | HttpException
+					| JSONException | ServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		private void changeOfPerson(String action,String point) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+		{
+			switch (action) {
+			case "addPeople":
+				learn.addPeople(point);
+				break;
+				
+			case "subPeople":
+				learn.subPeople(point);
+				break;
+			default:
+				Toast.makeText(getBaseContext(), "ERROR!!", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			
+		}
+		
 	}
 
 }

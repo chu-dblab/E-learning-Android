@@ -180,7 +180,7 @@ public class ServerAPIs {
 			throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
-		data.add(new BasicNameValuePair("ID",userID));
+		data.add(new BasicNameValuePair("uid",userID));
 		data.add(new BasicNameValuePair("point",Integer.toString(pointNumber)));
 		data.add(new BasicNameValuePair("inTime",inTime));
 		data.add(new BasicNameValuePair("outTime", outTime));

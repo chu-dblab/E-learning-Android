@@ -51,7 +51,6 @@ public class NFCDetect extends Activity
 	
 	public void InitialDetect()
 	{
-		//manager = (NfcManager)getSystemService(Context.NFC_SERVICE);
 		adapter = NfcAdapter.getDefaultAdapter(this);
 		nfc_intent = new Intent(this,getClass());
 		nfcPendingIntent = PendingIntent.getActivity(this, 0, nfc_intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -144,4 +143,6 @@ public class NFCDetect extends Activity
 		learningTarget.putExtra("materialID", filepath.getMaterialPath()+targetID);
 		startActivityForResult(learningTarget,1);
 	}
+	
+	
 }
