@@ -21,6 +21,7 @@ import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.scanner.QRCodeScanner;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
@@ -140,6 +141,10 @@ public class MainFunctionActivity extends FragmentActivity implements
 			mLogoutTask = new LogoutTask();
 			mLogoutTask.execute();
 			//Toast.makeText(this, String.valueOf(new AccountUtils(this).islogin()), 0).show();
+			break;
+		case R.id.menu_qrcode_scan:
+			Intent toQRScan = new Intent(MainFunctionActivity.this, QRCodeScanner.class);
+			startActivity(toQRScan);
 			break;
        // DEBUG 開啟教材內容測試
        case 213:

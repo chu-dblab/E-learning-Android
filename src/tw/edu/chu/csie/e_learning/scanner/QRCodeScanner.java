@@ -61,9 +61,11 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 						Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
 					}
 					else{
+						// 解讀正確，進入學習教材
 						Intent toLearning = new Intent(this, MaterialActivity.class);
 						toLearning.putExtra("materialId", text);
 						startActivityForResult(toLearning, 1);
+						finish();
 						Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
 					}
 				}
