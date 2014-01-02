@@ -65,6 +65,10 @@
             android:name="tw.edu.chu.csie.e_learning.ui.SettingsActivity"
             android:label="@string/title_activity_preference" >
         </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.scanner.QRCodeScanner"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

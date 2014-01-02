@@ -3,6 +3,7 @@ package tw.edu.chu.csie.e_learning.ui;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
+import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,7 +33,6 @@ public class MaterialActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
-		
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
 		this.thisMaterialId = intent.getStringExtra("materialId");
@@ -40,6 +40,7 @@ public class MaterialActivity extends Activity {
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
 		} else {
+			
 			// 將網頁內容顯示出來
 			webSettings = mWebView.getSettings();
 			webSettings.setJavaScriptEnabled(true);
