@@ -364,9 +364,6 @@ public class UserLoginActivity extends Activity {
 			if (success) {
 				Intent toLogin = new Intent(UserLoginActivity.this, MainFunctionActivity.class);
 				startActivity(toLogin);
-				//finish();
-				//Intent nfcDetect = new Intent(UserLoginActivity.this,NFCDetect.class);
-				//startActivity(nfcDetect);
 			} else {
 				String failKind = bundle.getString("exception");
 				

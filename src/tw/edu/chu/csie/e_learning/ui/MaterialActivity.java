@@ -46,7 +46,7 @@ public class MaterialActivity extends Activity {
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
 		this.thisMaterialId = intent.getIntExtra("materialId",0);
-		
+		request.execute("addPeople",Integer.toString(thisMaterialId));
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
 		} else {
@@ -65,7 +65,9 @@ public class MaterialActivity extends Activity {
 		// DEBUG 測試FileUtils
 		Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
 	}
-	
+	protected void learnFinish() {
+		
+	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
 	      mWebView.saveState(outState);
@@ -101,9 +103,20 @@ public class MaterialActivity extends Activity {
 		protected Void doInBackground(String... params) 
 		{
 			try {
-				changeOfPerson(params[0],params[1]);
-			} catch (IOException | HttpException
-					| JSONException | ServerException e) {
+				changeOfPerson(params[0], params[1]);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (HttpException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ServerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -112,21 +125,10 @@ public class MaterialActivity extends Activity {
 		
 		private void changeOfPerson(String action,String point) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 		{
-			switch (action) {
-			case "addPeople":
-				learn.addPeople(point);
-				break;
-				
-			case "subPeople":
-				learn.subPeople(point);
-				break;
-			default:
-				Toast.makeText(getBaseContext(), "ERROR!!", Toast.LENGTH_SHORT).show();
-				break;
-			}
-			
+			if(action == "addPeople") learn.addPeople(point);
+			else if(action == "subPeople") learn.subPeople(point);
+			else Toast.makeText(getBaseContext(), "ERROR~!!", Toast.LENGTH_SHORT).show();
 		}
-		
 	}
 
 }

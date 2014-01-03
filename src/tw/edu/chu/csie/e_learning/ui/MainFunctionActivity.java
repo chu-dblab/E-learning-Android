@@ -31,6 +31,7 @@ import tw.edu.chu.csie.e_learning.ui.UserLoginActivity.UserLoginTask;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
+import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -289,6 +290,36 @@ public class MainFunctionActivity extends FragmentActivity implements
 			((Activity)MainFunctionActivity.this).finish();
 			//super.onPostExecute(result);
 		}
+	}
+	
+	public class RequestFromServer extends AsyncTask<Void, Void, Void>
+	{
+		private LearningUtils learn = new LearningUtils(getBaseContext());
+		private AccountUtils account = new AccountUtils(getBaseContext());
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			try {
+				learn.getPointIdOfLearningPoint(account.getLoginId(), "0");
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (HttpException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}	
 	}
 
 	/**

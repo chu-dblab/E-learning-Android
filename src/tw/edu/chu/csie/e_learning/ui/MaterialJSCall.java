@@ -20,9 +20,9 @@ import tw.edu.chu.csie.e_learning.util.LearningUtils;
 
 public class MaterialJSCall {
 
-	private Context context;
+	private MaterialActivity context;
 	
-	public MaterialJSCall(Context context) {
+	public MaterialJSCall(MaterialActivity context) {
 		this.context = context;
 	}
 	
@@ -51,8 +51,11 @@ public class MaterialJSCall {
 		Date curDate = new Date(System.currentTimeMillis()) ;
 		String leave_target = format.format(curDate);
 		Toast.makeText(this.context, leave_target , Toast.LENGTH_SHORT).show();	
-		
-//		learn.getPointIdOfLearningPoint(struserid, tid);
+		/*
+		 * TODO 因為牽涉到網路，要再進一步討論
+		learn.subPeople(tid);
+		learn.getPointIdOfLearningPoint(struserid, tid);
+		*/
 		
 		((Activity)this.context).finish();
 		Toast.makeText(this.context, "Test", 0).show();
