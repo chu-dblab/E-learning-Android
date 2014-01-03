@@ -73,7 +73,6 @@ public class LearningUtils
 	}
 	
 	/**
-	 * TODO
 	 * 取得系統推薦的下個學習點
 	 * @param userID
 	 * @param pointNumber
@@ -97,31 +96,5 @@ public class LearningUtils
 			decode.DecodeJSONData(tmp,"first");
 			dbcon.target_insert(decode.getNextPoint(), decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
 		}
-	}
-	
-	/**
-	 * 
-	 * @param userID
-	 * @param pointNumber
-	 * @param inTime
-	 * @param outTime
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws HttpException
-	 * @throws JSONException
-	 */
-	public String postDataToServer(String userID,String pointNumber,String inTime,String outTime) throws ClientProtocolException, IOException, HttpException, JSONException 
-	{
-		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		param.add(new BasicNameValuePair("uid", userID));
-		param.add(new BasicNameValuePair("point", pointNumber));
-		param.add(new BasicNameValuePair("inTime", inTime));
-		param.add(new BasicNameValuePair("outTime", outTime));
-		
-		String message = connect.getServerData(bs.getApiUrl()+"Learn/update.php?op=upgrade", param);
-		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) return new JSONObject(message).getString("status");
-		else return new JSONObject(message).getString("status");
 	}
 }

@@ -1,13 +1,21 @@
 package tw.edu.chu.csie.e_learning.ui;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.webkit.WebSettings;
@@ -23,9 +31,11 @@ public class MaterialActivity extends Activity {
 	private FileUtils fileUtils;
 	private WebView mWebView;
 	private WebSettings webSettings;
+	private RequestToServer request;
 
 	public MaterialActivity() {
 		this.fileUtils = new FileUtils();
+		this.request = new RequestToServer();
 	}
 	
 	@Override
@@ -36,7 +46,7 @@ public class MaterialActivity extends Activity {
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
 		this.thisMaterialId = intent.getIntExtra("materialId",0);
-		
+		request.execute("addPeople",Integer.toString(thisMaterialId));
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
 		} else {
@@ -55,7 +65,9 @@ public class MaterialActivity extends Activity {
 		// DEBUG 測試FileUtils
 		Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
 	}
-	
+	protected void learnFinish() {
+		
+	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
 	      mWebView.saveState(outState);
@@ -79,6 +91,44 @@ public class MaterialActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.learning, menu);
 		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public class RequestToServer extends AsyncTask<String, Void, Void>
+	{
+		private LearningUtils learn = new LearningUtils(getBaseContext());
+		@Override
+		protected Void doInBackground(String... params) 
+		{
+			try {
+				changeOfPerson(params[0], params[1]);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (HttpException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		private void changeOfPerson(String action,String point) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+		{
+			if(action == "addPeople") learn.addPeople(point);
+			else if(action == "subPeople") learn.subPeople(point);
+			else Toast.makeText(getBaseContext(), "ERROR~!!", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }
