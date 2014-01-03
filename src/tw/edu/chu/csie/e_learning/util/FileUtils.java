@@ -64,6 +64,30 @@ public class FileUtils
 		else return BasicInternalPath+"/";
 	}
 	
+	// ------------------------------------------------------------------------------------
+	/**
+	 * 取得此學習點教材路徑
+	 * @param materialId
+	 * @return
+	 */
+	public String getMapFilePath(Context context, int materialId)
+	{
+		ClientDBProvider db = new ClientDBProvider(context);
+		
+		String query[] = db.search("chu_target", "MapID", "TID="+materialId);
+		
+		// 如果有任何東西的話
+		if(query.length > 0) {
+			String fileName = query[0];
+			
+			return this.getMaterialPath()+fileName;
+		}
+		else {
+			// 沒有查詢到，回傳null
+			return null;
+		}
+	}
+	
 	/**
 	 * getMaterialPath
 	 * @param			None
@@ -76,7 +100,7 @@ public class FileUtils
 	}
 	
 	/**
-	 * 
+	 * 取得此學習點教材路徑
 	 * @param materialId
 	 * @return
 	 */
@@ -98,6 +122,7 @@ public class FileUtils
 		}
 	}
 	
+	// ====================================================================================
 	/**
 	 * saveFile
 	 * @param 			path
