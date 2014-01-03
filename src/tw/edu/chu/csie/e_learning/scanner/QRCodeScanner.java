@@ -4,8 +4,8 @@ import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.ui.MainFunctionActivity;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 
-import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
-import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
+import qrcodereaderview.QRCodeReaderView;
+import qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,8 +20,10 @@ import android.widget.Toast;
 
 public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	    //private TextView myTextView;
+		private boolean tabEnable = true;
 		private QRCodeReaderView mydecoderview;
-
+		private String gettext = "";
+		
 		@Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -38,42 +40,69 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	    // "points" : points where QR control points are placed
 		@Override
 		public void onQRCodeRead(String text, PointF[] points) {
-			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date curDate = new Date(System.currentTimeMillis()) ;
-			String in_target = format.format(curDate);
-			Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();	
-			
-			if(text!="")
-			{
-				if(URLUtil.isNetworkUrl(text))
+			if(tabEnable){
+				tabEnable = false;
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date curDate = new Date(System.currentTimeMillis()) ;
+				String in_target = format.format(curDate);
+				Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
+				
+				gettext = text;
+				
+				if(text!="")
 				{
-					Toast.makeText(this, "此 QR-code內容 是個網址，非「標的編號」!!", Toast.LENGTH_LONG).show();
+					if(URLUtil.isNetworkUrl(text))
+					{
+						// TODO 拉開成String
+						Toast.makeText(this, "此 QR-code內容 是個網址，非「標的編號」!!", Toast.LENGTH_LONG).show();
+						finish();
+					}
+					else
+					{
+						if(text.length()>2)
+						{
+							// TODO 拉開成String
+							Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
+							finish();
+						}
+						else{
+							try {
+								int materialId = Integer.valueOf(text);
+								// 解讀正確，進入學習教材
+								Intent toLearning = new Intent(this, MaterialActivity.class);
+								toLearning.putExtra("materialId", materialId);
+								startActivityForResult(toLearning, 1);
+								finish();
+								// TODO 拉開成String
+								Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_SHORT).show();
+							} catch(IllegalArgumentException ex) {
+								// TODO 拉開成String
+								Toast.makeText(this, "此內容不是數字喔!!", Toast.LENGTH_LONG).show();
+								finish();
+							}
+						}
+					}
 				}
 				else
 				{
-					if(text.length()>2)
-					{
-						Toast.makeText(this, "此內容不符合!!", Toast.LENGTH_LONG).show();
-					}
-					else{
-						Intent toLearning = new Intent(this, MaterialActivity.class);
-						toLearning.putExtra("materialId", text);
-						startActivityForResult(toLearning, 1);
-						Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_LONG).show();
-					}
+					// TODO 拉開成String
+					Toast.makeText(this, "掃描內容為空!!", Toast.LENGTH_LONG).show();
+					finish();
 				}
-			}
-			else
-			{
-				Toast.makeText(this, "掃描內容為空!!", Toast.LENGTH_LONG).show();
 			}
 		}
 
+		// 回傳標地編號，方便其他Class使用
+			public String getext() 
+			{
+				return gettext;
+			}
 		
 		// 當行動裝置裝置沒有Camera
 		@Override
 		public void cameraNotFound() {
+			// TODO 拉開成String
 			Toast.makeText(this, "行動裝置找不到Camera!!", Toast.LENGTH_LONG).show();
 		}
 

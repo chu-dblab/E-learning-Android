@@ -3,6 +3,7 @@ package tw.edu.chu.csie.e_learning.ui;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
+import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 @SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 public class MaterialActivity extends Activity {
 	
-	private String thisMaterialId; //教材編號
+	private int thisMaterialId; //教材編號
 	
 	private FileUtils fileUtils;
 	private WebView mWebView;
@@ -32,20 +33,21 @@ public class MaterialActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
-		
 		// 取得目前所在的教材編號
 		Intent intent = getIntent();
-		this.thisMaterialId = intent.getStringExtra("materialId");
+		this.thisMaterialId = intent.getIntExtra("materialId",0);
 		
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
 		} else {
+			
 			// 將網頁內容顯示出來
 			webSettings = mWebView.getSettings();
 			webSettings.setJavaScriptEnabled(true);
 			
 			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
-			mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
+			mWebView.loadUrl("file://"+fileUtils.getMaterialFilePath(this, thisMaterialId));			
+			//mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
 			//mWebView.loadUrl("file:///android_assets/01.html");			
 		}
 		

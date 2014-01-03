@@ -33,15 +33,14 @@ public class ClientDBProvider {
 		return sqlitedatabase.insert("chu_user", null, contentvalues);
 	}
 
-	public long target_insert(String v1,String v2,String v3,String v4,String v5){ //"標的"新增
+	public long target_insert(int v1,String v2,String v3,int v4){ //"標的"新增
 		
 		openToWrite();
 		ContentValues contentvalues = new ContentValues();
 		contentvalues.put("TID", v1);
 		contentvalues.put("MapID", v2);
 		contentvalues.put("MaterialID", v3);
-		contentvalues.put("Map_Url", v4);
-		contentvalues.put("Material_Url", v5);
+		contentvalues.put("TLearn_Time", v4);
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
 	
@@ -76,8 +75,8 @@ public class ClientDBProvider {
 			}
 			if(user_table == "chu_target")
 			{
-				contentvalues.put("Map_Url", newv1);
-				contentvalues.put("Material_Url", newv2);
+				contentvalues.put("MapID", newv1);
+				contentvalues.put("MaterialID", newv2);
 			}
 			if(where_string == null)
 				return sqlitedatabase.update(user_table, contentvalues, null, null);

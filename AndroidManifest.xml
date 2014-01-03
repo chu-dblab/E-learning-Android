@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CAMERA" />
-    
 
     <application
         android:allowBackup="true"
@@ -45,12 +44,16 @@
         <activity android:name="tw.edu.chu.csie.e_learning.scanner.NFCDetect" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.TAG_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
@@ -64,6 +67,14 @@
         <activity
             android:name="tw.edu.chu.csie.e_learning.ui.SettingsActivity"
             android:label="@string/title_activity_preference" >
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.scanner.QRCodeScanner"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.TesterActivity"
+            android:label="@string/title_activity_tester" >
         </activity>
     </application>
 

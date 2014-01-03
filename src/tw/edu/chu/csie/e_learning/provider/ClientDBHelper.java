@@ -20,7 +20,7 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 				"CREATE TABLE chu_user ( UID varchar(30) NOT NULL, UNickname varchar(20) DEFAULT NULL, ULogged_code varchar(32) DEFAULT NULL, In_Learn_Time varchar(50) NOT NULL, PRIMARY KEY (UID));"; 
 	//標的資料表
 	private static final String tar = 
-				"CREATE TABLE chu_target ( TID INTEGER unsigned NOT NULL, MapID INTEGER unsigned NOT NULL, MaterialID INTEGER unsigned NOT NULL, Map_Url varchar(150) NOT NULL, Material_Url varchar(150) NOT NULL, PRIMARY KEY (TID));";
+				"CREATE TABLE chu_target ( TID INTEGER UNSIGNED NOT NULL, MapID varchar(20) NOT NULL, MaterialID varchar(20) NOT NULL, TLearn_Time INTEGER UNSIGNED NOT NULL, PRIMARY KEY (TID));";
 	//輔助類建立時運行該方法
 	@Override
 	public void onCreate(SQLiteDatabase db) {
