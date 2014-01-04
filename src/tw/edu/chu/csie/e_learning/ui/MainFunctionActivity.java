@@ -37,6 +37,8 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,7 +55,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +66,6 @@ import android.widget.Toast;
 public class MainFunctionActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
-	private LogoutTask mLogoutTask;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -139,11 +142,6 @@ public class MainFunctionActivity extends FragmentActivity implements
 		case R.id.menu_material_downloader:
 			Intent toTextbookDownloader = new Intent(MainFunctionActivity.this, MaterialDownloaderActivity.class);
 			startActivity(toTextbookDownloader);
-			break;
-		case R.id.menu_logout:
-			mLogoutTask = new LogoutTask();
-			mLogoutTask.execute();
-			//Toast.makeText(this, String.valueOf(new AccountUtils(this).islogin()), 0).show();
 			break;
 		case R.id.menu_qrcode_scan:
 			Intent toQRScan = new Intent(MainFunctionActivity.this, QRCodeScanner.class);
@@ -232,64 +230,184 @@ public class MainFunctionActivity extends FragmentActivity implements
 		}
 	}
 	
-	public class LogoutTask extends AsyncTask<Void, Integer, Boolean> {
 
-		private AccountUtils accountUtils = new AccountUtils(getBaseContext());
-		private ProgressDialog updateProgress;
+	/**
+	 * 學生狀態
+	 */
+	public static class UserStatusFragment extends Fragment implements OnClickListener {
+
+		private Button logoutView;
+		private LogoutTask mLogoutTask;
 		
+		public UserStatusFragment() {
+		}
+
 		@Override
-		protected Boolean doInBackground(Void... params) {
-			// DEBUG 當啟用無連線登入，進入學習畫面
-			if(Config.DEBUG_NO_CONNECT_LOGIN) {
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(
+					R.layout.fragment_main_function_user_status, container, false);
+			/*TextView dummyTextView = (TextView) rootView
+					.findViewById(R.id.section_label);*/
+			logoutView = (Button)rootView.findViewById(R.id.logout_btn);
+			logoutView.setOnClickListener(this);
+			return rootView;
+		}
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			switch(v.getId()) {
+			case R.id.logout_btn:
+				mLogoutTask = new LogoutTask();
+				mLogoutTask.execute();
+				//Toast.makeText(this, String.valueOf(new AccountUtils(this).islogin()), 0).show();
+			}
+		}
+		
+		public class LogoutTask extends AsyncTask<Void, Integer, Boolean> {
+
+			private AccountUtils accountUtils = new AccountUtils(getActivity());
+			private ProgressDialog updateProgress;
+			
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				// DEBUG 當啟用無連線登入，進入學習畫面
+				if(Config.DEBUG_NO_CONNECT_LOGIN) {
+					return true;
+				}
+				else {
+					try {
+						accountUtils.logoutUser();
+					} catch (ClientProtocolException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (HttpException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (PostNotSameException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (LoginCodeException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ServerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
 				return true;
 			}
-			else {
-				try {
-					accountUtils.logoutUser();
-				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (HttpException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (PostNotSameException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (LoginCodeException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ServerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				updateProgress = new ProgressDialog(getActivity());
+				// TODO 拉開成String
+				updateProgress.setMessage("登出中......");
+	    		updateProgress.setCancelable(true);
+	    		// TODO 拉出成字串
+	    		updateProgress.setButton("回到主畫面", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						return;
+					}
+				});
+	    		updateProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	    		updateProgress.show();
+			}
+			
+			@Override
+			protected void onCancelled() {
+				super.onCancelled();
+				updateProgress.dismiss();
+				((Activity)getActivity()).finish();
+			}
+			
+			@Override
+			protected void onPostExecute(Boolean result) {
+				updateProgress.dismiss();
+				((Activity)getActivity()).finish();
+				//super.onPostExecute(result);
+			}
+		}
+	}
+	
+	/**
+	 * 學習地圖
+	 *
+	 */
+	public static class LearnMapFragment extends Fragment {
+		
+		private FileUtils fileUtils;
+		
+		private View rootView;
+		private ImageView mapView;
+//		private Bitmap bmp;
+		private TextView nextPointView, nextPointTimeView;
+		private RequestFromServer requestFromServerTask;
+		
+		public LearnMapFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			fileUtils = new FileUtils();
+			rootView = inflater.inflate(R.layout.fragment_main_function_learn_map, container, false);
+			mapView = (ImageView)rootView.findViewById(R.id.learning_map);
+			// TODO DEBUG
+			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/map_04.jpg");
+			//Toast.makeText(getActivity(), "file://"+fileUtils.getMaterialPath()+"map/map_04.jpg", 1).show();
+			mapView.setImageBitmap(bmp);
+			
+			nextPointView = (TextView)rootView.findViewById(R.id.learning_next_point);
+			nextPointTimeView = (TextView)rootView.findViewById(R.id.learning_next_point_time);
+			
+			
+			return rootView;
+		}
+		
+		/**
+		 * 取得下一個學習點
+		 */
+		private void getNextPoint() {
+			
+		}
+		
+		private void updateNextPointUI() {
+			
+		}
+		
+		/**
+		 * 變更學習地圖的學習點
+		 * @param pointNum 學習點編號
+		 * @return 是否輸入正確
+		 */
+		private void changeMapToPoint(int pointNum) {
+			//bmp = BitmapFactory.decodeFile("file://"+fileUtils.getMaterialPath()+"map/map_"+pointNum+".jpg");
+			//mapView.setImageURI();
+		}
+		
+		/*private String getMapFileNameToPoint(int pointNum) {
+			String prefix = "map_";
+			if(pointNum>=1 && pointNum<=15) {
+				if(pointNum<=3) {
+					
 				}
 			}
-
-			return true;
-		}
-		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			updateProgress = new ProgressDialog((Activity)MainFunctionActivity.this);
-			// TODO 拉開成String
-			updateProgress.setMessage("登出中......");
-    		updateProgress.setCancelable(false);
-    		updateProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-    		updateProgress.show();
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean result) {
-			updateProgress.dismiss();
-			((Activity)MainFunctionActivity.this).finish();
-			//super.onPostExecute(result);
-		}
+			else {
+				return null;
+			}
+		}*/
 	}
 	
 	public class RequestFromServer extends AsyncTask<Void, Void, Void>
@@ -319,87 +437,8 @@ public class MainFunctionActivity extends FragmentActivity implements
 				e.printStackTrace();
 			}
 			return null;
-		}	
-	}
-
-	/**
-	 * 學生狀態
-	 */
-	public static class UserStatusFragment extends Fragment {
-
-		public UserStatusFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(
-					R.layout.fragment_main_function_user_status, container, false);
-			/*TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);*/
-			return rootView;
-		}
-	}
-	
-	/**
-	 * 學習地圖
-	 *
-	 */
-	public static class LearnMapFragment extends Fragment {
-		
-		private FileUtils fileUtils;
-		
-		private View rootView;
-		private ImageView mapView;
-//		private Bitmap bmp;
-		private TextView nextPointView, nextPointTimeView;
-		
-		public LearnMapFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			fileUtils = new FileUtils();
-			rootView = inflater.inflate(R.layout.fragment_main_function_learn_map, container, false);
-			mapView = (ImageView)rootView.findViewById(R.id.learning_map);
-			// TODO DEBUG
-			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/map_04.jpg");
-			Toast.makeText(getActivity(), "file://"+fileUtils.getMaterialPath()+"map/map_04.jpg", 1).show();
-			mapView.setImageBitmap(bmp);
-			
-			nextPointView = (TextView)rootView.findViewById(R.id.learning_next_point);
-			nextPointTimeView = (TextView)rootView.findViewById(R.id.learning_next_point_time);
-			
-			
-			return rootView;
 		}
 		
-		private void updateNextPointUI() {
-			
-		}
-		
-		/**
-		 * 變更學習地圖的學習點
-		 * @param pointNum 學習點編號
-		 * @return 是否輸入正確
-		 */
-		private void changeMapToPoint(int pointNum) {
-			//bmp = BitmapFactory.decodeFile("file://"+fileUtils.getMaterialPath()+"map/map_"+pointNum+".jpg");
-			//mapView.setImageURI();
-		}
-		
-		/*private String getMapFileNameToPoint(int pointNum) {
-			String prefix = "map_";
-			if(pointNum>=1 && pointNum<=15) {
-				if(pointNum<=3) {
-					
-				}
-			}
-			else {
-				return null;
-			}
-		}*/
 	}
 
 }

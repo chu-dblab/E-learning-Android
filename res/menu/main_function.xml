@@ -1,5 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menu_logout" android:title="@string/logout" android:icon="@drawable/device_access_accounts" android:showAsAction="never"></item>
     <item android:id="@+id/menu_about" android:showAsAction="never" android:icon="@android:drawable/ic_dialog_info" android:title="@string/about"></item>
     <item android:id="@+id/menu_material_downloader" android:title="@string/material_downloader"></item>
     <item android:id="@+id/menu_qrcode_scan" android:title="@string/qrcode_scan" android:showAsAction="always"></item>
