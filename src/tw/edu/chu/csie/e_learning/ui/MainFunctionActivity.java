@@ -21,6 +21,7 @@ import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.scanner.QRCodeScanner;
 import tw.edu.chu.csie.e_learning.scanner.NFCDetect;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
@@ -32,6 +33,7 @@ import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
+import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -353,7 +355,7 @@ public class MainFunctionActivity extends FragmentActivity implements
 		private ImageView mapView;
 //		private Bitmap bmp;
 		private TextView nextPointView, nextPointTimeView;
-		private RequestFromServer requestFromServerTask;
+		private SettingUtils config;
 		
 		public LearnMapFragment() {
 		}
@@ -362,15 +364,27 @@ public class MainFunctionActivity extends FragmentActivity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			fileUtils = new FileUtils();
+			config = new SettingUtils(getActivity());
 			rootView = inflater.inflate(R.layout.fragment_main_function_learn_map, container, false);
 			mapView = (ImageView)rootView.findViewById(R.id.learning_map);
 			// TODO DEBUG
-			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/map_04.jpg");
+			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/1F.gif");
 			//Toast.makeText(getActivity(), "file://"+fileUtils.getMaterialPath()+"map/map_04.jpg", 1).show();
 			mapView.setImageBitmap(bmp);
 			
 			nextPointView = (TextView)rootView.findViewById(R.id.learning_next_point);
 			nextPointTimeView = (TextView)rootView.findViewById(R.id.learning_next_point_time);
+			
+			// 檢查是否已推薦學習點了？？
+			ClientDBProvider db = new ClientDBProvider(getActivity());
+			String[] query;
+			query = db.search("chu_target", "TID", null);
+			if(query.length > 0) {
+				updateNextPointUI();
+			}
+			else {
+				getNextPoint();
+			}
 			
 			
 			return rootView;
@@ -379,12 +393,35 @@ public class MainFunctionActivity extends FragmentActivity implements
 		/**
 		 * 取得下一個學習點
 		 */
-		private void getNextPoint() {
+		protected void getNextPoint() {
+			// 取得下一個學習點
+			RequestFromServer requestFromServerTask = new RequestFromServer();
+			requestFromServerTask.execute();
 			
 		}
 		
 		private void updateNextPointUI() {
+			// 抓取首要推薦的學習地圖路徑
+			ClientDBProvider db = new ClientDBProvider(getActivity());
+			String[] query;
+			query = db.search("chu_target", "MapID", null);
+			String mapFileName = query[0];
 			
+			// 抓取學習點編號
+			query = db.search("chu_target", "TID", null);
+			String tID = query[0];
+			nextPointView.setText(tID);
+			
+			// 抓取預估學習時間
+			query = db.search("chu_target", "TLearn_Time", null);
+			String learnTime = query[0];
+			nextPointTimeView.setText(learnTime);
+			
+			
+			// 抓取預估學習時間
+			
+			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
+			mapView.setImageBitmap(bmp);
 		}
 		
 		/**
@@ -408,36 +445,43 @@ public class MainFunctionActivity extends FragmentActivity implements
 				return null;
 			}
 		}*/
+		public class RequestFromServer extends AsyncTask<Void, Void, Void>
+		{
+			private LearningUtils learn = new LearningUtils(getActivity());
+			private AccountUtils account = new AccountUtils(getActivity());
+			
+			@Override
+			protected Void doInBackground(Void... params) {
+				// TODO Auto-generated method stub
+				try {
+					learn.getPointIdOfLearningPoint(account.getLoginId(), "0");
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ServerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (HttpException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Void result) {
+				// TODO Auto-generated method stub
+				super.onPostExecute(result);
+				updateNextPointUI();
+			}
 	}
 	
-	public class RequestFromServer extends AsyncTask<Void, Void, Void>
-	{
-		private LearningUtils learn = new LearningUtils(getBaseContext());
-		private AccountUtils account = new AccountUtils(getBaseContext());
-		
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			try {
-				learn.getPointIdOfLearningPoint(account.getLoginId(), "0");
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (HttpException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
 		
 	}
 
