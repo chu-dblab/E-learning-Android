@@ -22,26 +22,26 @@ public class ClientDBProvider {
 		db = new ClientDBHelper(this.context, Config.CDB_NAME, null, Config.CDB_VERSION);
 	}
 	
-	public long user_insert(String v1,String v2,String v3,String v4){ //"使用者"新增
+	public long user_insert(String Uid,String Unickname,String Ulogged_code,String In_learn_time){ //"使用者"新增
 	
 		openToWrite();
 		ContentValues contentvalues = new ContentValues();
-		contentvalues.put("UID", v1);
-		contentvalues.put("UNickname", v2);
-		contentvalues.put("ULogged_code", v3);
-		contentvalues.put("In_Learn_Time", v4);
+		contentvalues.put("UID", Uid);
+		contentvalues.put("UNickname", Unickname);
+		contentvalues.put("ULogged_code", Ulogged_code);
+		contentvalues.put("In_Learn_Time", In_learn_time);
 		return sqlitedatabase.insert("chu_user", null, contentvalues);
 	}
 
-	public long target_insert(int v1,String v2,String v3,String v4,int v5){ //"標的"新增
+	public long target_insert(int Tid,String Tname,String mapID,String materialID,int Tlearn_time){ //"標的"新增
 		
 		openToWrite();
 		ContentValues contentvalues = new ContentValues();
-		contentvalues.put("TID", v1);
-		contentvalues.put("TName", v2);
-		contentvalues.put("MapID", v3);
-		contentvalues.put("MaterialID", v4);
-		contentvalues.put("TLearn_Time", v5);
+		contentvalues.put("TID", Tid);
+		contentvalues.put("TName", Tname);
+		contentvalues.put("MapID", mapID);
+		contentvalues.put("MaterialID", materialID);
+		contentvalues.put("TLearn_Time", Tlearn_time);
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
 	
