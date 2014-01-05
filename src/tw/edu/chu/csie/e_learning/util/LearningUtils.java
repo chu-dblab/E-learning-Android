@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
+import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.ServerUtils;
@@ -26,8 +28,11 @@ public class LearningUtils
 	private BaseSettings bs;
 	private JSONDecodeUtils decode;
 	private ClientDBProvider dbcon;
+	private SettingUtils settings;
 	public LearningUtils(Context context)
 	{
+		settings = new SettingUtils(context);
+		bs = new BaseSettings(settings.getRemoteURL());
 		connect = new ServerUtils();
 		decode = new JSONDecodeUtils();
 		dbcon = new ClientDBProvider(context);
@@ -82,12 +87,13 @@ public class LearningUtils
 	 * @throws JSONException 
 	 * @throws ServerException
 	 */
-	public void getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException,ClientProtocolException, IOException, HttpException, JSONException 
+	public void getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
 	{
+		Log.d("Test", bs.getApiUrl());
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
 		param.add(new BasicNameValuePair("uid",userID));
 		param.add(new BasicNameValuePair("point",pointNumber));
-		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=recommand", param);
+		String message = message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=recommand", param);
 		boolean status = new JSONObject(message).getBoolean("status_ok");
 		if(!status) throw new ServerException(ServerException.DB_ERR);
 		else 

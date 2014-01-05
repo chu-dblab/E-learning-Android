@@ -52,6 +52,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -395,8 +396,9 @@ public class MainFunctionActivity extends FragmentActivity implements
 		 */
 		protected void getNextPoint() {
 			// 取得下一個學習點
+			AccountUtils account = new AccountUtils(getActivity());
 			RequestFromServer requestFromServerTask = new RequestFromServer();
-			requestFromServerTask.execute();
+			requestFromServerTask.execute(account.getLoginId(),"0");
 			
 		}
 		
@@ -445,29 +447,29 @@ public class MainFunctionActivity extends FragmentActivity implements
 				return null;
 			}
 		}*/
-		public class RequestFromServer extends AsyncTask<Void, Void, Void>
+		public class RequestFromServer extends AsyncTask<String, Void, Void>
 		{
 			private LearningUtils learn = new LearningUtils(getActivity());
-			private AccountUtils account = new AccountUtils(getActivity());
 			
 			@Override
-			protected Void doInBackground(Void... params) {
+			protected Void doInBackground(String... params) {
 				// TODO Auto-generated method stub
 				try {
-					learn.getPointIdOfLearningPoint(account.getLoginId(), "0");
-				} catch (ClientProtocolException e) {
+					learn.getPointIdOfLearningPoint(params[0],params[1]);
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ServerException e) {
+					// TODO Auto-generated catch block
+					Log.d("test", Integer.toString(e.getID()));
+					e.printStackTrace();
+				} catch (ClientProtocolException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (HttpException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
