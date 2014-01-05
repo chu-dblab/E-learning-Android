@@ -477,6 +477,14 @@ public class MainFunctionActivity extends FragmentActivity implements
 			}
 			
 			@Override
+			protected void onPreExecute() {
+				// TODO Auto-generated method stub
+				super.onPreExecute();
+				nextPointView.setText(R.string.learning_next_point_getting);
+				nextPointTimeView.setText(R.string.learning_next_point_getting);
+			}
+			
+			@Override
 			protected void onPostExecute(Void result) {
 				// TODO Auto-generated method stub
 				super.onPostExecute(result);

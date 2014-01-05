@@ -38,7 +38,7 @@ public class TesterActivity extends Activity {
 				// TODO Auto-generated method stub
 				ClientDBProvider db = new ClientDBProvider(getBaseContext());
 				
-				db.target_insert(01, "", "01.html", 3);
+				db.target_insert(01, "Test!!!", "", "01.html", 3);
 			}
 		});
 	}
