@@ -124,6 +124,11 @@ public class AccountUtils {
 	public void loginUser(String inputLoginId, String inputLoginPasswd) 
 			throws ClientProtocolException, IOException, JSONException, LoginException, PostNotSameException, HttpException, ServerException, LoginCodeException
 	{
+		//清除登入資訊
+		clientdb.delete(null, "chu_user");
+		clientdb.delete(null, "chu_target");
+		
+		// 登入這個使用者
 		String loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
 		ServerUser userinfo = this.server.userGetInfo(loginCode);
 		String nickName = userinfo.getNickName();
@@ -155,6 +160,7 @@ public class AccountUtils {
 		
 		//清除登入資訊
 		clientdb.delete(null, "chu_user");
+		clientdb.delete(null, "chu_target");
 		
 		//將使用者的學習狀態傳送至後端
 		this.server.userLogout(loginCode);
