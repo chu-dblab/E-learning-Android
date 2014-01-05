@@ -32,7 +32,7 @@ public class JSONDecodeUtils
 		jsonData = new JSONObject(data).getJSONObject(orderOfNode);
 		nextPoint = jsonData.getInt("node");
 		estimatedStudyTime = jsonData.getInt("LearnTime");
-		mapURL = jsonData.getString("MapUrl");
+		mapURL = jsonData.getString("MapURL");
 		materialURL = jsonData.getString("MaterialUrl");
 	}
 	
