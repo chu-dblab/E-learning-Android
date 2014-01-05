@@ -10,6 +10,7 @@ public class JSONDecodeUtils
 {
 	private int nextPoint;
 	private int estimatedStudyTime;
+	private String targetName;
 	private String mapURL;
 	private String materialURL;
 	private JSONObject jsonData;
@@ -32,6 +33,7 @@ public class JSONDecodeUtils
 		jsonData = new JSONObject(data).getJSONObject(orderOfNode);
 		nextPoint = jsonData.getInt("node");
 		estimatedStudyTime = jsonData.getInt("LearnTime");
+		targetName = jsonData.getString("TName");
 		mapURL = jsonData.getString("MapURL");
 		materialURL = jsonData.getString("MaterialUrl");
 	}
@@ -52,6 +54,11 @@ public class JSONDecodeUtils
 	public int getEstimatedStudyTime()
 	{
 		return estimatedStudyTime;
+	}
+	
+	public String getTargetName()
+	{
+		return targetName;
 	}
 	
 	/**
