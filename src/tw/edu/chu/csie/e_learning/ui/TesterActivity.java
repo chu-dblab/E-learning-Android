@@ -21,6 +21,7 @@ public class TesterActivity extends Activity {
 		setContentView(R.layout.activity_tester);
 		
 		Button btn1 = (Button)findViewById(R.id.tester_btn1);
+		btn1.setText("取得學習點01教材路徑");
 		btn1.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -31,13 +32,26 @@ public class TesterActivity extends Activity {
 		});
 		
 		Button btn2 = (Button)findViewById(R.id.tester_btn2);
+		btn2.setText("寫入標地1進SQLite");
 		btn2.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				ClientDBProvider db = new ClientDBProvider(getBaseContext());
-				db.target_insert(01, "Test!!!", "", "01.html", 3);
+				db.target_insert(01, "Test!!!", "map_01_02_03.png", "01.html", 3);
+			}
+		});
+		
+		Button btn3 = (Button)findViewById(R.id.tester_btn3);
+		btn3.setText("清除標地SQLite");
+		btn3.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ClientDBProvider db = new ClientDBProvider(getBaseContext());
+				db.delete(null, "chu_target");
 			}
 		});
 	}

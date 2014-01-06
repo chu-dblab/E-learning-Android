@@ -1,6 +1,8 @@
 package tw.edu.chu.csie.e_learning.ui;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -53,9 +55,9 @@ public class MaterialActivity extends Activity {
 			// 取得目前所在的教材編號
 			Intent intent = getIntent();
 			this.thisMaterialId = intent.getIntExtra("materialId",0);
-			request.execute("addPeople",Integer.toString(thisMaterialId));
-			// DEBUG 測試FileUtils
-			Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
+			
+			// 開始學習
+			this.learnStart();
 			
 			// 將網頁內容顯示出來
 			webSettings = mWebView.getSettings();
@@ -65,12 +67,48 @@ public class MaterialActivity extends Activity {
 			mWebView.loadUrl("file://"+fileUtils.getMaterialFilePath(this, thisMaterialId));			
 			//mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
 			//mWebView.loadUrl("file:///android_assets/01.html");			
+			// DEBUG 測試FileUtils
+			Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
 		}
 		
 		
 	}
-	protected void learnFinish() {
+	
+	protected int getMaterialId() {
+		return this.thisMaterialId;
+	}
+	
+	/**
+	 * 此學習點學習開始
+	 */
+	protected void learnStart() {
+		// 取得進入學習點時間
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date curDate = new Date(System.currentTimeMillis()) ;
+		String in_target = format.format(curDate);
+		Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
 		
+		// 加人數
+		request.execute("addPeople",Integer.toString(thisMaterialId));
+	}
+	
+	/**
+	 * 此學習點學習完畢
+	 */
+	protected void learnFinish() {
+		// 取得離開學習點的時間
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date curDate = new Date(System.currentTimeMillis()) ;
+		String leave_target = format.format(curDate);
+		Toast.makeText(this, leave_target , Toast.LENGTH_SHORT).show();	
+		/*
+		 * TODO 因為牽涉到網路，要再進一步討論
+		// 減人數
+		request.execute("subPeople",Integer.toString(thisMaterialId));
+		learn.getPointIdOfLearningPoint(struserid, tid);
+		*/
+		
+		this.finish();
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {

@@ -43,12 +43,7 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 			if(tabEnable){
 				tabEnable = false;
 				
-				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				Date curDate = new Date(System.currentTimeMillis()) ;
-				String in_target = format.format(curDate);
-				Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
-				
-				gettext = text;
+				this.gettext = text;
 				
 				if(text!="")
 				{
@@ -94,10 +89,10 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 		}
 
 		// 回傳標地編號，方便其他Class使用
-			public String getext() 
-			{
-				return gettext;
-			}
+		public String getext() 
+		{
+			return gettext;
+		}
 		
 		// 當行動裝置裝置沒有Camera
 		@Override
