@@ -412,7 +412,11 @@ public class MainFunctionActivity extends FragmentActivity implements
 			// 抓取學習點編號
 			query = db.search("chu_target", "TID", null);
 			String tID = query[0];
-			nextPointView.setText(tID);
+			
+			// 抓取學習點名稱
+			query = db.search("chu_target", "TName", null);
+			String tName = query[0];
+			nextPointView.setText(tID+". "+tName);
 			
 			// 抓取預估學習時間
 			query = db.search("chu_target", "TLearn_Time", null);
