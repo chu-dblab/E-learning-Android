@@ -34,22 +34,28 @@ public class MaterialActivity extends Activity {
 	private RequestToServer request;
 
 	public MaterialActivity() {
-		this.fileUtils = new FileUtils();
-		this.request = new RequestToServer();
 	}
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// TODO 橫向螢幕處理
+		this.fileUtils = new FileUtils();
+		this.request = new RequestToServer();
+		
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
-		// 取得目前所在的教材編號
-		Intent intent = getIntent();
-		this.thisMaterialId = intent.getIntExtra("materialId",0);
-		request.execute("addPeople",Integer.toString(thisMaterialId));
+		
+		// 判斷是否已經是在活動內
 		if (savedInstanceState != null) {
 			((WebView)findViewById(R.id.material_webview)).restoreState(savedInstanceState);
 		} else {
+			// 取得目前所在的教材編號
+			Intent intent = getIntent();
+			this.thisMaterialId = intent.getIntExtra("materialId",0);
+			request.execute("addPeople",Integer.toString(thisMaterialId));
+			// DEBUG 測試FileUtils
+			Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
 			
 			// 將網頁內容顯示出來
 			webSettings = mWebView.getSettings();
@@ -62,8 +68,6 @@ public class MaterialActivity extends Activity {
 		}
 		
 		
-		// DEBUG 測試FileUtils
-		Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
 	}
 	protected void learnFinish() {
 		
@@ -98,7 +102,7 @@ public class MaterialActivity extends Activity {
 	 */
 	public class RequestToServer extends AsyncTask<String, Void, Void>
 	{
-		private LearningUtils learn = new LearningUtils(getBaseContext());
+		private LearningUtils learn = new LearningUtils(MaterialActivity.this);
 		@Override
 		protected Void doInBackground(String... params) 
 		{
