@@ -8,6 +8,7 @@ import com.google.zxing.maxicode.MaxiCodeReader;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
+import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 public class NFCDetect extends Activity
 {
@@ -139,10 +141,14 @@ public class NFCDetect extends Activity
 	
 	private void sentIntentToMaterial(String targetID)
 	{
-		Intent learningTarget = new Intent(this,MaterialActivity.class);
-		learningTarget.putExtra("materialID", filepath.getMaterialPath()+targetID);
-		startActivityForResult(learningTarget,1);
+		if(new LearningUtils(this).isInRecommandPoint(targetID)) {
+			Intent toLearning = new Intent(this, MaterialActivity.class);
+			toLearning.putExtra("materialId", Integer.valueOf(targetID));
+			startActivityForResult(toLearning, 1);
+		}
+		else {
+			// TODO 拉開成String
+			Toast.makeText(this, "這不是這次的推薦學習點喔～", Toast.LENGTH_LONG).show();
+		}
 	}
-	
-	
 }

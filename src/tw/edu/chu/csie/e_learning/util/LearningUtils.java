@@ -38,6 +38,17 @@ public class LearningUtils
 		dbcon = new ClientDBProvider(context);
 	}
 	
+	/**
+	 * 此學習點是否為推薦的學習點
+	 * @param pointNumber
+	 * @return
+	 */
+	public boolean isInRecommandPoint(String pointNumber) {
+		// 抓取資料庫中有無此學習點
+		String[] query = dbcon.search("chu_target", "TID", "TID="+pointNumber);
+		if(query.length>0) return true;
+		else return false;
+	}
 	
 	/**
 	 * 加人數

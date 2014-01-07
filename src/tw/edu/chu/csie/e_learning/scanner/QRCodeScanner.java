@@ -3,7 +3,7 @@ package tw.edu.chu.csie.e_learning.scanner;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.ui.MainFunctionActivity;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
-
+import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import qrcodereaderview.QRCodeReaderView;
 import qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
 
@@ -65,12 +65,17 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 							try {
 								int materialId = Integer.valueOf(text);
 								// 解讀正確，進入學習教材
-								Intent toLearning = new Intent(this, MaterialActivity.class);
-								toLearning.putExtra("materialId", materialId);
-								startActivityForResult(toLearning, 1);
-								finish();
-								// TODO 拉開成String
-								Toast.makeText(this, "取得的標地編號："+text, Toast.LENGTH_SHORT).show();
+								if(new LearningUtils(this).isInRecommandPoint(text)) {
+									Intent toLearning = new Intent(this, MaterialActivity.class);
+									toLearning.putExtra("materialId", materialId);
+									startActivityForResult(toLearning, 1);
+									finish();
+								}
+								else {
+									// TODO 拉開成String
+									Toast.makeText(this, "這不是這次的推薦學習點喔～", Toast.LENGTH_LONG).show();
+									finish();
+								}
 							} catch(IllegalArgumentException ex) {
 								// TODO 拉開成String
 								Toast.makeText(this, "此內容不是數字喔!!", Toast.LENGTH_LONG).show();

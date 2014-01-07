@@ -9,6 +9,7 @@ import org.json.JSONException;
 
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
+import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
@@ -108,6 +109,10 @@ public class MaterialActivity extends Activity {
 		learn.getPointIdOfLearningPoint(struserid, tid);
 		*/
 		
+		// 清除推薦清單
+		ClientDBProvider db = new ClientDBProvider(getBaseContext());
+		db.delete(null, "chu_target");
+		
 		this.finish();
 	}
 	
@@ -119,6 +124,7 @@ public class MaterialActivity extends Activity {
 	public void onBackPressed() {
 		// 判斷目前的設定檔是否允許中途離開學習點
 		if(new SettingUtils(this).isLearningBackEnable()) {
+			learnFinish();
 			// 離開學習點
 			Toast.makeText(getBaseContext(), R.string.learning_leaved_point, Toast.LENGTH_LONG).show();
 			super.onBackPressed();
