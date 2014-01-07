@@ -76,6 +76,10 @@
             android:name="tw.edu.chu.csie.e_learning.ui.TesterActivity"
             android:label="@string/title_activity_tester" >
         </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.MapActivity"
+            android:label="@string/title_activity_map" >
+        </activity>
     </application>
 
 </manifest>

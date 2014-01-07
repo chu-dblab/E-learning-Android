@@ -48,5 +48,6 @@
     <!-- 設定 -->
     <string name="title_activity_preference">系統設定</string>
     <string name="title_activity_tester">TesterActivity</string>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>

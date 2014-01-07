@@ -151,7 +151,7 @@ public class UserLoginActivity extends Activity {
 		// 檢查是否已登入
 		AccountUtils accountUtils = new AccountUtils(this);
 		if(accountUtils.islogin()) {
-			Intent toLogin = new Intent(UserLoginActivity.this, MainFunctionActivity.class);
+			Intent toLogin = new Intent(UserLoginActivity.this, MapActivity.class);
 			startActivity(toLogin);
 		}
 		
@@ -362,7 +362,7 @@ public class UserLoginActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
-				Intent toLogin = new Intent(UserLoginActivity.this, MainFunctionActivity.class);
+				Intent toLogin = new Intent(UserLoginActivity.this, MapActivity.class);
 				startActivity(toLogin);
 			} else {
 				String failKind = bundle.getString("exception");
