@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.webkit.WebSettings;
@@ -40,8 +41,6 @@ public class MaterialActivity extends Activity {
 	private FileUtils fileUtils;
 	private WebView mWebView;
 	private WebSettings webSettings;
-	private RequestToServer request;
-	private RequestForNextPoint nextPoint;
 	private AccountUtils account;
 
 	public MaterialActivity() {
@@ -52,8 +51,6 @@ public class MaterialActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// TODO 橫向螢幕處理
 		this.fileUtils = new FileUtils();
-		this.request = new RequestToServer();
-		this.nextPoint = new RequestForNextPoint();
 		this.account = new AccountUtils(this);
 		
 		// 隱藏ActionBar
@@ -98,12 +95,13 @@ public class MaterialActivity extends Activity {
 	 */
 	protected void learnStart() {
 		// 取得進入學習點時間
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
 		in_target = format.format(curDate);
 		Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
 		
 		// 加人數
+		RequestToServer request = new RequestToServer();
 		request.execute("addPeople",Integer.toString(thisMaterialId));
 	}
 	
@@ -112,7 +110,7 @@ public class MaterialActivity extends Activity {
 	 */
 	protected void learnFinish() {
 		// 取得離開學習點的時間
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
 		leave_target = format.format(curDate);
 		Toast.makeText(this, leave_target , Toast.LENGTH_SHORT).show();
@@ -122,8 +120,12 @@ public class MaterialActivity extends Activity {
 		db.delete(null, "chu_target");
 		
 		// 減人數
+		RequestToServer request = new RequestToServer();
 		request.execute("subPeople",Integer.toString(thisMaterialId));
-		nextPoint.execute(account.getLoginId(),Integer.toString(thisMaterialId),in_target,leave_target);
+		
+		// 丟回答狀況給後端
+		RequestForNextPoint nextPoint = new RequestForNextPoint();
+		nextPoint.execute(Integer.toString(thisMaterialId),account.getLoginId(),in_target,leave_target);
 		
 		this.finish();
 	}
@@ -184,18 +186,36 @@ public class MaterialActivity extends Activity {
 			else if(action == "subPeople") learn.subPeople(point);
 			else Toast.makeText(getBaseContext(), "ERROR~!!", Toast.LENGTH_SHORT).show();
 		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			// TODO DEBUG
+			Toast.makeText(MaterialActivity.this, "傳送人數加減", 0).show();
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			// TODO DEBUG
+			Toast.makeText(MaterialActivity.this, "已傳送人數加減", 0).show();
+		}
 	}
 	
+	/**
+	 * 傳學生的回答狀況給伺服端 
+	 *
+	 */
 	public class RequestForNextPoint extends AsyncTask<String, Void, Void>
 	{
-		private BaseSettings bs = new BaseSettings(Config.REMOTE_BASE_URL);
+		private BaseSettings bs = new BaseSettings(new SettingUtils(MaterialActivity.this).getRemoteURL());
 		private ServerAPIs api = new ServerAPIs(bs);
 		
 		
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				api.saveUserStatus(Integer.parseInt(params[1]), params[0], params[3], params[4]);
+				api.saveUserStatus(Integer.parseInt(params[0]), params[1], params[2], params[3]);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -216,6 +236,18 @@ public class MaterialActivity extends Activity {
 				e.printStackTrace();
 			}
 			return null;
+		}
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			Toast.makeText(MaterialActivity.this, "傳送回答資料", 0).show();
+		}
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Toast.makeText(MaterialActivity.this, "OK傳送回答資料", 0).show();
 		}
 	}
 
