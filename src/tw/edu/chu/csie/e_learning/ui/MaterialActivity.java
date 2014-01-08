@@ -125,8 +125,6 @@ public class MaterialActivity extends Activity {
 		request.execute("subPeople",Integer.toString(thisMaterialId));
 		nextPoint.execute(account.getLoginId(),Integer.toString(thisMaterialId),in_target,leave_target);
 		
-		
-		
 		this.finish();
 	}
 	

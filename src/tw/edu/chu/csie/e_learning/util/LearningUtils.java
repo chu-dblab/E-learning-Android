@@ -18,14 +18,15 @@ import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
+import tw.edu.chu.csie.e_learning.server.ServerAPIs;
 import tw.edu.chu.csie.e_learning.server.ServerUtils;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
 public class LearningUtils 
 {
-	private ServerUtils connect;
 	private BaseSettings bs;
+	private ServerAPIs connect;
 	private JSONDecodeUtils decode;
 	private ClientDBProvider dbcon;
 	private SettingUtils settings;
@@ -33,7 +34,7 @@ public class LearningUtils
 	{
 		settings = new SettingUtils(context);
 		bs = new BaseSettings(settings.getRemoteURL());
-		connect = new ServerUtils();
+		connect = new ServerAPIs(bs);
 		decode = new JSONDecodeUtils();
 		dbcon = new ClientDBProvider(context);
 	}
@@ -61,11 +62,7 @@ public class LearningUtils
 	 */
 	public void addPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
-		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		param.add(new BasicNameValuePair("amount",pointNumber ));
-		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=addPeople", param);
-		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) throw new ServerException();
+		connect.addPeople(pointNumber);
 	}
 	
 	/**
@@ -81,11 +78,7 @@ public class LearningUtils
 	 */
 	public void subPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
 	{
-		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		param.add(new BasicNameValuePair("amount",pointNumber ));
-		String message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=subPeople", param);
-		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) throw new ServerException();
+		connect.subPeople(pointNumber);
 	}
 	
 	/**
@@ -100,18 +93,9 @@ public class LearningUtils
 	 */
 	public void getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
 	{
-		Log.d("Test", bs.getApiUrl());
-		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		param.add(new BasicNameValuePair("uid",userID));
-		param.add(new BasicNameValuePair("point",pointNumber));
-		String message = message = connect.getServerData(bs.getApiUrl()+"Learn/people.php?op=recommand", param);
-		boolean status = new JSONObject(message).getBoolean("status_ok");
-		if(!status) throw new ServerException(ServerException.DB_ERR);
-		else 
-		{
-			String tmp = new JSONObject(message).getString("nextNode");
-			decode.DecodeJSONData(tmp,"first");
-			dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
-		}
+		String message = connect.getPointIdOfLearningPoint(userID, pointNumber);
+		
+		decode.DecodeJSONData(message,"first");
+		dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
 	}
 }

@@ -195,4 +195,68 @@ public class ServerAPIs {
 			else throw new ServerException();
 		}		
 	}
+	
+	// ===============================================================================================
+	/**
+	 * 加人數
+	 * @param pointNumber
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException 
+	 * @throws ServerException 
+	 */
+	public void addPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+	{
+		List<NameValuePair> param = new ArrayList<NameValuePair>();
+		param.add(new BasicNameValuePair("amount",pointNumber ));
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/people.php?op=addPeople", param);
+		boolean status = new JSONObject(message).getBoolean("status_ok");
+		if(!status) throw new ServerException();
+	}
+	
+	/**
+	 * 減人數
+	 * @param pointNumber
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException
+	 * 請用Log.d();來Debug~!!
+	 * @throws ServerException 
+	 */
+	public void subPeople(String pointNumber) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+	{
+		List<NameValuePair> param = new ArrayList<NameValuePair>();
+		param.add(new BasicNameValuePair("amount",pointNumber ));
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/people.php?op=subPeople", param);
+		boolean status = new JSONObject(message).getBoolean("status_ok");
+		if(!status) throw new ServerException();
+	}
+	
+	/**
+	 * 取得系統推薦的下個學習點
+	 * @param userID
+	 * @param pointNumber
+	 * @throws HttpException 
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
+	 * @throws JSONException 
+	 * @throws ServerException
+	 */
+	public String getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
+	{
+		List<NameValuePair> param = new ArrayList<NameValuePair>();
+		param.add(new BasicNameValuePair("uid",userID));
+		param.add(new BasicNameValuePair("point",pointNumber));
+		String message = message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/people.php?op=recommand", param);
+		boolean status = new JSONObject(message).getBoolean("status_ok");
+		if(!status) throw new ServerException(ServerException.DB_ERR);
+		else 
+		{
+			String tmp = new JSONObject(message).getString("nextNode");
+			return tmp;
+		}
+	}
 }
