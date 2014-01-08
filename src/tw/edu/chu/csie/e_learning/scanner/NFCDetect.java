@@ -39,12 +39,13 @@ public class NFCDetect extends Activity
 	private String materialID;
 	private static final String TAG = NFCDetect.class.getSimpleName();
 	private FileUtils filepath = new FileUtils();
-	private AccountUtils logincheck = new AccountUtils(getBaseContext());
+	private AccountUtils logincheck;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		logincheck = new AccountUtils(this);
 		if(!logincheck.islogin()) {
 			finish();
 		}
@@ -87,6 +88,8 @@ public class NFCDetect extends Activity
 	        NdefMessage[] messages = getNdefMessages(getIntent());
 	        // 取得實際的內容
 	        byte[] payload = messages[0].getRecords()[0].getPayload();
+	        materialID = new String(payload);
+	        sentIntentToMaterial(materialID);
 	        // 往下送出該intent給其他的處理對象
 	        setIntent(new Intent()); 
 	    }
@@ -100,8 +103,8 @@ public class NFCDetect extends Activity
 		if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
 		{
 			NdefMessage[] msg = getNdefMessages(intent);
-			materialID = new String(msg[0].getRecords()[0].getPayload());
-			sentIntentToMaterial(materialID);
+			//materialID = new String(msg[0].getRecords()[0].getPayload());
+			//sentIntentToMaterial(materialID);
 		}
 	}
 	
@@ -113,8 +116,7 @@ public class NFCDetect extends Activity
 	    if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
 	            || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
 	        // 取得parcelabelarrry的資料
-	        Parcelable[] rawMsgs = 
-	            intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+	        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 	        // 取出的內容如果不為null，將parcelable轉成ndefmessage
 	        if (rawMsgs != null) {
 	            msgs = new NdefMessage[rawMsgs.length];
@@ -143,8 +145,9 @@ public class NFCDetect extends Activity
 	{
 		if(new LearningUtils(this).isInRecommandPoint(targetID)) {
 			Intent toLearning = new Intent(this, MaterialActivity.class);
-			toLearning.putExtra("materialId", Integer.valueOf(targetID));
-			startActivityForResult(toLearning, 1);
+			toLearning.putExtra("materialId",  Integer.parseInt(targetID));
+			finish();
+			startActivityForResult(toLearning,1);
 		}
 		else {
 			// TODO 拉開成String

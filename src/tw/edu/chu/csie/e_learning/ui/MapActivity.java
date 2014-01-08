@@ -12,6 +12,7 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import tw.edu.chu.csie.e_learning.scanner.NFCDetect;
 import tw.edu.chu.csie.e_learning.scanner.QRCodeScanner;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;

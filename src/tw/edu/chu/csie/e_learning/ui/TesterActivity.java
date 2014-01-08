@@ -27,7 +27,7 @@ public class TesterActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getBaseContext(), new FileUtils().getMaterialFilePath(getBaseContext(), 01), 0).show();
+				Toast.makeText(getBaseContext(), new FileUtils().getMaterialFilePath(getBaseContext(), 19), 0).show();
 			}
 		});
 		

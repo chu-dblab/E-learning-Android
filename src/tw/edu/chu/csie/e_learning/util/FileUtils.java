@@ -13,6 +13,7 @@ import java.util.zip.ZipInputStream;
 
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import android.R.string;
 import android.content.Context;
 import android.os.*;
 import android.util.Log;
