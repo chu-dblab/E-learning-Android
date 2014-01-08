@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -54,6 +55,10 @@ public class MaterialActivity extends Activity {
 		this.request = new RequestToServer();
 		this.nextPoint = new RequestForNextPoint();
 		this.account = new AccountUtils(this);
+		
+		// 隱藏ActionBar
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+		getActionBar().hide();
 		
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
