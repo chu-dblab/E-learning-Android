@@ -36,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MapActivity extends Activity {
 
@@ -59,19 +60,25 @@ public class MapActivity extends Activity {
 		nextPointView = (TextView)findViewById(R.id.learning_next_point);
 		nextPointTimeView = (TextView)findViewById(R.id.learning_next_point_time);
 		
-		// 檢查是否已推薦學習點了？？
-		ClientDBProvider db = new ClientDBProvider(this);
-		String[] query;
-		query = db.search("chu_target", "TID", null);
-		if(query.length > 0) {
-			updateNextPointUI();
-		}
-		else {
-			getNextPoint();
-		}
-		
+		// 取得下一個學習點
+		if(!isHaveNextPoint()) getNextPoint();
+		else updateNextPointUI();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 取得下一個學習點
+		if(!isHaveNextPoint()) getNextPoint();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(config.isExitEnable()) {
+			System.exit(0);
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -116,6 +123,18 @@ public class MapActivity extends Activity {
 	}
 	
 	// ========================================================================================
+	protected boolean isHaveNextPoint() {
+		// 檢查是否已推薦學習點了？？
+		ClientDBProvider db = new ClientDBProvider(this);
+		String[] query;
+		query = db.search("chu_target", "TID", null);
+		if(query.length > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	/**
 	 * 取得下一個學習點
 	 */
