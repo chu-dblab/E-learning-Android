@@ -10,8 +10,11 @@ import org.json.JSONException;
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import tw.edu.chu.csie.e_learning.server.BaseSettings;
+import tw.edu.chu.csie.e_learning.server.ServerAPIs;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
+import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
@@ -30,11 +33,15 @@ import android.widget.Toast;
 public class MaterialActivity extends Activity {
 	
 	private int thisMaterialId; //教材編號
+	private String in_target;
+	private String leave_target;
 	
 	private FileUtils fileUtils;
 	private WebView mWebView;
 	private WebSettings webSettings;
 	private RequestToServer request;
+	private RequestForNextPoint nextPoint;
+	private AccountUtils account;
 
 	public MaterialActivity() {
 	}
@@ -45,6 +52,8 @@ public class MaterialActivity extends Activity {
 		// TODO 橫向螢幕處理
 		this.fileUtils = new FileUtils();
 		this.request = new RequestToServer();
+		this.nextPoint = new RequestForNextPoint();
+		this.account = new AccountUtils(this);
 		
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
@@ -86,7 +95,7 @@ public class MaterialActivity extends Activity {
 		// 取得進入學習點時間
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
-		String in_target = format.format(curDate);
+		in_target = format.format(curDate);
 		Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
 		
 		// 加人數
@@ -100,18 +109,18 @@ public class MaterialActivity extends Activity {
 		// 取得離開學習點的時間
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
-		String leave_target = format.format(curDate);
-		Toast.makeText(this, leave_target , Toast.LENGTH_SHORT).show();	
-		/*
-		 * TODO 因為牽涉到網路，要再進一步討論
-		// 減人數
-		request.execute("subPeople",Integer.toString(thisMaterialId));
-		learn.getPointIdOfLearningPoint(struserid, tid);
-		*/
+		leave_target = format.format(curDate);
+		Toast.makeText(this, leave_target , Toast.LENGTH_SHORT).show();
 		
 		// 清除推薦清單
 		ClientDBProvider db = new ClientDBProvider(getBaseContext());
 		db.delete(null, "chu_target");
+		
+		// 減人數
+		request.execute("subPeople",Integer.toString(thisMaterialId));
+		nextPoint.execute(account.getLoginId(),Integer.toString(thisMaterialId),in_target,leave_target);
+		
+		
 		
 		this.finish();
 	}
@@ -153,6 +162,41 @@ public class MaterialActivity extends Activity {
 			try {
 				changeOfPerson(params[0], params[1]);
 			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (ServerException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		private void changeOfPerson(String action,String point) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+		{
+			if(action == "addPeople") learn.addPeople(point);
+			else if(action == "subPeople") learn.subPeople(point);
+			else Toast.makeText(getBaseContext(), "ERROR~!!", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	public class RequestForNextPoint extends AsyncTask<String, Void, Void>
+	{
+		private BaseSettings bs = new BaseSettings(Config.REMOTE_BASE_URL);
+		private ServerAPIs api = new ServerAPIs(bs);
+		
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			try {
+				api.saveUserStatus(Integer.parseInt(params[1]), params[0], params[3], params[4]);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -169,13 +213,6 @@ public class MaterialActivity extends Activity {
 				e.printStackTrace();
 			}
 			return null;
-		}
-		
-		private void changeOfPerson(String action,String point) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
-		{
-			if(action == "addPeople") learn.addPeople(point);
-			else if(action == "subPeople") learn.subPeople(point);
-			else Toast.makeText(getBaseContext(), "ERROR~!!", Toast.LENGTH_SHORT).show();
 		}
 	}
 

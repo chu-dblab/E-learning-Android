@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 
 import com.google.zxing.maxicode.MaxiCodeReader;
 
+import tw.edu.chu.csie.e_learning.ui.MapActivity;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 import tw.edu.chu.csie.e_learning.util.AccountUtils;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
@@ -93,7 +94,7 @@ public class NFCDetect extends Activity
 	        // 往下送出該intent給其他的處理對象
 	        setIntent(new Intent()); 
 	    }
-		adapter.enableForegroundDispatch(this, nfcPendingIntent, nfcFilter, tech_list);
+		adapter.enableForegroundDispatch((Activity)getBaseContext(), nfcPendingIntent, nfcFilter, tech_list);
 	}
 	
 	public void callMaterial(Intent intent)
