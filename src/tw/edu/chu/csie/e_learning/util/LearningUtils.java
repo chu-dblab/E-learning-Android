@@ -96,6 +96,6 @@ public class LearningUtils
 		String message = connect.getPointIdOfLearningPoint(userID, pointNumber);
 		
 		decode.DecodeJSONData(message,"first");
-		dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime());
+		dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime(),decode.getIsEntity());
 	}
 }

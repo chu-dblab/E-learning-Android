@@ -39,7 +39,7 @@ public class TesterActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				ClientDBProvider db = new ClientDBProvider(getBaseContext());
-				db.target_insert(01, "Test!!!", "map_01_02_03.png", "01.html", 3);
+				db.target_insert(01, "Test!!!", "map_01_02_03.png", "01.html", 3,0);
 			}
 		});
 		
