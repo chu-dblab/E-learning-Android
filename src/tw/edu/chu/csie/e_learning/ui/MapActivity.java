@@ -12,7 +12,6 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.R.string;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
-import tw.edu.chu.csie.e_learning.scanner.NFCDetect;
 import tw.edu.chu.csie.e_learning.scanner.QRCodeScanner;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
@@ -23,12 +22,21 @@ import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.HelpUtils;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
+import android.nfc.tech.NfcA;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentFilter.MalformedMimeTypeException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -44,6 +52,15 @@ public class MapActivity extends Activity {
 	private ImageView mapView;
 	private TextView nextPointView, nextPointTimeView;
 	private SettingUtils config;
+	private NfcManager manager;
+	private NfcAdapter adapter;
+	private IntentFilter nfc_tech;
+	private IntentFilter[] nfcFilter;
+	private PendingIntent nfcPendingIntent;
+	private Intent nfc_intent;
+	private String[][] tech_list;
+	private String materialID;
+	private static final String TAG = MapActivity.class.getSimpleName();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +76,7 @@ public class MapActivity extends Activity {
 		
 		nextPointView = (TextView)findViewById(R.id.learning_next_point);
 		nextPointTimeView = (TextView)findViewById(R.id.learning_next_point_time);
-		
+		initialNFCDetect();
 		// 取得下一個學習點
 		if(!isHaveNextPoint()) getNextPoint();
 		else updateNextPointUI();
@@ -68,8 +85,32 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		adapter.enableForegroundDispatch(this, nfcPendingIntent, nfcFilter, tech_list);
 		// 取得下一個學習點
 		if(!isHaveNextPoint()) getNextPoint();
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		adapter.disableForegroundDispatch(this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+	        // 取得NdefMessage
+	        NdefMessage[] messages = getNdefMessages(getIntent());
+	        // 取得實際的內容
+	        byte[] payload = messages[0].getRecords()[0].getPayload();
+	        materialID = new String(payload);
+	        sentIntentToMaterial(materialID);
+	        // 往下送出該intent給其他的處理對象
+	        setIntent(new Intent()); 
+	    }
+		super.onNewIntent(intent);
 	}
 
 	@Override
@@ -120,6 +161,67 @@ public class MapActivity extends Activity {
     	   break;
 		}
 		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	//=========================================================================================
+	//NFC 相關的code
+	private void initialNFCDetect()
+	{
+		adapter = NfcAdapter.getDefaultAdapter(this);
+		nfc_intent = new Intent(this,getClass());
+		nfcPendingIntent = PendingIntent.getActivity(this, 0, nfc_intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		nfc_tech = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+		try {
+			nfc_tech.addDataType("text/plain");
+		} catch (MalformedMimeTypeException e) { }
+		nfcFilter = new IntentFilter[]{nfc_tech};
+		tech_list = new String[][]{new String[]{NfcA.class.getName()}};
+	}
+	
+	private NdefMessage[] getNdefMessages(Intent intent) {
+	    // Parse the intent
+	    NdefMessage[] msgs = null;
+	    String action = intent.getAction();
+	    // 識別目前的action為何
+	    if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
+	            || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+	        // 取得parcelabelarrry的資料
+	        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+	        // 取出的內容如果不為null，將parcelable轉成ndefmessage
+	        if (rawMsgs != null) {
+	            msgs = new NdefMessage[rawMsgs.length];
+	            for (int i = 0; i < rawMsgs.length; i++) {
+	                msgs[i] = (NdefMessage) rawMsgs[i];
+	            }
+	        } else {
+	            // Unknown tag type
+	            byte[] empty = new byte[] {};
+	            NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty);
+	            NdefMessage msg = new NdefMessage(new NdefRecord[] {
+	                record
+	            });
+	            msgs = new NdefMessage[] {
+	                msg
+	            };
+	        }
+	    } else {
+	        Log.d(TAG, "Unknown intent.");
+	        finish();
+	    }
+	    return msgs;
+	}
+	
+	private void sentIntentToMaterial(String targetID)
+	{
+		if(new LearningUtils(this).isInRecommandPoint(targetID)) {
+			Intent toLearning = new Intent(this, MaterialActivity.class);
+			toLearning.putExtra("materialId",  Integer.parseInt(targetID));
+			startActivity(toLearning);
+		}
+		else {
+			// TODO 拉開成String
+			Toast.makeText(this, "這不是這次的推薦學習點喔～", Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	// ========================================================================================

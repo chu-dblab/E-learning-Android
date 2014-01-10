@@ -10,6 +10,7 @@ public class JSONDecodeUtils
 {
 	private int nextPoint;
 	private int estimatedStudyTime;
+	private int isEntity;
 	private String targetName;
 	private String mapURL;
 	private String materialURL;
@@ -19,6 +20,7 @@ public class JSONDecodeUtils
 	{
 		nextPoint = 0;
 		estimatedStudyTime = 0;
+		isEntity = 0;
 		mapURL = "";
 		materialURL = "";
 	}
@@ -36,6 +38,7 @@ public class JSONDecodeUtils
 		targetName = jsonData.getString("TName");
 		mapURL = jsonData.getString("MapURL");
 		materialURL = jsonData.getString("MaterialUrl");
+		isEntity = jsonData.getInt("isEntity");
 	}
 	
 	/**
@@ -56,9 +59,22 @@ public class JSONDecodeUtils
 		return estimatedStudyTime;
 	}
 	
+	/**
+	 * 取得標的名稱
+	 * @return
+	 */
 	public String getTargetName()
 	{
 		return targetName;
+	}
+	
+	/**
+	 * 取得此學習點是否為實體學習點
+	 * @return
+	 */
+	public int getIsEntity() 
+	{
+		return isEntity;
 	}
 	
 	/**
