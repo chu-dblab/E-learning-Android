@@ -106,6 +106,7 @@ public class MapActivity extends Activity {
 	        // 取得實際的內容
 	        byte[] payload = messages[0].getRecords()[0].getPayload();
 	        materialID = new String(payload);
+	        Log.d(TAG, materialID);
 	        sentIntentToMaterial(materialID);
 	        // 往下送出該intent給其他的處理對象
 	        setIntent(new Intent()); 
