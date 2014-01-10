@@ -33,7 +33,7 @@ public class ClientDBProvider {
 		return sqlitedatabase.insert("chu_user", null, contentvalues);
 	}
 
-	public long target_insert(int Tid,String Tname,String mapID,String materialID,int Tlearn_time){ //"標的"新增
+	public long target_insert(int Tid,String Tname,String mapID,String materialID,int Tlearn_time,int Isentity){ //"標的"新增
 		
 		openToWrite();
 		ContentValues contentvalues = new ContentValues();
@@ -42,6 +42,7 @@ public class ClientDBProvider {
 		contentvalues.put("MapID", mapID);
 		contentvalues.put("MaterialID", materialID);
 		contentvalues.put("TLearn_Time", Tlearn_time);
+		contentvalues.put("IsEntity", Isentity);
 		return sqlitedatabase.insert("chu_target", null, contentvalues);
 	}	
 	
