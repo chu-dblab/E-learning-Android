@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 public class MapActivity extends Activity {
 
+	public static final int RESULT_MATERIAL = 1;
 	private FileUtils fileUtils;
 	private ImageView mapView;
 	private TextView nextPointView, nextPointTimeView;
@@ -143,7 +144,7 @@ public class MapActivity extends Activity {
 			break;
 		case R.id.menu_qrcode_scan:
 			Intent toQRScan = new Intent(this, QRCodeScanner.class);
-			startActivity(toQRScan);
+			startActivityForResult(toQRScan, RESULT_MATERIAL);
 			break;
 		case R.id.menu_logout:
 			LogoutTask mLogoutTask = new LogoutTask();
@@ -161,6 +162,22 @@ public class MapActivity extends Activity {
     	   break;
 		}
 		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Toast.makeText(this, "I'm Back!", 0).show();
+		//if (requestCode == RESULT_MATERIAL) {
+			if(resultCode == RESULT_OK){
+				Bundle bundle = data.getExtras();
+				int learnedMaterialId = bundle.getInt("LearnedMaterialId");
+				Toast.makeText(this, "Learned: "+learnedMaterialId, 0).show();         
+		     }
+		     if (resultCode == RESULT_CANCELED) {    
+		         //Write your code if there's no result
+		     }
+		//}
 	}
 	
 	//=========================================================================================

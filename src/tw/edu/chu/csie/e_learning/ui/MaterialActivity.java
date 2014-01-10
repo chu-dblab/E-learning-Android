@@ -127,6 +127,10 @@ public class MaterialActivity extends Activity {
 		RequestForNextPoint nextPoint = new RequestForNextPoint();
 		nextPoint.execute(Integer.toString(thisMaterialId),account.getLoginId(),in_target,leave_target);
 		
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra("LearnedMaterialId",thisMaterialId);
+		setResult(RESULT_OK, returnIntent);
+		
 		this.finish();
 	}
 	

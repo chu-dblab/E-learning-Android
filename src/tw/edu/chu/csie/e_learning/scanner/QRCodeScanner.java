@@ -1,6 +1,7 @@
 package tw.edu.chu.csie.e_learning.scanner;
 
 import tw.edu.chu.csie.e_learning.R;
+import tw.edu.chu.csie.e_learning.ui.MapActivity;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import qrcodereaderview.QRCodeReaderView;
@@ -67,7 +68,7 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 								if(new LearningUtils(this).isInRecommandPoint(text)) {
 									Intent toLearning = new Intent(this, MaterialActivity.class);
 									toLearning.putExtra("materialId", materialId);
-									startActivity(toLearning);
+									startActivityForResult(toLearning, MapActivity.RESULT_MATERIAL);
 									finish();
 								}
 								else {
