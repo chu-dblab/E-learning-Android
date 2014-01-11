@@ -234,7 +234,7 @@ public class MapActivity extends Activity {
 		if(new LearningUtils(this).isInRecommandPoint(targetID)) {
 			Intent toLearning = new Intent(this, MaterialActivity.class);
 			toLearning.putExtra("pointId",  Integer.parseInt(targetID));
-			startActivity(toLearning);
+			startActivityForResult(toLearning, RESULT_MATERIAL);
 		}
 		else {
 			// TODO 拉開成String
@@ -273,30 +273,40 @@ public class MapActivity extends Activity {
 			getNextPoint();
 		}
 		else {
+			// 如果是實體教材，要讓學生前往標的
 			ClientDBProvider db = new ClientDBProvider(this);
 			String[] query;
-			query = db.search("chu_target", "MapID", null);
-			String mapFileName = query[0];
-			
 			// 抓取學習點編號
 			query = db.search("chu_target", "TID", null);
 			String tID = query[0];
 			
-			// 抓取學習點名稱
-			query = db.search("chu_target", "TName", null);
-			String tName = query[0];
-			nextPointView.setText(tID+". "+tName);
 			
-			// 抓取預估學習時間
-			query = db.search("chu_target", "TLearn_Time", null);
-			String learnTime = query[0];
-			nextPointTimeView.setText(learnTime);
+			if(new LearningUtils(this).isEntityMaterial(tID)) {
+				query = db.search("chu_target", "MapID", null);
+				String mapFileName = query[0];
+				
+				// 更新學習點地圖
+				Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
+				mapView.setImageBitmap(bmp);
+				
+				// 更新學習點名稱
+				query = db.search("chu_target", "TName", null);
+				String tName = query[0];
+				nextPointView.setText(tID+". "+tName);
+				
+				// 抓取預估學習時間
+				query = db.search("chu_target", "TLearn_Time", null);
+				String learnTime = query[0];
+				nextPointTimeView.setText(learnTime);
+				
+			}
+			// 如果是虛擬教材，就直接進入教材
+			else {
+				Intent toLearning = new Intent(this, MaterialActivity.class);
+				toLearning.putExtra("pointId",  Integer.parseInt(tID));
+				startActivityForResult(toLearning, RESULT_MATERIAL);
+			}
 			
-			
-			// 抓取預估學習時間
-			
-			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
-			mapView.setImageBitmap(bmp);
 		}
 	}
 	

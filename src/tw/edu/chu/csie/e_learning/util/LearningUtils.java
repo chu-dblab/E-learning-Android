@@ -51,6 +51,18 @@ public class LearningUtils
 		else return false;
 	}
 	
+	public boolean isEntityMaterial(String pointNumber) {
+		// 抓取資料庫中有無此學習點
+		String[] query = dbcon.search("chu_target", "IsEntity", "TID="+pointNumber);
+		// 如果不是實體教材
+		if(query[0].equals("0")) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
 	/**
 	 * 加人數
 	 * @param pointNumber
