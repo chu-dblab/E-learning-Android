@@ -67,11 +67,11 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 								// 解讀正確，進入學習教材
 								if(new LearningUtils(this).isInRecommandPoint(text)) {
 									Intent toLearning = new Intent(this, MaterialActivity.class);
-									toLearning.putExtra("materialId", materialId);
+									toLearning.putExtra("pointId", materialId);
 									startActivityForResult(toLearning, 1);
 									
 									Intent returnIntent = new Intent();
-									returnIntent.putExtra("LearnedMaterialId",12345);
+									returnIntent.putExtra("LearnedPointId", materialId);
 									setResult(RESULT_OK, returnIntent);
 									finish();
 								}
@@ -126,14 +126,5 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 		protected void onPause() {
 			super.onPause();
 			mydecoderview.getCameraManager().stopPreview();
-		}
-		
-		@Override
-		public void onBackPressed() {
-		// TODO Auto-generated method stub
-			Intent returnIntent = new Intent();
-			returnIntent.putExtra("LearnedMaterialId",12345);
-			setResult(RESULT_OK, returnIntent);
-		super.onBackPressed();
 		}
 	}

@@ -34,7 +34,7 @@ import android.widget.Toast;
 @SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 public class MaterialActivity extends Activity {
 	
-	private int thisMaterialId; //教材編號
+	private int thisPointId; //教材編號
 	private String in_target;
 	private String leave_target;
 	
@@ -66,7 +66,7 @@ public class MaterialActivity extends Activity {
 		} else {
 			// 取得目前所在的教材編號
 			Intent intent = getIntent();
-			this.thisMaterialId = intent.getIntExtra("materialId",0);
+			this.thisPointId = intent.getIntExtra("pointId",0);
 			
 			// 開始學習
 			this.learnStart();
@@ -76,18 +76,18 @@ public class MaterialActivity extends Activity {
 			webSettings.setJavaScriptEnabled(true);
 			
 			mWebView.addJavascriptInterface(new MaterialJSCall(this), "Android");
-			mWebView.loadUrl("file://"+fileUtils.getMaterialFilePath(this, thisMaterialId));			
+			mWebView.loadUrl("file://"+fileUtils.getMaterialFilePath(this, thisPointId));			
 			//mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
 			//mWebView.loadUrl("file:///android_assets/01.html");			
 			// DEBUG 測試FileUtils
-			Toast.makeText(this, fileUtils.getPath()+this.thisMaterialId+".html", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, fileUtils.getPath()+this.thisPointId+".html", Toast.LENGTH_SHORT).show();
 		}
 		
 		
 	}
 	
 	protected int getMaterialId() {
-		return this.thisMaterialId;
+		return this.thisPointId;
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class MaterialActivity extends Activity {
 		
 		// 加人數
 		RequestToServer request = new RequestToServer();
-		request.execute("addPeople",Integer.toString(thisMaterialId));
+		request.execute("addPeople",Integer.toString(thisPointId));
 	}
 	
 	/**
@@ -121,14 +121,14 @@ public class MaterialActivity extends Activity {
 		
 		// 減人數
 		RequestToServer request = new RequestToServer();
-		request.execute("subPeople",Integer.toString(thisMaterialId));
+		request.execute("subPeople",Integer.toString(thisPointId));
 		
 		// 丟回答狀況給後端
 		RequestForNextPoint nextPoint = new RequestForNextPoint();
-		nextPoint.execute(Integer.toString(thisMaterialId),account.getLoginId(),in_target,leave_target);
+		nextPoint.execute(Integer.toString(thisPointId),account.getLoginId(),in_target,leave_target);
 		
 		Intent returnIntent = new Intent();
-		returnIntent.putExtra("LearnedMaterialId",thisMaterialId);
+		returnIntent.putExtra("LearnedPointId", thisPointId);
 		setResult(RESULT_OK, returnIntent);
 		
 		this.finish();

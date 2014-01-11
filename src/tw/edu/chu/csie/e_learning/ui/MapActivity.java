@@ -49,6 +49,7 @@ import android.widget.Toast;
 public class MapActivity extends Activity {
 
 	public static final int RESULT_MATERIAL = 1;
+	private int learnedPointID = 0;
 	private FileUtils fileUtils;
 	private ImageView mapView;
 	private TextView nextPointView, nextPointTimeView;
@@ -60,7 +61,7 @@ public class MapActivity extends Activity {
 	private PendingIntent nfcPendingIntent;
 	private Intent nfc_intent;
 	private String[][] tech_list;
-	private String materialID;
+	private String pointID;
 	private static final String TAG = MapActivity.class.getSimpleName();
 	
 	@Override
@@ -106,8 +107,8 @@ public class MapActivity extends Activity {
 	        NdefMessage[] messages = getNdefMessages(getIntent());
 	        // 取得實際的內容
 	        byte[] payload = messages[0].getRecords()[0].getPayload();
-	        materialID = new String(payload);
-	        sentIntentToMaterial(materialID);
+	        pointID = new String(payload);
+	        sentIntentToMaterial(pointID);
 	        // 往下送出該intent給其他的處理對象
 	        setIntent(new Intent()); 
 	    }
@@ -147,6 +148,9 @@ public class MapActivity extends Activity {
 			startActivityForResult(toQRScan, RESULT_MATERIAL);
 			break;
 		case R.id.menu_logout:
+			ClientDBProvider clientdb = new ClientDBProvider(MapActivity.this);
+			clientdb.delete(null, "chu_user");
+			clientdb.delete(null, "chu_target");
 			LogoutTask mLogoutTask = new LogoutTask();
 			mLogoutTask.execute();
 			break;
@@ -157,7 +161,7 @@ public class MapActivity extends Activity {
 			break;
        case 213:
     	   Intent toLearning = new Intent(this, MaterialActivity.class);
-    	   toLearning.putExtra("materialId", 1);
+    	   toLearning.putExtra("pointId", 1);
     	   startActivityForResult(toLearning, 1);
     	   break;
 		}
@@ -167,17 +171,13 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Toast.makeText(this, "I'm Back!"+requestCode+resultCode, 0).show();
-		//if (requestCode == RESULT_MATERIAL) {
+		if (requestCode == RESULT_MATERIAL) {
 			if(resultCode == RESULT_OK){
 				Bundle bundle = data.getExtras();
-				int learnedMaterialId = bundle.getInt("LearnedMaterialId");
-				Toast.makeText(this, "Learned: "+learnedMaterialId, 0).show();         
+				this.learnedPointID = bundle.getInt("LearnedPointId");
+				Toast.makeText(this, "Learned: "+this.learnedPointID, 0).show();         
 		     }
-		     if (resultCode == RESULT_CANCELED) {    
-		         //Write your code if there's no result
-		     }
-		//}
+		}
 	}
 	
 	//=========================================================================================
@@ -232,7 +232,7 @@ public class MapActivity extends Activity {
 	{
 		if(new LearningUtils(this).isInRecommandPoint(targetID)) {
 			Intent toLearning = new Intent(this, MaterialActivity.class);
-			toLearning.putExtra("materialId",  Integer.parseInt(targetID));
+			toLearning.putExtra("pointId",  Integer.parseInt(targetID));
 			startActivity(toLearning);
 		}
 		else {
@@ -261,14 +261,14 @@ public class MapActivity extends Activity {
 		// 取得下一個學習點
 		AccountUtils account = new AccountUtils(this);
 		RequestFromServer requestFromServerTask = new RequestFromServer();
-		requestFromServerTask.execute(account.getLoginId(),"0");
+		requestFromServerTask.execute(account.getLoginId(), String.valueOf(this.learnedPointID));
 		
 	}
 	
 	private void updateNextPointUI() {
 		// 抓取首要推薦的學習地圖路徑
 		if(!isHaveNextPoint()) {
-			Toast.makeText(this, "發生逾時，重新推薦", 0).show();
+			Toast.makeText(this, "發生逾時，重新推薦", Toast.LENGTH_SHORT).show();
 			getNextPoint();
 		}
 		else {
