@@ -167,7 +167,7 @@ public class MapActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Toast.makeText(this, "I'm Back!", 0).show();
+		Toast.makeText(this, "I'm Back!"+requestCode+resultCode, 0).show();
 		//if (requestCode == RESULT_MATERIAL) {
 			if(resultCode == RESULT_OK){
 				Bundle bundle = data.getExtras();
@@ -267,30 +267,36 @@ public class MapActivity extends Activity {
 	
 	private void updateNextPointUI() {
 		// 抓取首要推薦的學習地圖路徑
-		ClientDBProvider db = new ClientDBProvider(this);
-		String[] query;
-		query = db.search("chu_target", "MapID", null);
-		String mapFileName = query[0];
-		
-		// 抓取學習點編號
-		query = db.search("chu_target", "TID", null);
-		String tID = query[0];
-		
-		// 抓取學習點名稱
-		query = db.search("chu_target", "TName", null);
-		String tName = query[0];
-		nextPointView.setText(tID+". "+tName);
-		
-		// 抓取預估學習時間
-		query = db.search("chu_target", "TLearn_Time", null);
-		String learnTime = query[0];
-		nextPointTimeView.setText(learnTime);
-		
-		
-		// 抓取預估學習時間
-		
-		Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
-		mapView.setImageBitmap(bmp);
+		if(!isHaveNextPoint()) {
+			Toast.makeText(this, "發生逾時，重新推薦", 0).show();
+			getNextPoint();
+		}
+		else {
+			ClientDBProvider db = new ClientDBProvider(this);
+			String[] query;
+			query = db.search("chu_target", "MapID", null);
+			String mapFileName = query[0];
+			
+			// 抓取學習點編號
+			query = db.search("chu_target", "TID", null);
+			String tID = query[0];
+			
+			// 抓取學習點名稱
+			query = db.search("chu_target", "TName", null);
+			String tName = query[0];
+			nextPointView.setText(tID+". "+tName);
+			
+			// 抓取預估學習時間
+			query = db.search("chu_target", "TLearn_Time", null);
+			String learnTime = query[0];
+			nextPointTimeView.setText(learnTime);
+			
+			
+			// 抓取預估學習時間
+			
+			Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
+			mapView.setImageBitmap(bmp);
+		}
 	}
 	
 	public class RequestFromServer extends AsyncTask<String, Void, Void>
