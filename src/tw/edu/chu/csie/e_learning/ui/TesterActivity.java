@@ -1,20 +1,35 @@
 package tw.edu.chu.csie.e_learning.ui;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.layout;
 import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
+import tw.edu.chu.csie.e_learning.server.exception.HttpException;
+import tw.edu.chu.csie.e_learning.server.exception.ServerException;
+import tw.edu.chu.csie.e_learning.ui.MaterialActivity.RequestToServer;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
+import tw.edu.chu.csie.e_learning.util.LearningUtils;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class TesterActivity extends Activity implements OnClickListener {
 
+	private ProgressBar sendProgress;
+	private Button sql_clear_target;
+	private Button sendStopSendAll, sendAddPeople, sendSubPeople, sendSaveUserStatus;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,17 +71,25 @@ public class TesterActivity extends Activity implements OnClickListener {
 		});
 		
 		// ---------------------------------------------------------------------------------------------------------------------------------
-		Button sendStopSendAll = (Button)findViewById(R.id.tester_send_stop_all_send);
+		sql_clear_target = (Button)findViewById(R.id.tester_sqlite_clear_target);
+		sql_clear_target.setOnClickListener(this);
+		
+		
+		// ---------------------------------------------------------------------------------------------------------------------------------
+		//sendProgress = (ProgressBar)findViewById(R.id.tester_send_progress);
+		
+		
+		sendStopSendAll = (Button)findViewById(R.id.tester_send_stop_all_send);
 		sendStopSendAll.setOnClickListener(this);
 		
-		Button snedAddPeople = (Button)findViewById(R.id.tester_send_addpeople);
-		snedAddPeople.setOnClickListener(this);
+		sendAddPeople = (Button)findViewById(R.id.tester_send_addpeople);
+		sendAddPeople.setOnClickListener(this);
 		
-		Button sendSubPeople = (Button)findViewById(R.id.tester_send_subpeople);
+		sendSubPeople = (Button)findViewById(R.id.tester_send_subpeople);
 		sendSubPeople.setOnClickListener(this);
 		
-		Button sendSaveUserStatus = (Button)findViewById(R.id.tester_send_save_user_status);
-		sendSaveUserStatus .setOnClickListener(this);
+		/*sendSaveUserStatus = (Button)findViewById(R.id.tester_send_save_user_status);
+		sendSaveUserStatus.setOnClickListener(this);*/
 	}
 	
 	@Override
@@ -78,15 +101,77 @@ public class TesterActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		ClientDBProvider clientdb; 
+		RequestToServer request;
+		
 		switch(v.getId()) {
+		case R.id.tester_sqlite_clear_target:
+			clientdb = new ClientDBProvider(TesterActivity.this);
+			clientdb.delete(null, "chu_target");
+			break;
+		
 		case R.id.tester_send_stop_all_send:
+			Toast.makeText(this, "XDDD", 0).show();
 			break;
 		case R.id.tester_send_addpeople:
+			// 加人數
+			request = new RequestToServer();
+			request.execute("addPeople","12");
 			break;
 		case R.id.tester_send_subpeople:
+			// 減人數
+			request = new RequestToServer();
+			request.execute("subPeople","12");
 			break;
 		case R.id.tester_send_save_user_status:
+			Toast.makeText(this, "XDDD", 0).show();
 			break;
+		}
+	}
+	
+	// =================================================================================================================================
+	/**
+	 * 加人數、減人數
+	 */
+	public class RequestToServer extends AsyncTask<String, Void, Void>
+	{
+		private LearningUtils learn = new LearningUtils(TesterActivity.this);
+		@Override
+		protected Void doInBackground(String... params) 
+		{
+			try {
+				changeOfPerson(params[0], params[1]);
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (ServerException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		private void changeOfPerson(String action,String point) throws ClientProtocolException, IOException, HttpException, JSONException, ServerException
+		{
+			if(action == "addPeople") learn.addPeople(point);
+			else if(action == "subPeople") learn.subPeople(point);
+			else Toast.makeText(getBaseContext(), "ERROR~!!", Toast.LENGTH_SHORT).show();
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			Toast.makeText(TesterActivity.this, "傳送人數加減", 0).show();
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			Toast.makeText(TesterActivity.this, "已傳送人數加減", 0).show();
 		}
 	}
 
