@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class TesterActivity extends Activity {
+public class TesterActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +54,40 @@ public class TesterActivity extends Activity {
 				db.delete(null, "chu_target");
 			}
 		});
+		
+		// ---------------------------------------------------------------------------------------------------------------------------------
+		Button sendStopSendAll = (Button)findViewById(R.id.tester_send_stop_all_send);
+		sendStopSendAll.setOnClickListener(this);
+		
+		Button snedAddPeople = (Button)findViewById(R.id.tester_send_addpeople);
+		snedAddPeople.setOnClickListener(this);
+		
+		Button sendSubPeople = (Button)findViewById(R.id.tester_send_subpeople);
+		sendSubPeople.setOnClickListener(this);
+		
+		Button sendSaveUserStatus = (Button)findViewById(R.id.tester_send_save_user_status);
+		sendSaveUserStatus .setOnClickListener(this);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.tester, menu);
 		return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.tester_send_stop_all_send:
+			break;
+		case R.id.tester_send_addpeople:
+			break;
+		case R.id.tester_send_subpeople:
+			break;
+		case R.id.tester_send_save_user_status:
+			break;
+		}
 	}
 
 }
