@@ -29,36 +29,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="tw.edu.chu.csie.e_learning.ui.MainFunctionActivity"
-            android:label="@string/title_activity_main_function" >
-        </activity>
-        <activity
             android:name="tw.edu.chu.csie.e_learning.ui.MaterialDownloaderActivity"
             android:label="@string/material_downloader" >
         </activity>
         <activity
-            android:name="tw.edu.chu.csie.e_learning.ui.MaterialActivity"
-            android:label="@string/title_activity_learning" >
-        </activity>
-        <activity
-            android:name="tw.edu.chu.csie.e_learning.ui.SettingsActivity"
-            android:label="@string/title_activity_preference" >
-        </activity>
-        <activity
-            android:name="tw.edu.chu.csie.e_learning.scanner.QRCodeScanner"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="tw.edu.chu.csie.e_learning.ui.TesterActivity"
-            android:label="@string/title_activity_tester" >
-        </activity>
-        <activity
             android:name="tw.edu.chu.csie.e_learning.ui.MapActivity"
             android:label="@string/title_activity_map" >
-             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -75,6 +51,23 @@
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_list" />
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.MaterialActivity"
+            android:label="@string/title_activity_learning" >
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.SettingsActivity"
+            android:label="@string/title_activity_preference" >
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.scanner.QRCodeScanner"
+            android:label="@string/title_qr_scan_hint"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="tw.edu.chu.csie.e_learning.ui.TesterActivity"
+            android:label="@string/title_activity_tester" >
         </activity>
     </application>
 

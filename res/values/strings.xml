@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">E-Learning 數位學習導引系統</string>
-    <string name="title_activity_main_function">主選單</string>
     <string name="action_settings">Settings</string>
     <string name="user_status">使用者狀態</string>
     <string name="learn_map">學習地圖</string>
@@ -38,16 +37,19 @@
     <string name="learning_remaining_time">學習時間尚有:</string>
     <string name="learning_remaining_point">學習點剩餘:</string>
     <string name="learning_next_point_getting">取得中...</string>
-    <string name="title_activity_learning">LearningActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_map">學習地圖</string>
+    
+    <!-- 學習地圖 -->
+    <string name="title_qr_scan">QRCode掃描</string>
+    <string name="title_qr_scan_hint">請對準學習點上的QRCode進行掃描</string>
 
     <!-- 學習中 -->
     <string name="learning_not_leave_point">你現在還在學習中，學習完再離開吧！！</string>
     <string name="learning_leaved_point">離開學習點囉～</string>
+    <string name="title_activity_learning">學習中</string>
 
     <!-- 設定 -->
     <string name="title_activity_preference">系統設定</string>
     <string name="title_activity_tester">TesterActivity</string>
-    <string name="title_activity_map">MapActivity</string>
 
 </resources>

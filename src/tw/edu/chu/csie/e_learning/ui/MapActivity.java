@@ -129,8 +129,10 @@ public class MapActivity extends Activity {
 		getMenuInflater().inflate(R.menu.map, menu);
 		
 		// DEBUG 開啟教材內容測試
-		menu.add(0, 212, 0, "Tester");
-		menu.add(0, 213, 0, "教材測試");
+		if(Config.DEBUG_ACTIVITY) {
+			menu.add(0, 212, 0, "內部測試");
+			menu.add(0, 213, 0, "教材測試");
+		}
 		return true;
 	}
 
@@ -139,10 +141,6 @@ public class MapActivity extends Activity {
 		switch(item.getItemId()){
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
-			break;
-		case R.id.menu_material_downloader:
-			Intent toTextbookDownloader = new Intent(this, MaterialDownloaderActivity.class);
-			startActivity(toTextbookDownloader);
 			break;
 		case R.id.menu_qrcode_scan:
 			Intent toQRScan = new Intent(this, QRCodeScanner.class);
@@ -176,7 +174,6 @@ public class MapActivity extends Activity {
 			if(resultCode == RESULT_OK){
 				Bundle bundle = data.getExtras();
 				this.learnedPointID = bundle.getInt("LearnedPointId");
-				Toast.makeText(this, "Learned: "+this.learnedPointID, 0).show();         
 		     }
 		}
 	}

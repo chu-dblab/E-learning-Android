@@ -162,6 +162,11 @@ public class UserLoginActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.user_login, menu);
+		
+		// DEBUG 開啟教材內容測試
+		if(Config.DEBUG_ACTIVITY) {
+			menu.add(0, 212, 0, "內部測試");
+		}
 		return true;
 	}
 	@Override
@@ -178,6 +183,10 @@ public class UserLoginActivity extends Activity {
 			Intent toSettings = new Intent(UserLoginActivity.this, SettingsActivity.class);
 			startActivity(toSettings);
 			break;
+		// DEBUG 開啟教材內容測試
+		case 212:
+			Intent toTester = new Intent(this, TesterActivity.class);
+			startActivity(toTester);
 		}
 		
 		return super.onMenuItemSelected(featureId, item);

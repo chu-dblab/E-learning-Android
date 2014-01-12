@@ -26,6 +26,7 @@ import tw.edu.chu.csie.e_learning.util.SettingUtils;
  */
 public class MaterialDownloaderActivity extends Activity implements OnClickListener {
 	
+	private TextView textbook_URL, textbook_clientVersion;
 	private Button textbook_update;
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,10 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
         textbook_update.setOnClickListener(this);
         
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        textbook_URL = (TextView)findViewById(R.id.material_server_url);
+        SettingUtils settingUtils = new SettingUtils(this);
+        textbook_URL.setText(settingUtils.getRemoteMaterialURL());
     }
     
     @Override
@@ -82,6 +87,8 @@ public class MaterialDownloaderActivity extends Activity implements OnClickListe
     	@Override
     	protected void onPostExecute(Void result) {
     		updateProgress.dismiss();
+    		
+    		
     		super.onPostExecute(result);
     	}
 

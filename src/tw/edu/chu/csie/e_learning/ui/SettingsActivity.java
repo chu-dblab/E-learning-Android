@@ -164,7 +164,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		if(key.equals("student_mode")) {
 			// 如果當前是學生模式要切換到管理模式
 			if(settingUtils.isStudentMode()) {
-				// 顯示對話框
+				/*// 顯示對話框
 				final LoginDialogBuilder dialogBuilder = new LoginDialogBuilder(SettingsActivity.this);
 				dialogBuilder.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
 					
@@ -187,7 +187,10 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 				
 				// 顯示出管理者登入Dialog
 				AlertDialog dialog = dialogBuilder.create();
-				dialog.show();
+				dialog.show();*/
+				
+				// 確認為管理者-修改設定值
+				updateStudentModeUI( !settingUtils.isStudentMode() );
 			}
 			// 如果當前是管理模式
 			else {
@@ -253,19 +256,19 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 		
 		// 選項
 		student_modeView.setChecked(tf);
-		learn_modeView.setEnabled(!tf);
+		//learn_modeView.setEnabled(!tf);
 		learn_unfinish_backView.setEnabled(!tf);
-		learn_exitView.setEnabled(!tf);
-		sync_learn_frequencyView.setEnabled(!tf);
+		//learn_exitView.setEnabled(!tf);
+		//sync_learn_frequencyView.setEnabled(!tf);
 		reset_all_settingsView.setEnabled(!tf);
 		
 		// 控制是否允許離開程式
 		if(!tf || PreferenceManager.getDefaultSharedPreferences(
 				learn_exitView.getContext()).getBoolean(learn_exitView.getKey(),
 				Config.EXIT_ENABLE)) {
-			exitView.setEnabled(true);
+			//exitView.setEnabled(true);
 		} else {
-			exitView.setEnabled(false);
+			//exitView.setEnabled(false);
 		}
 		
 	}

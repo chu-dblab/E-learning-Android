@@ -80,7 +80,9 @@ public class MaterialActivity extends Activity {
 			//mWebView.loadUrl("file://"+fileUtils.getMaterialPath()+this.thisMaterialId+".html");			
 			//mWebView.loadUrl("file:///android_assets/01.html");			
 			// DEBUG 測試FileUtils
-			Toast.makeText(this, fileUtils.getPath()+this.thisPointId+".html", Toast.LENGTH_SHORT).show();
+			if(Config.DEBUG_SHOW_MESSAGE) {
+				Toast.makeText(this, fileUtils.getPath()+this.thisPointId+".html", Toast.LENGTH_SHORT).show();
+			}
 		}
 		
 		
@@ -98,7 +100,10 @@ public class MaterialActivity extends Activity {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
 		in_target = format.format(curDate);
-		Toast.makeText(this, in_target , Toast.LENGTH_SHORT).show();
+		// TODO DEBUG
+		if(Config.DEBUG_SHOW_MESSAGE) {
+			Toast.makeText(this, "開始學習時間: "+in_target , Toast.LENGTH_SHORT).show();
+		}
 		
 		// 加人數
 		RequestToServer request = new RequestToServer();
@@ -113,7 +118,10 @@ public class MaterialActivity extends Activity {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis()) ;
 		leave_target = format.format(curDate);
-		Toast.makeText(this, leave_target , Toast.LENGTH_SHORT).show();
+		// TODO DEBUG
+		if(Config.DEBUG_SHOW_MESSAGE) {
+			Toast.makeText(this, leave_target , Toast.LENGTH_SHORT).show();
+		}
 		
 		// 清除推薦清單
 		ClientDBProvider db = new ClientDBProvider(getBaseContext());
@@ -195,14 +203,18 @@ public class MaterialActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			// TODO DEBUG
-			Toast.makeText(MaterialActivity.this, "傳送人數加減", 0).show();
+			if(Config.DEBUG_SHOW_MESSAGE) {
+				Toast.makeText(MaterialActivity.this, "傳送人數加減", 0).show();
+			}
 		}
 		
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			// TODO DEBUG
-			Toast.makeText(MaterialActivity.this, "已傳送人數加減", 0).show();
+			if(Config.DEBUG_SHOW_MESSAGE) {
+				Toast.makeText(MaterialActivity.this, "已傳送人數加減", 0).show();
+			}
 		}
 	}
 	
@@ -245,13 +257,21 @@ public class MaterialActivity extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			Toast.makeText(MaterialActivity.this, "傳送回答資料", 0).show();
+			
+			// TODO DEBUG
+			if(Config.DEBUG_SHOW_MESSAGE) {
+				Toast.makeText(MaterialActivity.this, "傳送回答資料", 0).show();
+			}
 		}
 		@Override
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			Toast.makeText(MaterialActivity.this, "OK傳送回答資料", 0).show();
+			
+			// TODO DEBUG
+			if(Config.DEBUG_SHOW_MESSAGE) {
+				Toast.makeText(MaterialActivity.this, "OK傳送回答資料", 0).show();
+			}
 		}
 	}
 

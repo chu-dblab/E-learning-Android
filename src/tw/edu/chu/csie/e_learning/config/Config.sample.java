@@ -34,6 +34,8 @@ public class Config {
 	 */
 	// 在應用程式上顯示詳細錯誤訊息
 	public static final boolean DEBUG_SHOW_MESSAGE = false;
+	// 啟用進入測試用的頁面
+	public static final boolean DEBUG_ACTIVITY = false;
 	
 	/**
 	 * 此應用程式預設設定值

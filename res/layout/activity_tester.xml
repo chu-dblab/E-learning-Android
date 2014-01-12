@@ -6,12 +6,6 @@
     android:orientation="vertical"
     tools:context=".TesterActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
     <Button
         android:id="@+id/tester_btn1"
         android:layout_width="wrap_content"

@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,6 +35,8 @@ public class TesterActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tester);
+		// 設定ActionBar
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		Button btn1 = (Button)findViewById(R.id.tester_btn1);
 		btn1.setText("取得學習點01教材路徑");
@@ -97,6 +100,16 @@ public class TesterActivity extends Activity implements OnClickListener {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.tester, menu);
 		return true;
+	}
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+	      case android.R.id.home:
+	          finish();
+	          return true;
+	      default:
+	          return super.onMenuItemSelected(featureId, item);
+	     }
 	}
 
 	@Override

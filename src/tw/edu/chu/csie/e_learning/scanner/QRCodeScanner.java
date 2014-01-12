@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
@@ -29,10 +30,23 @@ public class QRCodeScanner extends Activity implements OnQRCodeReadListener {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_decodeqr);
 	        
+	         // 設定ActionBar
+		    getActionBar().setDisplayHomeAsUpEnabled(true);
+	        
 	        mydecoderview = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
 	        mydecoderview.setOnQRCodeReadListener(this);
 	        
 	    }
+		@Override
+		public boolean onMenuItemSelected(int featureId, MenuItem item) {
+			switch (item.getItemId()) {
+		      case android.R.id.home:
+		          finish();
+		          return true;
+		      default:
+		          return super.onMenuItemSelected(featureId, item);
+		     }
+		}
 
 	    
 		// 當QRCode被Decode時呼叫
