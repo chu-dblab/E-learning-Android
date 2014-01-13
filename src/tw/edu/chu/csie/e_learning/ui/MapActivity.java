@@ -270,40 +270,52 @@ public class MapActivity extends Activity {
 			getNextPoint();
 		}
 		else {
-			// 如果是實體教材，要讓學生前往標的
 			ClientDBProvider db = new ClientDBProvider(this);
 			String[] query;
 			// 抓取學習點編號
 			query = db.search("chu_target", "TID", null);
 			String tID = query[0];
 			
-			
-			if(new LearningUtils(this).isEntityMaterial(tID)) {
-				query = db.search("chu_target", "MapID", null);
-				String mapFileName = query[0];
+			// 檢查是否已經學習結束
+			if(tID.equals("0")) {
+				// 告訴使用者已經學習完了
+				// TODO 改成Alert
+				Toast.makeText(this, "你已經學習完囉～", 1).show();
 				
-				// 更新學習點地圖
-				Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
-				mapView.setImageBitmap(bmp);
-				
-				// 更新學習點名稱
-				query = db.search("chu_target", "TName", null);
-				String tName = query[0];
-				nextPointView.setText(tID+". "+tName);
-				
-				// 抓取預估學習時間
-				query = db.search("chu_target", "TLearn_Time", null);
-				String learnTime = query[0];
-				nextPointTimeView.setText(learnTime);
-				
+				// 登出
+				db.delete(null, "chu_user");
+				db.delete(null, "chu_target");
+				LogoutTask mLogoutTask = new LogoutTask();
+				mLogoutTask.execute();
 			}
-			// 如果是虛擬教材，就直接進入教材
 			else {
-				Intent toLearning = new Intent(this, MaterialActivity.class);
-				toLearning.putExtra("pointId",  Integer.parseInt(tID));
-				startActivityForResult(toLearning, RESULT_MATERIAL);
+				// 如果是實體教材，要讓學生前往標的
+				if(new LearningUtils(this).isEntityMaterial(tID)) {
+					query = db.search("chu_target", "MapID", null);
+					String mapFileName = query[0];
+					
+					// 更新學習點地圖
+					Bitmap bmp = BitmapFactory.decodeFile(fileUtils.getMaterialPath()+"map/"+mapFileName);
+					mapView.setImageBitmap(bmp);
+					
+					// 更新學習點名稱
+					query = db.search("chu_target", "TName", null);
+					String tName = query[0];
+					nextPointView.setText(tID+". "+tName);
+					
+					// 抓取預估學習時間
+					query = db.search("chu_target", "TLearn_Time", null);
+					String learnTime = query[0];
+					nextPointTimeView.setText(learnTime);
+					
+				}
+				// 如果是虛擬教材，就直接進入教材
+				else {
+					Intent toLearning = new Intent(this, MaterialActivity.class);
+					toLearning.putExtra("pointId",  Integer.parseInt(tID));
+					startActivityForResult(toLearning, RESULT_MATERIAL);
+				}
 			}
-			
 		}
 	}
 	
