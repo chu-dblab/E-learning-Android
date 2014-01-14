@@ -107,7 +107,7 @@ public class LearningUtils
 	{
 		String message = connect.getPointIdOfLearningPoint(userID, pointNumber);
 		
-		if(message.equals(null)) {
+		if(!message.equals("null")) {
 			decode.DecodeJSONData(message,"first");
 			dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime(),decode.getIsEntity());
 		}
