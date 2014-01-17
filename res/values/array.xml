@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries_student_mode">
+        <item>線性</item>
+        <item>半線性</item>
+        <item>非線性</item>
+    </string-array>
+    <string-array name="entryvalues_student_mode">
+        <item>line-learn</item>
+        <item>harf-line-learn</item>
+        <item>non-line-learn</item>
+    </string-array>
+    
+</resources>

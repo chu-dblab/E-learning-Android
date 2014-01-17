@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">E-Learning 數位學習導引系統</string>
+    <string name="action_settings">Settings</string>
+    <string name="user_status">使用者狀態</string>
+    <string name="learn_map">學習地圖</string>
+    <string name="learn_history">學習歷程</string>
+    <string name="announcement">公告</string>
+    <string name="qrcode_scan">QR掃描</string>
+    <string name="inside_process_error">內部出錯</string>
+    <string name="other_error">其他錯誤</string>
+    <string name="no_data">沒有資訊</string>
+    <string name="other">其他</string>
+    <string name="logout">登出</string>
+    <string name="reset_all_settings">重設所有設定</string>
+    <string name="exit">離開程式</string>
+
+    <!-- 學習教材 -->
+    <string name="material_downloader">下載教材</string>
+    <string name="material_client_version">裝置上的教材版本:</string>
+    <string name="material_server_version">伺服器上的教材版本:</string>
+    <string name="material_is_latest_version">裝置上的教材已是最新版本</string>
+    <string name="material_not_latest_version">裝置上的教材不是最新版本，請更新！</string>
+    <string name="material_update">教材更新</string>
+    <string name="material_updating">教材更新中...</string>
+
+    <!-- 使用者資訊 -->
+    <string name="user_account_id">使用者名稱:</string>
+    <string name="user_account_name">暱稱:</string>
+    <string name="login_time">登入時間:</string>
+    <string name="login_how_many_people">線上人數:</string>
+
+    <!-- 學習地圖 -->
+    <string name="learning_next_point">下個學習點:</string>
+    <string name="learning_next_point_time">下個點預估所需時間:</string>
+    <string name="learning_remaining_time">學習時間尚有:</string>
+    <string name="learning_remaining_point">學習點剩餘:</string>
+    <string name="learning_next_point_getting">取得中...</string>
+    <string name="title_activity_map">學習地圖</string>
+    
+    <!-- 學習地圖 -->
+    <string name="title_qr_scan">QRCode掃描</string>
+    <string name="title_qr_scan_hint">請對準學習點上的QRCode進行掃描</string>
+
+    <!-- 學習中 -->
+    <string name="learning_not_leave_point">你現在還在學習中，學習完再離開吧！！</string>
+    <string name="learning_leaved_point">離開學習點囉～</string>
+    <string name="title_activity_learning">學習中</string>
+
+    <!-- 設定 -->
+    <string name="title_activity_preference">系統設定</string>
+    <string name="title_activity_tester">TesterActivity</string>
+
+</resources>
