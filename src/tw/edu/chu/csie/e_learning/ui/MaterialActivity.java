@@ -31,6 +31,9 @@ import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 當學生進入此頁面，就表示已經開始學習了。當離開此頁面，就表示在此標地學習結束了。
+ */
 @SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 public class MaterialActivity extends Activity {
 	
@@ -94,6 +97,8 @@ public class MaterialActivity extends Activity {
 	
 	/**
 	 * 此學習點學習開始
+	 * <p>
+	 * 紀錄開始學習的時間，並對伺服器命令此標地加人數～
 	 */
 	protected void learnStart() {
 		// 取得進入學習點時間
@@ -112,6 +117,10 @@ public class MaterialActivity extends Activity {
 	
 	/**
 	 * 此學習點學習完畢
+	 * <p>
+	 * 紀錄結束學習的時間（並對伺服發出學習開始&結束時間），並對伺服器命令此標地減人數～
+	 * 對伺服器送出學生的回答狀況。
+	 * 以及清除推薦的學習點清單（Client資料庫"chu_target"資料表清空）。
 	 */
 	protected void learnFinish() {
 		// 取得離開學習點的時間
@@ -135,6 +144,7 @@ public class MaterialActivity extends Activity {
 		RequestForNextPoint nextPoint = new RequestForNextPoint();
 		nextPoint.execute(Integer.toString(thisPointId),account.getLoginId(),in_target,leave_target);
 		
+		// 告知上一個活動說剛剛學習到的是哪個標地
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra("LearnedPointId", thisPointId);
 		setResult(RESULT_OK, returnIntent);
@@ -168,7 +178,7 @@ public class MaterialActivity extends Activity {
 	}
 	
 	/**
-	 * 
+	 * 向伺服器通知此標地要加/減人數標記
 	 */
 	public class RequestToServer extends AsyncTask<String, Void, Void>
 	{

@@ -33,6 +33,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 import tw.edu.chu.csie.e_learning.ui.dialog.LoginDialogBuilder;
 
+/**
+ * 偏好設定畫面
+ * @author yuan
+ */
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceClickListener, OnPreferenceChangeListener {
 
 	SettingUtils settingUtils;

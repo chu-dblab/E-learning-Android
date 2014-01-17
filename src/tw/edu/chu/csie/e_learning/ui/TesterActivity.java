@@ -25,6 +25,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+/**
+ * 內部人員測試用的輔助頁面
+ * @author yuan
+ *
+ */
 public class TesterActivity extends Activity implements OnClickListener {
 
 	private ProgressBar sendProgress;

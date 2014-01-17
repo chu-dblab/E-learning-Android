@@ -46,6 +46,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 學習地圖畫面，在此活動進行取得下一個學習點。 
+ *
+ */
 public class MapActivity extends Activity {
 
 	public static final int RESULT_MATERIAL = 1;
@@ -139,17 +143,24 @@ public class MapActivity extends Activity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()){
+		// 當按下"關於"選項
 		case R.id.menu_about:
+			// 跳出"關於"對話框
 			HelpUtils.showAboutDialog(this);
 			break;
+		// 當按下"QR Code掃描"選項
 		case R.id.menu_qrcode_scan:
+			// 進入QR Code掃描畫面
 			Intent toQRScan = new Intent(this, QRCodeScanner.class);
 			startActivityForResult(toQRScan, RESULT_MATERIAL);
 			break;
+		// 當按下"登出"選項
 		case R.id.menu_logout:
+			// 清除登入資料
 			ClientDBProvider clientdb = new ClientDBProvider(MapActivity.this);
 			clientdb.delete(null, "chu_user");
 			clientdb.delete(null, "chu_target");
+			// 向伺服器送出登出通知
 			LogoutTask mLogoutTask = new LogoutTask();
 			mLogoutTask.execute();
 			break;
@@ -172,6 +183,7 @@ public class MapActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == RESULT_MATERIAL) {
 			if(resultCode == RESULT_OK){
+				// 從教材頁面接收剛剛學過的是哪個標地
 				Bundle bundle = data.getExtras();
 				this.learnedPointID = bundle.getInt("LearnedPointId");
 		     }
@@ -240,8 +252,11 @@ public class MapActivity extends Activity {
 	}
 	
 	// ========================================================================================
+	/**
+	 * 檢查是否已推薦學習點了？？
+	 * @return <code>true</code>已經推薦過學習點了
+	 */
 	protected boolean isHaveNextPoint() {
-		// 檢查是否已推薦學習點了？？
 		ClientDBProvider db = new ClientDBProvider(this);
 		String[] query;
 		query = db.search("chu_target", "TID", null);
@@ -263,6 +278,9 @@ public class MapActivity extends Activity {
 		
 	}
 	
+	/**
+	 * 更新界面上的畫面
+	 */
 	private void updateNextPointUI() {
 		// 抓取首要推薦的學習地圖路徑
 		if(!isHaveNextPoint()) {
@@ -319,6 +337,9 @@ public class MapActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * 向伺服端要求下一個推薦的學習點
+	 */
 	public class RequestFromServer extends AsyncTask<String, Void, Void>
 	{
 		private LearningUtils learn = new LearningUtils(MapActivity.this);
@@ -364,6 +385,9 @@ public class MapActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * 向伺服器通知登出此帳號 
+	 */
 	public class LogoutTask extends AsyncTask<Void, Integer, Boolean> {
 
 		private AccountUtils accountUtils = new AccountUtils(MapActivity.this);

@@ -16,6 +16,11 @@ import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 
+/**
+ * 非Activity，由教材網頁呼叫學習結束的訊息用的。
+ * @author yuan
+ *
+ */
 public class MaterialJSCall {
 
 	private MaterialActivity context;
@@ -24,6 +29,16 @@ public class MaterialJSCall {
 		this.context = context;
 	}
 	
+	/**
+	 * 當接到由教材網頁發出已完成學習的訊號時，接應學生作答狀況，並觸發MaterialActivity的學習完成函式
+	 * @param ansQID 題目編號陣列
+	 * @param ansCheck 回答答案陣列
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 * @throws JSONException
+	 * @throws ServerException
+	 */
 	// Annotation is needed for SDK version 17 or above.
 	@SuppressLint("ShowToast")
 	@JavascriptInterface

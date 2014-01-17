@@ -21,6 +21,15 @@ public class ServerUtils {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * 取得伺服端"整個"內容
+	 * @param url 目的網址
+	 * @param data POST帶入的資料
+	 * @return "整個"內容字串
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws HttpException
+	 */
 	public String getServerData(String url, List<NameValuePair> data) throws ClientProtocolException, IOException, HttpException {
 		//建立HttpPost連線
 		HttpPost post = new HttpPost(url);

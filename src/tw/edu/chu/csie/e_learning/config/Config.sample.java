@@ -41,10 +41,6 @@ public class Config {
 	 * 下載教材的壓縮檔案名稱
 	 */
 	public static final String ZIP_FILE_NAME_OF_MATERIAL ="/DownloadZip.zip";
-	/**
-	 * TODO 這是什麼？
-	 */
-	public static final String FILE_DIRECTORY = "DownloadZip";
 	
 	// 此應用程式性質 =================================================================================
 	/**

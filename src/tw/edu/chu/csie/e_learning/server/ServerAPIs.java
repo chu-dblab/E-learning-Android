@@ -27,6 +27,9 @@ import tw.edu.chu.csie.e_learning.server.exception.LoginException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
+/**
+ * 任何與伺服端的溝通，都靠此類別庫進行與伺服端的溝通
+ */
 public class ServerAPIs {
 	
 	private BaseSettings baseSettings;
@@ -87,7 +90,7 @@ public class ServerAPIs {
 	
 	/**
 	 * 使用者登出
-	 * @param inputLoginCode
+	 * @param inputLoginCode 登入碼
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
@@ -126,7 +129,7 @@ public class ServerAPIs {
 	
 	/**
 	 * 取得使用者資訊
-	 * @param inputLoginCode
+	 * @param inputLoginCode 登入碼
 	 * @return 使用者資訊物件
 	 * @throws ClientProtocolException
 	 * @throws IOException
@@ -165,11 +168,10 @@ public class ServerAPIs {
 	
 	/**
 	 * 儲存使用者的學習狀態
-	 * @param pointNumber
-	 * @param userID
-	 * @param inTime
-	 * @param outTime
-	 * @return　ServerUser　Object
+	 * @param pointNumber 目前所在的標地
+	 * @param userID 使用者名稱
+	 * @param inTime 開始學習時間
+	 * @param outTime 結束學習時間
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
@@ -196,8 +198,8 @@ public class ServerAPIs {
 	
 	// ===============================================================================================
 	/**
-	 * 加人數
-	 * @param pointNumber
+	 * 告知伺服端此標地加人數標記
+	 * @param pointNumber 標地編號
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
@@ -214,9 +216,8 @@ public class ServerAPIs {
 	}
 	
 	/**
-	 * 減人數
-	 * @param pointNumber
-	 * @return
+	 * 告知伺服端此標地減人數標記
+	 * @param pointNumber 標地編號
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
@@ -235,8 +236,8 @@ public class ServerAPIs {
 	
 	/**
 	 * 取得系統推薦的下個學習點
-	 * @param userID
-	 * @param pointNumber
+	 * @param userID 使用者ID
+	 * @param pointNumber 剛剛學習過的標地編號
 	 * @throws HttpException 
 	 * @throws IOException 
 	 * @throws ClientProtocolException 

@@ -20,7 +20,7 @@ import android.util.Log;
 
 /**
  * 對Android儲存裝置的檔案存取的專用類別
- * @author kobayashi
+ * @author ~kobayashi();
  */
 public class FileUtils 
 {
@@ -92,7 +92,7 @@ public class FileUtils
 	
 	/**
 	 * 取得在儲存裝置上的教材路徑
-	 * @return 		學習教材在儲存裝置上的路徑
+	 * @return		學習教材在儲存裝置上的路徑
 	 */
 	public String getMaterialPath()
 	{
@@ -125,12 +125,11 @@ public class FileUtils
 	
 	// ====================================================================================
 	/**
-	 * TODO 註解標記
-	 * saveFile
-	 * @param 			path
-	 * @return			None
-	 * @throws 		IOException 
 	 * 下載檔案時存檔用
+	 * @param path 存檔路徑
+	 * @param is 檔案輸入串流
+	 * @param con 下載檔案的網路連線
+	 * @throws IOException
 	 */
 	public void saveFile(String path,InputStream is,HttpURLConnection con) throws IOException
 	{
@@ -149,8 +148,6 @@ public class FileUtils
 	}
 	
 	/**
-	 * TODO 註解標記
-	 * decompressFile
 	 * 解壓縮檔案
 	 * @throws IOException
 	 */

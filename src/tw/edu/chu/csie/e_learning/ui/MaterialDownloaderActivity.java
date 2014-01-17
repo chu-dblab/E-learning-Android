@@ -22,7 +22,7 @@ import tw.edu.chu.csie.e_learning.sync.MaterialSyncUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
 
 /**
- * Created by yuan on 2013/6/3.
+ * 教材下載畫面
  */
 public class MaterialDownloaderActivity extends Activity implements OnClickListener {
 	

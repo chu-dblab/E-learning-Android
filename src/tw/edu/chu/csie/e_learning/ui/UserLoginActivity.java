@@ -75,18 +75,6 @@ import android.widget.Toast;
 @SuppressWarnings("unused")
 public class UserLoginActivity extends Activity {
 	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
-
-	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
-	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
@@ -110,7 +98,6 @@ public class UserLoginActivity extends Activity {
 		setContentView(R.layout.activity_user_login);
 
 		// Set up the login form.
-		mId = getIntent().getStringExtra(EXTRA_EMAIL);
 		mIdView = (EditText) findViewById(R.id.id);
 		mIdView.setText(mId);
 
@@ -172,14 +159,19 @@ public class UserLoginActivity extends Activity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()){
+		// 當按下"關於"選項時
 		case R.id.menu_about:
 			HelpUtils.showAboutDialog(this);
 			break;
+		// 當按下"下載教材"選項時
 		case R.id.menu_material_downloader:
+			// 進入下載教材頁面
 			Intent toTextbookDownloader = new Intent(UserLoginActivity.this, MaterialDownloaderActivity.class);
 			startActivity(toTextbookDownloader);
 			break;
+		// 當按下"偏好設定"選項時
 		case R.id.menu_settings:
+			// 進入偏好設定頁面
 			Intent toSettings = new Intent(UserLoginActivity.this, SettingsActivity.class);
 			startActivity(toSettings);
 			break;
@@ -194,7 +186,7 @@ public class UserLoginActivity extends Activity {
 
 	/**
 	 * 驗證是否輸入正確，若無誤就登入
-	 * 
+	 * <p>
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
 	 * errors are presented and no actual login attempt is made.
@@ -248,7 +240,7 @@ public class UserLoginActivity extends Activity {
 
 	/**
 	 * 顯示登入中畫面
-	 * 
+	 * <p>
 	 * Shows the progress UI and hides the login form.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -291,7 +283,7 @@ public class UserLoginActivity extends Activity {
 
 	/**
 	 * 進行登入的動作
-	 * 
+	 * <p>
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */

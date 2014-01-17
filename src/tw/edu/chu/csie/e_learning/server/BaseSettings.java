@@ -1,7 +1,7 @@
 package tw.edu.chu.csie.e_learning.server;
 
 /**
- * 
+ * 基底設定
  * @author 元兒～ <yuan817@moztw.org>
  * @version 1.0
  */
@@ -13,15 +13,27 @@ public class BaseSettings {
 	
 	private boolean debugEnable = false;
 	
+	/**
+	 * 建構子
+	 */
 	public BaseSettings() {
 		this.setDebugEnable(false);
 	}
 	
+	/**
+	 * 建構子
+	 * @param inputBaseUrl 伺服端網址
+	 */
 	public BaseSettings(String inputBaseUrl) {
 		this.setBaseUrl(inputBaseUrl);
 		this.setDebugEnable(false);
 	}
 	
+	/**
+	 * 建構子
+	 * @param inputBaseUrl 伺服端網址
+	 * @param inputDebugEnabled 除錯模式開關
+	 */
 	public BaseSettings(String inputBaseUrl, boolean inputDebugEnabled) {
 		this.setBaseUrl(inputBaseUrl);
 		this.setDebugEnable(inputDebugEnabled);

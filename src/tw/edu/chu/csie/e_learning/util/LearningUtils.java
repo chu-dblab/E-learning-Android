@@ -23,6 +23,10 @@ import tw.edu.chu.csie.e_learning.server.ServerUtils;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
+/**
+ * 學習相關的動作類別庫
+ *
+ */
 public class LearningUtils 
 {
 	private BaseSettings bs;
@@ -30,6 +34,11 @@ public class LearningUtils
 	private JSONDecodeUtils decode;
 	private ClientDBProvider dbcon;
 	private SettingUtils settings;
+	
+	/**
+	 * 學習相關的動作類別庫
+	 * @param context 帶入Android基底Context
+	 */
 	public LearningUtils(Context context)
 	{
 		settings = new SettingUtils(context);
@@ -41,8 +50,11 @@ public class LearningUtils
 	
 	/**
 	 * 此學習點是否為推薦的學習點
-	 * @param pointNumber
-	 * @return
+	 * <p>
+	 * 此函式會檢查Client資料庫"chu_target"資料表裡，此標地是否為推薦的學習點
+	 * 
+	 * @param pointNumber 標地編號
+	 * @return <code>true</code> 為推薦的學習點
 	 */
 	public boolean isInRecommandPoint(String pointNumber) {
 		// 抓取資料庫中有無此學習點
@@ -51,6 +63,11 @@ public class LearningUtils
 		else return false;
 	}
 	
+	/**
+	 * 此學習點是否為實體的學習點
+	 * @param pointNumber 標地編號
+	 * @return <code>true</code> 為實體的學習點
+	 */
 	public boolean isEntityMaterial(String pointNumber) {
 		// 抓取資料庫中有無此學習點
 		String[] query = dbcon.search("chu_target", "IsEntity", "TID="+pointNumber);
@@ -64,8 +81,8 @@ public class LearningUtils
 	}
 	
 	/**
-	 * 加人數
-	 * @param pointNumber
+	 * 通知伺服器此學習點標記加人數
+	 * @param pointNumber 標地編號
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
@@ -78,9 +95,8 @@ public class LearningUtils
 	}
 	
 	/**
-	 * 減人數
-	 * @param pointNumber
-	 * @return
+	 * 通知伺服器此學習點標記減人數
+	 * @param pointNumber 標地編號
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
@@ -95,8 +111,8 @@ public class LearningUtils
 	
 	/**
 	 * 取得系統推薦的下個學習點
-	 * @param userID
-	 * @param pointNumber
+	 * @param userID 使用者帳號ID (TODO 要改成登入碼)
+	 * @param pointNumber 目前所在的標地編號
 	 * @throws HttpException 
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
