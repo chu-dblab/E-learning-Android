@@ -11,7 +11,7 @@
 - 相機鏡頭（掃描QR Code時需要）
 
 ## 開發文件
-已將整份專案用javadoc產生出[開發文件網站](../master/doc/index.html)
+已將整份專案用javadoc產生出[開發文件網站](doc/index.html)
 
 ## 關於
 - 主要連結 <https://github.com/organizations/CHU-TDAP>
