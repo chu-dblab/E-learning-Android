@@ -1,6 +1,6 @@
 /**
- * @author kobayashi
- * @description 一切對Android儲存裝置的存取都從這個類別呼叫
+ * FileName:	FileUtils.java
+ * Description 一切對Android儲存裝置的存取都從這個類別呼叫
  */
 package tw.edu.chu.csie.e_learning.util;
 
@@ -18,6 +18,10 @@ import android.content.Context;
 import android.os.*;
 import android.util.Log;
 
+/**
+ * 對Android儲存裝置的檔案存取的專用類別
+ * @author kobayashi
+ */
 public class FileUtils 
 {
 	private File BasicSDPath;  //SD卡的根目錄（會依照Android版本不同而有所變化）
@@ -30,10 +34,8 @@ public class FileUtils
 	}
 	
 	/**
-	 * isSDCardInsert
-	 * @param			None
-	 * @return			Boolean
 	 * 偵測這個裝置有沒有插入記憶卡
+	 * @return <code>true</code> 有偵測到記憶卡
 	 */
 	public boolean isSDCardInsert() 
 	{
@@ -45,10 +47,8 @@ public class FileUtils
 	}
 	
 	/**
-	 * getSDPath
-	 * @param			None
-	 * @return 		學習教材在SD卡上的路徑
 	 * 取得在SD卡上的教材路徑
+	 * @return 學習教材在SD卡上的路徑
 	 */
 	public String getPath()
 	{
@@ -67,9 +67,10 @@ public class FileUtils
 	
 	// ------------------------------------------------------------------------------------
 	/**
-	 * 取得此學習點教材路徑
-	 * @param materialId
-	 * @return
+	 * 取得此"學習地圖圖檔"路徑
+	 * @param context 帶入Android基底Context
+	 * @param materialId 此標地的編號
+	 * @return 此"學習地圖圖檔"路徑
 	 */
 	public String getMapFilePath(Context context, int materialId)
 	{
@@ -90,10 +91,8 @@ public class FileUtils
 	}
 	
 	/**
-	 * getMaterialPath
-	 * @param			None
-	 * @return 		學習教材在SD卡上的路徑
-	 * 取得在SD卡上的教材路徑
+	 * 取得在儲存裝置上的教材路徑
+	 * @return 		學習教材在儲存裝置上的路徑
 	 */
 	public String getMaterialPath()
 	{
@@ -101,9 +100,10 @@ public class FileUtils
 	}
 	
 	/**
-	 * 取得此學習點教材路徑
-	 * @param materialId
-	 * @return
+	 * 取得此"學習點教材"路徑
+	 * @param context 帶入Android基底Context
+	 * @param materialId 此標地的編號
+	 * @return 此"學習點教材"路徑
 	 */
 	public String getMaterialFilePath(Context context, int materialId)
 	{
@@ -125,6 +125,7 @@ public class FileUtils
 	
 	// ====================================================================================
 	/**
+	 * TODO 註解標記
 	 * saveFile
 	 * @param 			path
 	 * @return			None
@@ -148,6 +149,7 @@ public class FileUtils
 	}
 	
 	/**
+	 * TODO 註解標記
 	 * decompressFile
 	 * 解壓縮檔案
 	 * @throws IOException

@@ -1,4 +1,4 @@
-/*
+/**
  * 無所不在學習架構與學習導引機制
  * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
  * 
@@ -29,8 +29,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 說明、關於相關用的類別
+ * @author yuan
+ *
+ */
 public class HelpUtils {
-	//顯示"關於"資訊的對話框	
+	/**
+	 * 顯示"關於"資訊的對話框
+	 * @param context 帶入Android基底Context
+	 */
 	@SuppressWarnings("deprecation")
 	public static void showAboutDialog(Context context){
 		//建立對話方塊AlertDialog

@@ -1,10 +1,3 @@
-/**
- * MaterialSyncUtils　下載教材的類別
- * @author kobayashi
- * @version v1.0
- * 
- * 一切有關下載教材與同步都在這個類別處理
- */
 package tw.edu.chu.csie.e_learning.sync;
 
 import java.io.IOException;
@@ -16,6 +9,12 @@ import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 
+/**
+ * 下載教材的類別
+ * 一切有關下載與同步教材都在這個類別處理
+ * @author kobayashi
+ * @version v1.0
+ */
 public class MaterialSyncUtils 
 {
 	private HttpURLConnection url;
@@ -26,10 +25,10 @@ public class MaterialSyncUtils
 	
 	/**
 	 * 下載教材
+	 * TODO 補上網址
 	 * @param 　urlPath
-	 * @return true/false
 	 * @throws IOException
-	 * @throws HttpException 
+	 * @throws HttpException 連線錯誤
 	 */
 	public void downloadTeachingMaterial(String urlPath) throws IOException,HttpException
 	{
@@ -50,6 +49,10 @@ public class MaterialSyncUtils
 		else throw new HttpException(url.getResponseCode());
 	}
 	
+	/**
+	 * 取得檔案大小
+	 * @return 檔案大小 TODO 以什麼單位計算
+	 */
 	public int getFileSize()
 	{
 		return fileSize;

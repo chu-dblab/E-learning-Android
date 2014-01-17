@@ -1,4 +1,4 @@
-/*
+/**
  * 無所不在學習架構與學習導引機制
  * A Hybrid Ubiquitous Learning Framework and its Navigation Support Mechanism
  * 
@@ -48,6 +48,10 @@ import tw.edu.chu.csie.e_learning.server.exception.LoginException;
 import tw.edu.chu.csie.e_learning.server.exception.PostNotSameException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
 
+/**
+ * 帳號登入登出控制管理
+ * @author 元兒～
+ */
 public class AccountUtils {
 	
 	private Context context;
@@ -55,6 +59,10 @@ public class AccountUtils {
 	private ServerAPIs server;
 	private SettingUtils settingUtils;
 	
+	/**
+	 * 帳號處理類別的建構子
+	 * @param context 帶入Android基底Context
+	 */
 	public AccountUtils(Context context) {
 		this.context = context;
 		clientdb = new ClientDBProvider(this.context);
@@ -67,6 +75,10 @@ public class AccountUtils {
 	
 	/**
 	 * 是否是已登入狀態
+	 * <p>
+	 * 此函式會檢查Client資料庫"chu_user"資料表裡是否有使用者登入資訊
+	 * 
+	 * @return <code>true</code>已登入
 	 */
 	public boolean islogin(){
 		if(this.getLoginId() != null) {
@@ -77,7 +89,11 @@ public class AccountUtils {
 	}
 	
 	/**
-	 * 察看已登入的ID
+	 * 查詢已登入的帳號ID
+	 * <p>
+	 * 此函式會檢查Client資料庫"chu_user"資料表裡的"UID"資料
+	 * 
+	 * @return 已登入的帳號ID
 	 */
 	public String getLoginId() {
 		String query[] = clientdb.search("chu_user", "UID", null);
@@ -94,6 +110,10 @@ public class AccountUtils {
 	
 	/**
 	 * 取得登入碼
+	 * <p>
+	 * 此函式會檢查Client資料庫"chu_user"資料表裡的"ULogged_code"資料
+	 * 
+	 * @return 已登入的登入碼
 	 */
 	public String getLoginCode() {
 		String query[] = clientdb.search("chu_user", "ULogged_code", null);
@@ -109,16 +129,17 @@ public class AccountUtils {
 	
 	/**
 	 * 登入帳號
+	 * <p>
+	 * 此函式將會連線到後端進行登入，再將成功登入的資訊寫入到Client資料庫"chu_user"資料表裡
+	 * 
 	 * @param inputLoginId 使用者輸入的ID
 	 * @param inputLoginPasswd 使用者輸入的密碼
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 * @throws JSONException 
 	 * @throws PostNotSameException 
-	 * @throws HttpException 
+	 * @throws HttpException
 	 * @throws ServerException 
-	 * 
-	 * TODO ClientProtocolException, IOException, JSONException 例外整理
 	 * @throws LoginCodeException 
 	 */
 	public void loginUser(String inputLoginId, String inputLoginPasswd) 
@@ -145,7 +166,9 @@ public class AccountUtils {
 	
 	/**
 	 * 登出帳號
-	 * @param loginCode
+	 * <p>
+	 * 清除登入資訊在Client資料庫"chu_user"資料表裡，同時將會連線到後端進行登出
+	 * 
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws HttpException
