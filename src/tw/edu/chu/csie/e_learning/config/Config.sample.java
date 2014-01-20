@@ -36,7 +36,7 @@ public class Config {
 	/**
 	 * 本機教材取得子路徑
 	 */
-	public static final String MATERIAL_DIRECTORY = "TeachingMaterial/";
+	public static final String MATERIAL_DIRECTORY = "Material/";
 	/**
 	 * 下載教材的壓縮檔案名稱
 	 */
