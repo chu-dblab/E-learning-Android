@@ -69,6 +69,7 @@
             android:name="tw.edu.chu.csie.e_learning.ui.TesterActivity"
             android:label="@string/title_activity_tester" >
         </activity>
+        <service android:name=".service.TimeService" android:enabled="true"></service>
     </application>
 
 </manifest>

@@ -11,12 +11,19 @@ import tw.edu.chu.csie.e_learning.R.menu;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
+import tw.edu.chu.csie.e_learning.service.TimerService;
+import tw.edu.chu.csie.e_learning.service.TimerService.TimerLocalBinder;
 import tw.edu.chu.csie.e_learning.ui.MaterialActivity.RequestToServer;
 import tw.edu.chu.csie.e_learning.util.FileUtils;
 import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,8 +39,28 @@ import android.widget.Toast;
  */
 public class TesterActivity extends Activity implements OnClickListener {
 
+	private TimerService timerService = null;
+	private ServiceConnection mTimerConn = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			/*TimerLocalBinder binder = (TimerLocalBinder) service;
+			timerService = binder.getService();*/
+			
+			timerService = ((TimerService.TimerLocalBinder)service).getService();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
+	
 	private ProgressBar sendProgress;
 	private Button sql_clear_target;
+	private Button startTimer, getTimerMin, stopTimer;
 	private Button sendStopSendAll, sendAddPeople, sendSubPeople, sendSaveUserStatus;
 	
 	@Override
@@ -82,6 +109,16 @@ public class TesterActivity extends Activity implements OnClickListener {
 		sql_clear_target = (Button)findViewById(R.id.tester_sqlite_clear_target);
 		sql_clear_target.setOnClickListener(this);
 		
+		// ---------------------------------------------------------------------------------------------------------------------------------
+		
+		startTimer = (Button)findViewById(R.id.tester_service_timer_start);
+		startTimer.setOnClickListener(this);
+		
+		getTimerMin = (Button)findViewById(R.id.tester_service_timer_get_min);
+		getTimerMin.setOnClickListener(this);
+		
+		stopTimer = (Button)findViewById(R.id.tester_service_timer_stop);
+		stopTimer.setOnClickListener(this);
 		
 		// ---------------------------------------------------------------------------------------------------------------------------------
 		//sendProgress = (ProgressBar)findViewById(R.id.tester_send_progress);
@@ -121,8 +158,26 @@ public class TesterActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		ClientDBProvider clientdb; 
 		RequestToServer request;
-		
+		timerService = null;
+		Intent toTimerService = new Intent(this, TimerService.class);
+		bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
 		switch(v.getId()) {
+		case R.id.tester_service_timer_start:
+			// 設定開始計時1分鐘
+			toTimerService.putExtra("setTotalTimeMin", 1);
+			startService(toTimerService);
+			break;
+		case R.id.tester_service_timer_get_min:
+			if(timerService != null) {
+				Toast.makeText(this, "計時器剩餘: "+timerService.getTimer().getSumSecond(), Toast.LENGTH_SHORT).show();
+			}
+			else {Toast.makeText(this, "null", 0).show();}
+			break;
+		case R.id.tester_service_timer_stop:
+			break;
+			
+		// ------------------------------------------------------------------------
+		
 		case R.id.tester_sqlite_clear_target:
 			clientdb = new ClientDBProvider(TesterActivity.this);
 			clientdb.delete(null, "chu_target");
@@ -192,5 +247,5 @@ public class TesterActivity extends Activity implements OnClickListener {
 			Toast.makeText(TesterActivity.this, "已傳送人數加減", 0).show();
 		}
 	}
-
+	
 }
