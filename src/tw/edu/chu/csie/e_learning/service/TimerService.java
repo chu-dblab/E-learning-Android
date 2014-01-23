@@ -3,7 +3,6 @@
  */
 package tw.edu.chu.csie.e_learning.service;
 
-import tw.edu.chu.csie.e_learning.util.TimerUtils;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -17,7 +16,7 @@ import android.widget.Toast;
  */
 public class TimerService extends Service {
 	
-	private TimerUtils timer;
+	private MyTimer timer;
 	
 	// Binder given to clients
 	private final IBinder mBinder = new TimerLocalBinder();
@@ -39,7 +38,7 @@ public class TimerService extends Service {
 	
 	// ------------------------------------------------------------------
 	
-	public TimerUtils getTimer() {
+	public MyTimer getTimer() {
 		return timer;
 	}
 	
@@ -50,8 +49,8 @@ public class TimerService extends Service {
 	 */
 	@Override
 	public void onCreate() {
-		timer = new TimerUtils();
-		timer.addListener(new TimerUtils.TimerListener() {
+		timer = new MyTimer();
+		timer.addListener(new MyTimer.TimerListener() {
 			
 			@Override
 			public void timeOut() {

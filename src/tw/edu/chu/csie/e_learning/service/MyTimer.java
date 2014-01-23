@@ -1,4 +1,4 @@
-package tw.edu.chu.csie.e_learning.util;
+package tw.edu.chu.csie.e_learning.service;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,7 +9,7 @@ import java.util.TimerTask;
  * 來源: http://blog.xuite.net/ray00000test/blog/66911629-%E5%80%92%E6%95%B8%E8%A8%88%E6%99%82%E5%99%A8%28%E5%80%92%E6%95%B8%E7%A7%92%E6%95%B8%E9%A1%AF%E7%A4%BA%E5%9C%A8JLabel%E4%B8%8A%29
  * @author yuan
  */
-public class TimerUtils {
+public class MyTimer {
 	
 	public interface TimerListener{
 		/**
@@ -31,7 +31,7 @@ public class TimerUtils {
 	private TimerListener lis;
 	private Timer timer;
 	
-	public TimerUtils() {
+	public MyTimer() {
 		
 	}
 	
@@ -47,7 +47,7 @@ public class TimerUtils {
 	 * 建構子 設定初始總秒數
 	 * @param setSecond 總秒數
 	 */
-	public TimerUtils(long setSecond) {
+	public MyTimer(long setSecond) {
 		this();
 		this.setSumSecond(setSecond);
 	}
@@ -57,7 +57,7 @@ public class TimerUtils {
 	 * @param min
 	 * @param sec
 	 */
-	public TimerUtils(int min, int sec) {
+	public MyTimer(int min, int sec) {
 		this();
 		this.setTime(min, sec);
 	}
