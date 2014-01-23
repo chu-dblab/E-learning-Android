@@ -46,7 +46,7 @@ public class TesterActivity extends Activity implements OnClickListener {
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			/*TimerLocalBinder binder = (TimerLocalBinder) service;
 			timerService = binder.getService();*/
-			
+			Toast.makeText(getBaseContext(), "Conn", 0).show();
 			timerService = ((TimerService.TimerLocalBinder)service).getService();
 		}
 
@@ -112,10 +112,33 @@ public class TesterActivity extends Activity implements OnClickListener {
 		// ---------------------------------------------------------------------------------------------------------------------------------
 		
 		startTimer = (Button)findViewById(R.id.tester_service_timer_start);
-		startTimer.setOnClickListener(this);
+		startTimer.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				timerService = null;
+				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
+				Toast.makeText(TesterActivity.this, "StartTimer", 0).show();
+				// 設定開始計時1分鐘
+				toTimerService.putExtra("setTotalTimeMin", 1);
+				startService(toTimerService);
+			}
+		});
 		
 		getTimerMin = (Button)findViewById(R.id.tester_service_timer_get_min);
-		getTimerMin.setOnClickListener(this);
+		getTimerMin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
+				bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
+				if(timerService != null) {
+					Toast.makeText(TesterActivity.this, "計時器剩餘: "+timerService.getTimer().getSumSecond(), Toast.LENGTH_SHORT).show();
+				}
+				else {Toast.makeText(TesterActivity.this, "null", 0).show();}
+			}
+		});
 		
 		stopTimer = (Button)findViewById(R.id.tester_service_timer_stop);
 		stopTimer.setOnClickListener(this);
@@ -158,20 +181,13 @@ public class TesterActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		ClientDBProvider clientdb; 
 		RequestToServer request;
-		timerService = null;
-		Intent toTimerService = new Intent(this, TimerService.class);
-		bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
+		
 		switch(v.getId()) {
 		case R.id.tester_service_timer_start:
-			// 設定開始計時1分鐘
-			toTimerService.putExtra("setTotalTimeMin", 1);
-			startService(toTimerService);
+			
 			break;
 		case R.id.tester_service_timer_get_min:
-			if(timerService != null) {
-				Toast.makeText(this, "計時器剩餘: "+timerService.getTimer().getSumSecond(), Toast.LENGTH_SHORT).show();
-			}
-			else {Toast.makeText(this, "null", 0).show();}
+			
 			break;
 		case R.id.tester_service_timer_stop:
 			break;

@@ -31,13 +31,6 @@ public class TimerService extends Service {
     		return TimerService.this;
     	}
     }
-	
-	/**
-	 * 
-	 */
-	public TimerService() {
-		// TODO Auto-generated constructor stub
-	}
 
 	private void onTimeOut() {
 		// TODO Auto-generated method stub
@@ -58,7 +51,7 @@ public class TimerService extends Service {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		super.onCreate();
+		Toast.makeText(this, "Create", 0).show();
 		
 		timer = new TimerUtils();
 		timer.addListener(new TimerUtils.TimerListener() {
@@ -74,16 +67,17 @@ public class TimerService extends Service {
 				
 			}
 		});
+		super.onCreate();
 	}	
 
-	
 	@Override
-	public void onStart(Intent intent, int startId) {
+	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		super.onStart(intent, startId);
+		Toast.makeText(this, "Start", 0).show();
 		int setMin = intent.getExtras().getInt("setTotalTimeMin", -1);
 		timer.setTime(setMin, 0);
 		timer.startTimeing();
+		return super.onStartCommand(intent, flags, startId);
 	}
 	
 	@Override
