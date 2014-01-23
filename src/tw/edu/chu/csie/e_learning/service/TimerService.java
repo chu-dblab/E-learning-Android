@@ -50,9 +50,6 @@ public class TimerService extends Service {
 	 */
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
-		Toast.makeText(this, "Create", 0).show();
-		
 		timer = new TimerUtils();
 		timer.addListener(new TimerUtils.TimerListener() {
 			
@@ -64,7 +61,6 @@ public class TimerService extends Service {
 			
 			@Override
 			public void onChange() {
-				
 			}
 		});
 		super.onCreate();
@@ -72,10 +68,22 @@ public class TimerService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO Auto-generated method stub
-		Toast.makeText(this, "Start", 0).show();
-		int setMin = intent.getExtras().getInt("setTotalTimeMin", -1);
-		timer.setTime(setMin, 0);
+		//Toast.makeText(this, "Start", 0).show();
+		if(intent.getExtras().containsKey("setTotalSecTime")) {
+			int setTotalSec = intent.getExtras().getInt("setTotalSecTime", -1);
+			timer.setSumSecond(setTotalSec);
+		}
+		else if(intent.getExtras().containsKey("setSecTime") || intent.getExtras().containsKey("setMinTime")) {
+			int setSec = 0;
+			if(intent.getExtras().containsKey("setSecTime")) {
+				setSec = intent.getExtras().getInt("setSecTime");
+			}
+			int setMin = 0;
+			if(intent.getExtras().containsKey("setMinTime")) {
+				setMin = intent.getExtras().getInt("setMinTime");
+			}
+			timer.setTime(setMin, setSec);
+		}
 		timer.startTimeing();
 		return super.onStartCommand(intent, flags, startId);
 	}

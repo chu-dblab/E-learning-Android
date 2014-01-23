@@ -60,19 +60,25 @@
             android:id="@+id/tester_service_timer_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="StertTimer" />
+            android:text="開始計時" />
+
+        <Button
+            android:id="@+id/tester_service_timer_conn_bind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bind" />
 
         <Button
             android:id="@+id/tester_service_timer_get_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GetTimerMin" />
+            android:text="取得時間" />
 
         <Button
             android:id="@+id/tester_service_timer_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="StopTimer" />
+            android:text="停止計時" />
 
     </LinearLayout>
 

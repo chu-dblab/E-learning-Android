@@ -46,7 +46,7 @@ public class TesterActivity extends Activity implements OnClickListener {
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			/*TimerLocalBinder binder = (TimerLocalBinder) service;
 			timerService = binder.getService();*/
-			Toast.makeText(getBaseContext(), "Conn", 0).show();
+			//Toast.makeText(getBaseContext(), "Conn", 0).show();
 			timerService = ((TimerService.TimerLocalBinder)service).getService();
 		}
 
@@ -60,13 +60,14 @@ public class TesterActivity extends Activity implements OnClickListener {
 	
 	private ProgressBar sendProgress;
 	private Button sql_clear_target;
-	private Button startTimer, getTimerMin, stopTimer;
+	private Button startTimer, connTimerBind, getTimerMin, stopTimer;
 	private Button sendStopSendAll, sendAddPeople, sendSubPeople, sendSaveUserStatus;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tester);
+		
 		// 設定ActionBar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
@@ -116,13 +117,22 @@ public class TesterActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				timerService = null;
 				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
-				Toast.makeText(TesterActivity.this, "StartTimer", 0).show();
 				// 設定開始計時1分鐘
-				toTimerService.putExtra("setTotalTimeMin", 1);
+				toTimerService.putExtra("setTotalSecTime", 30);
 				startService(toTimerService);
+			}
+		});
+		
+		connTimerBind = (Button)findViewById(R.id.tester_service_timer_conn_bind);
+		connTimerBind.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				timerService = null;
+				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
+				bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
 			}
 		});
 		
@@ -131,8 +141,6 @@ public class TesterActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(View v) {
-				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
-				bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
 				if(timerService != null) {
 					Toast.makeText(TesterActivity.this, "計時器剩餘: "+timerService.getTimer().getSumSecond(), Toast.LENGTH_SHORT).show();
 				}
@@ -141,7 +149,15 @@ public class TesterActivity extends Activity implements OnClickListener {
 		});
 		
 		stopTimer = (Button)findViewById(R.id.tester_service_timer_stop);
-		stopTimer.setOnClickListener(this);
+		stopTimer.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				timerService = null;
+				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
+				stopService(toTimerService);
+			}
+		});
 		
 		// ---------------------------------------------------------------------------------------------------------------------------------
 		//sendProgress = (ProgressBar)findViewById(R.id.tester_send_progress);

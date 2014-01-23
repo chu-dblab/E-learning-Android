@@ -26,12 +26,13 @@ public class TimerUtils {
 	private long totalSecond;
 	private boolean timeToAdd = false;
 	private boolean timeToOver = false;
+	private boolean isTiming = false;
 	
 	private TimerListener lis;
 	private Timer timer;
 	
 	public TimerUtils() {
-		this.timer = new Timer();
+		
 	}
 	
 	/**
@@ -108,13 +109,18 @@ public class TimerUtils {
 	 * 開始計時
 	 */
 	public void startTimeing() {
-		timer.schedule(new TimingTask(), 0, // initial delay
-				1 * 1000); // subsequent rate
+		if(!isTiming) {
+			isTiming = true;
+			timer = new Timer();
+			timer.schedule(new TimingTask(), 0, // initial delay
+					1 * 1000); // subsequent rate
+		}
 	}
 	/**
 	 * 停止計時
 	 */
 	public void stopTiming() {
+		isTiming = false;
 		timer.cancel();
 	}
 	
@@ -134,6 +140,7 @@ public class TimerUtils {
 			}
 			else {
 				lis.timeOut();
+				isTiming = false;
 				timer.cancel();
 			}
 		}
