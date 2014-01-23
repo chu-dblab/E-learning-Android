@@ -60,7 +60,7 @@ public class TesterActivity extends Activity implements OnClickListener {
 	
 	private ProgressBar sendProgress;
 	private Button sql_clear_target;
-	private Button startTimer, connTimerBind, getTimerMin, stopTimer;
+	private Button startTimer, connTimerBind, unconnTimerBind, getTimerMin, stopTimer;
 	private Button sendStopSendAll, sendAddPeople, sendSubPeople, sendSaveUserStatus;
 	
 	@Override
@@ -133,6 +133,16 @@ public class TesterActivity extends Activity implements OnClickListener {
 				timerService = null;
 				Intent toTimerService = new Intent(TesterActivity.this, TimerService.class);
 				bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
+			}
+		});
+		
+		unconnTimerBind = (Button)findViewById(R.id.tester_service_timer_conn_unbind);
+		unconnTimerBind.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				timerService = null;
+				unbindService(mTimerConn);
 			}
 		});
 		

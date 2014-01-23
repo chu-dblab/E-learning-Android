@@ -50,7 +50,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Service" />
+        android:text="TimerService" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:id="@+id/tester_service_timer_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="開始計時" />
+            android:text="Start" />
 
         <Button
             android:id="@+id/tester_service_timer_conn_bind"
@@ -69,16 +69,22 @@
             android:text="Bind" />
 
         <Button
+            android:id="@+id/tester_service_timer_conn_unbind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="unBind" />
+
+        <Button
             android:id="@+id/tester_service_timer_get_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取得時間" />
+            android:text="Get" />
 
         <Button
             android:id="@+id/tester_service_timer_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="停止計時" />
+            android:text="Stop" />
 
     </LinearLayout>
 
