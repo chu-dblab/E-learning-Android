@@ -69,7 +69,7 @@ public class TimerService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		//Toast.makeText(this, "Start", 0).show();
 		if(intent.getExtras().containsKey("setTotalSecTime")) {
-			int setTotalSec = intent.getExtras().getInt("setTotalSecTime", -1);
+			long setTotalSec = intent.getExtras().getLong("setTotalSecTime", -1);
 			timer.setSumSecond(setTotalSec);
 		}
 		else if(intent.getExtras().containsKey("setSecTime") || intent.getExtras().containsKey("setMinTime")) {
@@ -86,6 +86,7 @@ public class TimerService extends Service {
 		timer.startTimeing();
 		return super.onStartCommand(intent, flags, startId);
 	}
+	
 	
 	@Override
 	public void onDestroy() {

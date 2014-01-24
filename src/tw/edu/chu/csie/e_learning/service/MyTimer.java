@@ -120,8 +120,10 @@ public class MyTimer {
 	 * 停止計時
 	 */
 	public void stopTiming() {
-		isTiming = false;
-		timer.cancel();
+		if(isTiming) {
+			isTiming = false;
+			timer.cancel();
+		}
 	}
 	
 	// ====================================================================
