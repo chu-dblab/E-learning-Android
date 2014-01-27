@@ -41,7 +41,6 @@ import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.ServerAPIs;
-import tw.edu.chu.csie.e_learning.server.ServerUser;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
@@ -152,17 +151,13 @@ public class AccountUtils {
 		// 登入這個使用者
 		String message = this.server.userLogin(inputLoginId, inputLoginPasswd);
 		String loginCode = new JSONObject(message).getString("ucode");
-		ServerUser userinfo = this.server.userGetInfo(loginCode);
-		String nickName = userinfo.getNickName();
-		String loginTime = userinfo.getLoginTime();
-		
-		Log.d("nickName",nickName);
-		Log.d("loginTime", loginTime);
-		Log.d("loginCode", loginCode);
-		Log.d("ID", userinfo.getID());
+		String uid = new JSONObject(message).getString("uid");
+		String nickName = new JSONObject(message).getString("unickname");
+		String loginTime = new JSONObject(message).getString("ulogin_time");
+		String learningTime = new JSONObject(message).getString("learning_time");
 		
 		//將傳回來的資料寫入SQLite裡
-		this.clientdb.user_insert(userinfo.getID(), nickName, loginCode, loginTime);
+		this.clientdb.user_insert(uid, nickName, loginCode, loginTime, learningTime);
 		
 		// 開始計時
 		int learningTimeMin = new JSONObject(message).getInt("LearningTime");

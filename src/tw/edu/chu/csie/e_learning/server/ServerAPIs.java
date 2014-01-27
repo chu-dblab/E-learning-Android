@@ -128,44 +128,6 @@ public class ServerAPIs {
 		}
 	}
 	
-	/**
-	 * 取得使用者資訊
-	 * @param inputLoginCode 登入碼
-	 * @return 使用者資訊物件
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws HttpException
-	 * @throws PostNotSameException
-	 * @throws JSONException
-	 * @throws LoginCodeException
-	 * @throws ServerException
-	 */
-	public ServerUser userGetInfo(String inputLoginCode) throws ClientProtocolException, IOException, HttpException, PostNotSameException, JSONException, LoginCodeException, ServerException {
-		//傳送的資料要用NameValuePair[]包裝
-			List<NameValuePair> data = new ArrayList<NameValuePair>();
-			data.add(new BasicNameValuePair("ucode",inputLoginCode));
-			//與伺服端連線
-			String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/me.php?op=get-info", data);
-			
-			//若伺服端接到的ucode與傳送的不合
-			if(!new JSONObject(message).getString("ucode").equals(inputLoginCode)) throw new PostNotSameException();
-			//若傳送給的資料是否與伺服端接到的資料相同
-			else {
-				//如果伺服器傳回的狀態為正常
-				boolean status_ok = new JSONObject(message).getBoolean("status_ok");
-				if( status_ok ) {
-					return new ServerUser(new JSONObject(message));
-				}
-				//若伺服器傳回為登入失敗
-				else {
-					//從伺服器取得錯誤代碼
-					String status = new JSONObject(message).getString("status");
-					
-					if(status.equals("NoUserFound")) throw new LoginCodeException();
-					else throw new ServerException();
-				}
-			}
-	}
 	
 	/**
 	 * 儲存使用者的學習狀態
