@@ -52,7 +52,7 @@ public class TimerUtil {
 	public void startTimer(long sumSecond) {
 		this.unBind();
 		this.bind();
-		Intent toTimerService = new Intent((Activity)this.context, TimerService.class);
+		Intent toTimerService = new Intent(this.context, TimerService.class);
 		toTimerService.putExtra("setTotalSecTime", sumSecond);
 		this.context.startService(toTimerService);
 	}
@@ -60,7 +60,7 @@ public class TimerUtil {
 	public void startTimer(int min, int sec) {
 		this.unBind();
 		this.bind();
-		Intent toTimerService = new Intent((Activity)this.context, TimerService.class);
+		Intent toTimerService = new Intent(this.context, TimerService.class);
 		toTimerService.putExtra("setMinTime", min);
 		toTimerService.putExtra("setSecTime", sec);
 		this.context.startService(toTimerService);
@@ -69,14 +69,14 @@ public class TimerUtil {
 	public void stopTimer() {
 		this.timerService = null;
 		this.unBind();
-		Intent toTimerService = new Intent((Activity)this.context, TimerService.class);
+		Intent toTimerService = new Intent(this.context, TimerService.class);
 		this.context.stopService(toTimerService);
 	}
 	
 	public void bind() {
 		if(timerService == null) {
 			timerService = null;
-			Intent toTimerService = new Intent((Activity)this.context, TimerService.class);
+			Intent toTimerService = new Intent(this.context, TimerService.class);
 			this.context.bindService(toTimerService, mTimerConn, Context.BIND_AUTO_CREATE);
 		}
 	}

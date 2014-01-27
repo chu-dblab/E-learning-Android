@@ -72,8 +72,9 @@ public class ServerAPIs {
 			//如果伺服器傳回的狀態為正常
 			boolean status_ok = new JSONObject(message).getBoolean("status_ok");
 			if( status_ok ) {
-				String login_code = new JSONObject(message).getString("ucode");				
-				return login_code;
+				return message;
+				//String login_code = new JSONObject(message).getString("ucode");
+				//return login_code;
 			}
 			//若伺服器傳回為登入失敗
 			else {
@@ -193,6 +194,20 @@ public class ServerAPIs {
 			String status = new JSONObject(message).getString("status");
 			if(status == "CommandError")throw new ServerException();
 			else throw new ServerException();
+		}
+	}
+	
+	public int getLearnTime() throws ClientProtocolException, IOException, HttpException, JSONException, ServerException {
+		List<NameValuePair> data = new ArrayList<NameValuePair>();
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=getTotalTime", data);
+		boolean status_ok = new JSONObject(message).getBoolean("status_ok");
+		if(!status_ok) {
+			String status = new JSONObject(message).getString("status");
+			if(status == "CommandError")throw new ServerException();
+			else throw new ServerException();
+		}
+		else {
+			return new JSONObject(message).getInt("LearningTime");
 		}
 	}
 	
