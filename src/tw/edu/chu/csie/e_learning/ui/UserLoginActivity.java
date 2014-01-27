@@ -176,18 +176,18 @@ public class UserLoginActivity extends Activity {
 		// 無網路
 		else {
 			// TODO String拉出
-			Builder noNetworkDialog = new AlertDialog.Builder(getBaseContext());
-			noNetworkDialog.setTitle("已登入！！");
-			noNetworkDialog.setMessage("目前已登入，但沒有網路喔～");
-			noNetworkDialog.setCancelable(false);
-			noNetworkDialog.setPositiveButton("重試", new DialogInterface.OnClickListener() {
+			Builder noNetworkDialogBuilder = new AlertDialog.Builder(this);
+			noNetworkDialogBuilder.setTitle("已登入！！");
+			noNetworkDialogBuilder.setMessage("目前已登入，但沒有網路喔～");
+			noNetworkDialogBuilder.setCancelable(false);
+			noNetworkDialogBuilder.setPositiveButton("重試", new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					resumeLogin();
 				}
 			});
-			noNetworkDialog.setNegativeButton("登出", new DialogInterface.OnClickListener() {
+			noNetworkDialogBuilder.setNegativeButton("登出", new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -197,6 +197,8 @@ public class UserLoginActivity extends Activity {
 					clientdb.delete(null, "chu_target");
 				}
 			});
+			AlertDialog noNetworkDialog = noNetworkDialogBuilder.create(); 
+			noNetworkDialog.show();
 		}
 	}
 	
