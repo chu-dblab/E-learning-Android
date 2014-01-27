@@ -199,7 +199,8 @@ public class ServerAPIs {
 	
 	public int getLearnTime() throws ClientProtocolException, IOException, HttpException, JSONException, ServerException {
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
-		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php?op=getTotalTime", data);
+		data.add(new BasicNameValuePair("op", "getTotalTime"));
+		String message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Users/login.php", data);
 		boolean status_ok = new JSONObject(message).getBoolean("status_ok");
 		if(!status_ok) {
 			String status = new JSONObject(message).getString("status");

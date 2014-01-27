@@ -150,28 +150,8 @@ public class UserLoginActivity extends Activity {
 	private void resumeLogin() {
 		// 檢查網路狀況
 		if(new NetworkUtils().isNetworkConnected(getBaseContext())) {
-			// TODO 檢查是否為正確的伺服器
-//			try {
-				//AccountUtils accountUtils = new AccountUtils(this);
-				//accountUtils.resumeUser();
-				Intent toLogin = new Intent(UserLoginActivity.this, MapActivity.class);
-				startActivity(toLogin);
-//			} catch (ClientProtocolException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (HttpException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (ServerException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			ResumeLoginTask resumeLogin = new ResumeLoginTask();
+			resumeLogin.execute();
 		}
 		// 無網路
 		else {
@@ -481,5 +461,49 @@ public class UserLoginActivity extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 		}
+	}
+	
+	public class ResumeLoginTask extends AsyncTask<Void, Void, Boolean> {
+		private boolean success = false;
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			AccountUtils accountUtils = new AccountUtils(UserLoginActivity.this);
+			try {
+				accountUtils.resumeUser();
+				success = true;
+			} catch (ClientProtocolException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (IOException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (HttpException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (ServerException e) {
+				success = false;
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			showProgress(false);
+			if(success) {
+				Intent toLogin = new Intent(UserLoginActivity.this, MapActivity.class);
+				startActivity(toLogin);
+			}
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			showProgress(true);
+		}
+		
 	}
 }
