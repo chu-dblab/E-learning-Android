@@ -166,9 +166,6 @@ public class AccountUtils {
 		
 		// 開始計時
 		int learningTimeMin = new JSONObject(message).getInt("LearningTime");
-		
-		TimerUtil timer = new TimerUtil(this.context);
-		timer.startTimer(learningTimeMin, 0);
 	}
 	
 	/**
@@ -194,19 +191,11 @@ public class AccountUtils {
 		
 		//將使用者的學習狀態傳送至後端
 		this.server.userLogout(loginCode);
-		
-		// 停止計時
-		TimerUtil timer = new TimerUtil(this.context);
-		timer.stopTimer();
 	}
 	
 	public void resumeUser() throws ClientProtocolException, IOException, HttpException, JSONException, ServerException {
 		// 像伺服器取得剩下的學習時間
 		int learnTimeMin = this.server.getLearnTime();
-		
-		// 開始計時
-		TimerUtil timer = new TimerUtil(this.context);
-		timer.startTimer(learnTimeMin, 0);
 	}
 	
 }
