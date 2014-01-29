@@ -1,131 +1,148 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".TesterActivity" >
 
-    <Button
-        android:id="@+id/tester_btn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/tester_btn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/tester_btn3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SQLite" />
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/tester_sqlite_clear_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="清除user" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/tester_sqlite_clear_target"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="清除target" />
+            <Button
+                android:id="@+id/tester_btn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/tester_btn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="時間" />
+            <Button
+                android:id="@+id/tester_btn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SQLite" />
 
-        <Button
-            android:id="@+id/tester_time_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Now" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/tester_time_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start" />
+                <Button
+                    android:id="@+id/tester_sqlite_clear_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="清除user" />
 
-        <Button
-            android:id="@+id/tester_time_learning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="learning" />
+                <Button
+                    android:id="@+id/tester_sqlite_clear_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="清除target" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/tester_time_remainder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="remainder" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="時間" />
 
-        <Button
-            android:id="@+id/tester_time_over"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Over" />
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="網路" />
+                    <Button
+                        android:id="@+id/tester_time_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Now" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+                    <Button
+                        android:id="@+id/tester_time_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start" />
 
-        <Button
-            android:id="@+id/tester_send_stop_all_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="中止所有傳送" />
+                    <Button
+                        android:id="@+id/tester_time_learning"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="learning" />
 
-    </LinearLayout>
+                    <Button
+                        android:id="@+id/tester_time_remainder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="remainder" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+                    <Button
+                        android:id="@+id/tester_time_over"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Over" />
+                </LinearLayout>
 
-        <Button
-            android:id="@+id/tester_send_addpeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="加人數" />
+            </HorizontalScrollView>
 
-        <Button
-            android:id="@+id/tester_send_subpeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="減人數" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="網路" />
 
-        <Button
-            android:id="@+id/tester_send_save_user_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="傳送已學完" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/tester_send_stop_all_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="中止所有傳送" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/tester_send_addpeople"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加人數" />
+
+                <Button
+                    android:id="@+id/tester_send_subpeople"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="減人數" />
+
+                <Button
+                    android:id="@+id/tester_send_save_user_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="傳送已學完" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
