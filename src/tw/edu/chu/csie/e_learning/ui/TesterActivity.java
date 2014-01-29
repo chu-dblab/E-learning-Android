@@ -46,7 +46,7 @@ public class TesterActivity extends Activity implements OnClickListener {
 	private ProgressBar sendProgress;
 	private Button sql_clear_target;
 	private Button startTimer, connTimerBind, unconnTimerBind, getTimerMin, stopTimer;
-	private Button nowTime, startTime, learningTime, customerTime;
+	private Button nowTime, startTime, learningTime, remainderTime;
 	private Button sendStopSendAll, sendAddPeople, sendSubPeople, sendSaveUserStatus;
 	
 	@Override
@@ -151,22 +151,22 @@ public class TesterActivity extends Activity implements OnClickListener {
 				learningCal.setTime(learningDate);
 				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
 				
-				Toast.makeText(TesterActivity.this, "Learning: "+learningDate.getTime(), 0).show();
+				//Toast.makeText(TesterActivity.this, "Learning: "+learningDate.getTime(), 0).show();
 				Toast.makeText(TesterActivity.this, "Learning: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();
 			}
 		});
 		
-		customerTime = (Button)findViewById(R.id.tester_time_customer);
-		customerTime.setOnClickListener(new OnClickListener() {
+		remainderTime = (Button)findViewById(R.id.tester_time_remainder);
+		remainderTime.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				/*Calendar learningCal = Calendar.getInstance();
+				Calendar learningCal = Calendar.getInstance();
 				learningCal.setTime(new LearningUtils(TesterActivity.this).getRemainderLearningDate());
 				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
 				
-				Toast.makeText(TesterActivity.this, "Limit: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();*/
-				Toast.makeText(TesterActivity.this, "Limit: "+new LearningUtils(TesterActivity.this).getRemainderLearningMinTime(), 0).show();
+				Toast.makeText(TesterActivity.this, "Limit: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();
+				//Toast.makeText(TesterActivity.this, "Limit: "+new LearningUtils(TesterActivity.this).getRemainderLearningMinTime(), 0).show();
 			}
 		});
 		// ---------------------------------------------------------------------------------------------------------------------------------
