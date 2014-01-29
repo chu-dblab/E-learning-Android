@@ -161,8 +161,12 @@ public class TesterActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/*Calendar learningCal = Calendar.getInstance();
+				learningCal.setTime(new LearningUtils(TesterActivity.this).getRemainderLearningDate());
+				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
 				
+				Toast.makeText(TesterActivity.this, "Limit: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();*/
+				Toast.makeText(TesterActivity.this, "Limit: "+new LearningUtils(TesterActivity.this).getRemainderLearningMinTime(), 0).show();
 			}
 		});
 		// ---------------------------------------------------------------------------------------------------------------------------------

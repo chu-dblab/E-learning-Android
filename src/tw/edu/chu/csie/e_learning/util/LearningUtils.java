@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.TimeZone;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -16,6 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import tw.edu.chu.csie.e_learning.config.Config;
@@ -25,6 +29,7 @@ import tw.edu.chu.csie.e_learning.server.ServerAPIs;
 import tw.edu.chu.csie.e_learning.server.ServerUtils;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.ServerException;
+import tw.edu.chu.csie.e_learning.ui.TesterActivity;
 
 /**
  * 學習相關的動作類別庫
@@ -135,10 +140,13 @@ public class LearningUtils
 		}
 	}
 	
+	// --------------------------------------------------------------------------------------------
+	
 	/**
-	 * 取得已經學習的分鐘
-	 * @return
+	 * 取得已經學習的時間物件
+	 * @return 已學習的Date物件
 	 */
+	@SuppressLint("SimpleDateFormat")
 	public Date getLearningDate() {
 		// 取得現在時間
 		Date nowDate = new Date(System.currentTimeMillis());
@@ -161,5 +169,57 @@ public class LearningUtils
 			e.printStackTrace();
 			return null;
 		} 
+	}
+	
+	/**
+	 * 取得已經學了多少分鐘
+	 * @return 分鐘
+	 */
+	public int getLearningMinTime() {
+		Date learningDate = this.getLearningDate();
+		
+		Calendar learningCal = Calendar.getInstance();
+		learningCal.setTime(learningDate);
+		learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
+		return learningCal.get(Calendar.HOUR_OF_DAY)*60 + learningCal.get(Calendar.MINUTE);
+	}
+
+	public Date getlimitDate() {
+		Calendar limitCal = Calendar.getInstance();
+		limitCal.setTime(new Date(0));
+		limitCal.set(Calendar.MINUTE, this.getlimitMin());
+		
+		return limitCal.getTime();
+	}
+	public int getlimitMin() {
+		// 取得開始學習時間
+		String[] query = dbcon.search("chu_user", "TLearn_Time", null);
+		String limitMinString;
+		if(query.length>0) limitMinString = query[0];
+		else return -1;
+		
+		return Integer.parseInt(limitMinString);
+	}
+	
+	/**
+	 * 取得剩餘學習時間物件
+	 * @return 剩餘學習時間Date物件
+	 */
+	public Date getRemainderLearningDate() {
+		Date limitDate = this.getlimitDate();
+		Date learningDate = this.getLearningDate();
+		
+		return new Date(limitDate.getTime() - learningDate.getTime());
+	}
+	
+	public int getRemainderLearningMinTime() {
+		Date remainderLearningDate = this.getRemainderLearningDate();
+		
+		Calendar learningCal = Calendar.getInstance();
+		learningCal.setTime(remainderLearningDate);
+		learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
+		return learningCal.get(Calendar.HOUR_OF_DAY)*60 + learningCal.get(Calendar.MINUTE);
 	}
 }
