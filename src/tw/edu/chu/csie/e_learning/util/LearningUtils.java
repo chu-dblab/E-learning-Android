@@ -1,8 +1,11 @@
 package tw.edu.chu.csie.e_learning.util;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -130,5 +133,33 @@ public class LearningUtils
 		else {
 			dbcon.target_insert(0, "", "", "", 0, 0);
 		}
+	}
+	
+	/**
+	 * 取得已經學習的分鐘
+	 * @return
+	 */
+	public Date getLearningDate() {
+		// 取得現在時間
+		Date nowDate = new Date(System.currentTimeMillis());
+		
+		// 取得開始學習時間
+		String[] query = dbcon.search("chu_user", "In_Learn_Time", null);
+		String startDateDB;
+		if(query.length>0) startDateDB = query[0];
+		else return null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date startDate = new Date();
+		try {
+			startDate = format.parse(startDateDB);
+			
+			// 回傳時間差
+			Date date= new Date(nowDate.getTime()-startDate.getTime());
+			return date;
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		} 
 	}
 }

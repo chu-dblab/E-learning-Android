@@ -1,6 +1,12 @@
 package tw.edu.chu.csie.e_learning.ui;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -40,6 +46,7 @@ public class TesterActivity extends Activity implements OnClickListener {
 	private ProgressBar sendProgress;
 	private Button sql_clear_target;
 	private Button startTimer, connTimerBind, unconnTimerBind, getTimerMin, stopTimer;
+	private Button nowTime, startTime, learningTime, customerTime;
 	private Button sendStopSendAll, sendAddPeople, sendSubPeople, sendSaveUserStatus;
 	
 	@Override
@@ -89,6 +96,75 @@ public class TesterActivity extends Activity implements OnClickListener {
 		sql_clear_target = (Button)findViewById(R.id.tester_sqlite_clear_target);
 		sql_clear_target.setOnClickListener(this);
 		
+		// ---------------------------------------------------------------------------------------------------------------------------------
+		nowTime = (Button)findViewById(R.id.tester_time_now);
+		nowTime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Date nowDate = new Date(System.currentTimeMillis());
+				Toast.makeText(TesterActivity.this, "Now: "+nowDate.getTime(), 0).show();
+				
+				//Toast.makeText(TesterActivity.this, "Now: "+nowDate.getHours()+":"+nowDate.getMinutes()+":"+nowDate.getSeconds(), 0).show();
+				
+				// 顯示時間
+				Calendar nowCalendar = Calendar.getInstance();
+				nowCalendar.setTime(nowDate);
+				Toast.makeText(TesterActivity.this, "Now: "+nowCalendar.get(Calendar.HOUR_OF_DAY)+":"+nowCalendar.get(Calendar.MINUTE)+":"+nowCalendar.get(Calendar.SECOND), 0).show();
+				
+			}
+		});
+		
+		startTime = (Button)findViewById(R.id.tester_time_start);
+		startTime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// 取得開始學習時間
+				ClientDBProvider dbcon = new ClientDBProvider(TesterActivity.this);
+				String[] query = dbcon.search("chu_user", "In_Learn_Time", null);
+				String startDateDB = null;
+				if(query.length>0) startDateDB = query[0];
+				//Toast.makeText(TesterActivity.this, "start String: "+startDateDB, 0).show();
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date startDate = new Date();
+				try {
+					startDate = format.parse(startDateDB);
+					
+					Toast.makeText(TesterActivity.this, "start: "+startDate.getTime(), 0).show();
+					//Toast.makeText(TesterActivity.this, "start: "+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds(), 0).show();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		learningTime = (Button)findViewById(R.id.tester_time_learning);
+		learningTime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Date learningDate = new LearningUtils(TesterActivity.this).getLearningDate();
+				
+				Calendar learningCal = Calendar.getInstance();
+				learningCal.setTime(learningDate);
+				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
+				
+				Toast.makeText(TesterActivity.this, "Learning: "+learningDate.getTime(), 0).show();
+				Toast.makeText(TesterActivity.this, "Learning: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();
+			}
+		});
+		
+		customerTime = (Button)findViewById(R.id.tester_time_customer);
+		customerTime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		// ---------------------------------------------------------------------------------------------------------------------------------
 		//sendProgress = (ProgressBar)findViewById(R.id.tester_send_progress);
 		

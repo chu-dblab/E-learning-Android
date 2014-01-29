@@ -10,6 +10,7 @@
 package tw.edu.chu.csie.e_learning.util;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.http.HttpResponse;
@@ -153,14 +154,19 @@ public class AccountUtils {
 		String loginCode = new JSONObject(message).getString("ucode");
 		String uid = new JSONObject(message).getString("uid");
 		String nickName = new JSONObject(message).getString("unickname");
-		String loginTime = new JSONObject(message).getString("ulogin_time");
 		String learningTime = new JSONObject(message).getString("learning_time");
+		
+		// 紀錄登入時間
+		//String loginTime = new JSONObject(message).getString("ulogin_time");
+		
+		// 取得現在時間
+		Date nowDate = new Date(System.currentTimeMillis());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String loginTime = format.format(nowDate);
+		
 		
 		//將傳回來的資料寫入SQLite裡
 		this.clientdb.user_insert(uid, nickName, loginCode, loginTime, learningTime);
-		
-		// 開始計時
-		int learningTimeMin = new JSONObject(message).getInt("LearningTime");
 	}
 	
 	/**
