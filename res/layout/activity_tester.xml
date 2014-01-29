@@ -80,6 +80,12 @@
             android:layout_height="wrap_content"
             android:text="remainder" />
 
+        <Button
+            android:id="@+id/tester_time_over"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Over" />
+
     </LinearLayout>
 
     <TextView

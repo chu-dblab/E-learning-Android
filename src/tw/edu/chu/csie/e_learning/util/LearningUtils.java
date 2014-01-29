@@ -235,4 +235,13 @@ public class LearningUtils
 		
 		return learningCal.get(Calendar.HOUR_OF_DAY)*60 + learningCal.get(Calendar.MINUTE);
 	}
+	
+	/**
+	 * 是否已學習逾時
+	 * @return 是否已學習逾時
+	 */
+	public boolean isLearningOver() {
+		if(this.getRemainderLearningDate().getTime() <= 0) return true;
+		else return false;
+	}
 }
