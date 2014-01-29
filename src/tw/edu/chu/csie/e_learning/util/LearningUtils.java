@@ -185,6 +185,10 @@ public class LearningUtils
 		return learningCal.get(Calendar.HOUR_OF_DAY)*60 + learningCal.get(Calendar.MINUTE);
 	}
 
+	/**
+	 * 取得可學習的時間物件
+	 * @return 可學習的時間Date物件
+	 */
 	public Date getlimitDate() {
 		Calendar limitCal = Calendar.getInstance();
 		limitCal.setTime(new Date(0));
@@ -192,6 +196,11 @@ public class LearningUtils
 		
 		return limitCal.getTime();
 	}
+	
+	/**
+	 * 取得可學習的分鐘
+	 * @return 可學習的分鐘
+	 */
 	public int getlimitMin() {
 		// 取得開始學習時間
 		String[] query = dbcon.search("chu_user", "TLearn_Time", null);
@@ -213,6 +222,10 @@ public class LearningUtils
 		return new Date(limitDate.getTime() - learningDate.getTime());
 	}
 	
+	/**
+	 * 取得剩餘學習時間分鐘
+	 * @return 剩餘學習時間分鐘
+	 */
 	public int getRemainderLearningMinTime() {
 		Date remainderLearningDate = this.getRemainderLearningDate();
 		
