@@ -165,7 +165,8 @@ public class TesterActivity extends Activity implements OnClickListener {
 				learningCal.setTime(new LearningUtils(TesterActivity.this).getRemainderLearningDate());
 				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
 				
-				Toast.makeText(TesterActivity.this, "Limit: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();
+				Toast.makeText(TesterActivity.this, "Remainder: "+learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND), 0).show();
+				Toast.makeText(TesterActivity.this, "Remainder: "+new LearningUtils(TesterActivity.this).getRemainderLearningMinTime(), 0).show();
 				//Toast.makeText(TesterActivity.this, "Limit: "+new LearningUtils(TesterActivity.this).getRemainderLearningMinTime(), 0).show();
 			}
 		});

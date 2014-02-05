@@ -220,7 +220,10 @@ public class LearningUtils
 		Date limitDate = this.getlimitDate();
 		Date learningDate = this.getLearningDate();
 		
-		return new Date(limitDate.getTime() - learningDate.getTime());
+		long milliseconds = limitDate.getTime() - learningDate.getTime();
+		
+		if(milliseconds > 0) return new Date(milliseconds);
+		else return new Date(0);
 	}
 	
 	/**
