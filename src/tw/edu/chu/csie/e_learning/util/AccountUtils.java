@@ -10,6 +10,7 @@
 package tw.edu.chu.csie.e_learning.util;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.http.HttpResponse;
@@ -41,7 +42,6 @@ import tw.edu.chu.csie.e_learning.config.Config;
 import tw.edu.chu.csie.e_learning.provider.ClientDBProvider;
 import tw.edu.chu.csie.e_learning.server.BaseSettings;
 import tw.edu.chu.csie.e_learning.server.ServerAPIs;
-import tw.edu.chu.csie.e_learning.server.ServerUser;
 import tw.edu.chu.csie.e_learning.server.exception.HttpException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginCodeException;
 import tw.edu.chu.csie.e_learning.server.exception.LoginException;
@@ -150,18 +150,23 @@ public class AccountUtils {
 		clientdb.delete(null, "chu_target");
 		
 		// 登入這個使用者
-		String loginCode = this.server.userLogin(inputLoginId, inputLoginPasswd);
-		ServerUser userinfo = this.server.userGetInfo(loginCode);
-		String nickName = userinfo.getNickName();
-		String loginTime = userinfo.getLoginTime();
+		String message = this.server.userLogin(inputLoginId, inputLoginPasswd);
+		String loginCode = new JSONObject(message).getString("ucode");
+		String uid = new JSONObject(message).getString("uid");
+		String nickName = new JSONObject(message).getString("unickname");
+		String learningTime = new JSONObject(message).getString("learning_time");
 		
-		Log.d("nickName",nickName );
-		Log.d("loginTime", loginTime);
-		Log.d("loginCode", loginCode);
-		Log.d("ID", userinfo.getID());
+		// 紀錄登入時間
+		//String loginTime = new JSONObject(message).getString("ulogin_time");
+		
+		// 取得現在時間
+		Date nowDate = new Date(System.currentTimeMillis());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String loginTime = format.format(nowDate);
+		
 		
 		//將傳回來的資料寫入SQLite裡
-		this.clientdb.user_insert(userinfo.getID(), nickName, loginCode, loginTime);
+		this.clientdb.user_insert(uid, nickName, loginCode, loginTime, learningTime);
 	}
 	
 	/**
@@ -187,6 +192,11 @@ public class AccountUtils {
 		
 		//將使用者的學習狀態傳送至後端
 		this.server.userLogout(loginCode);
+	}
+	
+	public void resumeUser() throws ClientProtocolException, IOException, HttpException, JSONException, ServerException {
+		// 像伺服器取得剩下的學習時間
+		int learnTimeMin = this.server.getLearnTime();
 	}
 	
 }

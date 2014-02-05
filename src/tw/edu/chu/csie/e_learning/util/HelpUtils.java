@@ -92,6 +92,7 @@ public class HelpUtils {
 			}
 		});
 		about_AlertDialog.show();
+		Toast.makeText(context, "t", 0).show();
 	}
 	
 }

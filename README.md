@@ -13,5 +13,10 @@
 ## 開發文件
 已將整份專案用javadoc產生出[開發文件網站](CHU-TDAP/E-learning-Android/blob/master/doc/index.html)
 
+## 匯入專案之後
+1. 將`/src/tw.edu.chu.csie.e_learning.config/Config.sample.java`檔複製成同目錄下的`Config.java`
+2. 開啟`Config.java`並根據自己的狀況來修改參數。
+3. 看看能不能跑吧～
+
 ## 關於
 - 主要連結 <https://github.com/organizations/CHU-TDAP>

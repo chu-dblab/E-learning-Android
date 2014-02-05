@@ -17,7 +17,7 @@ public class ClientDBHelper extends SQLiteOpenHelper {
 	
 	//使用者資料表
 	private static final String us = 
-				"CREATE TABLE chu_user ( UID varchar(30) NOT NULL, UNickname varchar(20) DEFAULT NULL, ULogged_code varchar(32) DEFAULT NULL, In_Learn_Time varchar(50) NOT NULL, PRIMARY KEY (UID));"; 
+				"CREATE TABLE chu_user ( UID varchar(30) NOT NULL, UNickname varchar(20) DEFAULT NULL, ULogged_code varchar(32) DEFAULT NULL, In_Learn_Time varchar(50) NOT NULL, TLearn_Time INTEGER NOT NULL, PRIMARY KEY (UID));"; 
 	//標的資料表
 	private static final String tar = 
 				"CREATE TABLE chu_target ( TID INTEGER UNSIGNED NOT NULL, TName varchar(15) NOT NULL, MapID varchar(20) NOT NULL, MaterialID varchar(20) NOT NULL, TLearn_Time INTEGER UNSIGNED NOT NULL, IsEntity INTEGER UNSIGNED NOT NULL, PRIMARY KEY (TID));";
