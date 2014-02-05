@@ -130,12 +130,20 @@ public class LearningUtils
 	 */
 	public void getPointIdOfLearningPoint(String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
 	{
-		String message = connect.getPointIdOfLearningPoint(accountUtils.getLoginId(), pointNumber, String.valueOf(getRemainderLearningMinTime()));
-		
-		if(!message.equals("null")) {
-			decode.DecodeJSONData(message,"first");
-			dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime(),decode.getIsEntity());
+		// 當還有學習剩餘時間
+		if(!isLearningOver()) {
+			String message = connect.getPointIdOfLearningPoint(accountUtils.getLoginId(), pointNumber, String.valueOf(getRemainderLearningMinTime()));
+			// 若有推薦學習點
+			if(!message.equals("null")) {
+				decode.DecodeJSONData(message,"first");
+				dbcon.target_insert(decode.getNextPoint(),decode.getTargetName() ,decode.getMapURL(), decode.getMaterialURL(), decode.getEstimatedStudyTime(),decode.getIsEntity());
+			}
+			// 若無推薦學習點（在此狀況主因是學習時間不夠or全部都學習完）
+			else {
+				dbcon.target_insert(0, "", "", "", 0, 0);
+			}
 		}
+		// 若無剩餘時間
 		else {
 			dbcon.target_insert(0, "", "", "", 0, 0);
 		}
@@ -245,7 +253,7 @@ public class LearningUtils
 	 * @return 是否已學習逾時
 	 */
 	public boolean isLearningOver() {
-		if(this.getRemainderLearningDate().getTime() <= 0) return true;
+		if(getRemainderLearningDate().getTime() <= 0) return true;
 		else return false;
 	}
 }
