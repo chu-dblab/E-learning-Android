@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name="tw.edu.chu.csie.e_learning.ui.MapActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -54,7 +54,7 @@
         </activity>
         <activity
             android:name="tw.edu.chu.csie.e_learning.ui.MaterialActivity"
-            android:label="@string/title_activity_learning" >
+            android:label="@string/title_activity_learning" android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="tw.edu.chu.csie.e_learning.ui.SettingsActivity"
