@@ -222,11 +222,12 @@ public class ServerAPIs {
 	 * @throws JSONException 
 	 * @throws ServerException
 	 */
-	public String getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
+	public String getPointIdOfLearningPoint(String userID,String pointNumber,String remainedTime) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
 	{
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
 		param.add(new BasicNameValuePair("uid",userID));
 		param.add(new BasicNameValuePair("point",pointNumber));
+		param.add(new BasicNameValuePair("remainedTime",remainedTime));
 		String message = message = this.utils.getServerData(this.baseSettings.getApiUrl()+"Learn/people.php?op=recommand", param);
 		boolean status = new JSONObject(message).getBoolean("status_ok");
 		if(!status) throw new ServerException(ServerException.DB_ERR);

@@ -274,7 +274,7 @@ public class MapActivity extends Activity {
 		// 取得下一個學習點
 		AccountUtils account = new AccountUtils(this);
 		RequestFromServer requestFromServerTask = new RequestFromServer();
-		requestFromServerTask.execute(account.getLoginId(), String.valueOf(this.learnedPointID));
+		requestFromServerTask.execute(String.valueOf(this.learnedPointID));
 		
 	}
 	
@@ -348,7 +348,7 @@ public class MapActivity extends Activity {
 		protected Void doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			try {
-				learn.getPointIdOfLearningPoint(params[0],params[1]);
+				learn.getPointIdOfLearningPoint(params[0]);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -42,6 +42,7 @@ public class LearningUtils
 	private JSONDecodeUtils decode;
 	private ClientDBProvider dbcon;
 	private SettingUtils settings;
+	private AccountUtils accountUtils;
 	
 	/**
 	 * 學習相關的動作類別庫
@@ -54,6 +55,7 @@ public class LearningUtils
 		connect = new ServerAPIs(bs);
 		decode = new JSONDecodeUtils();
 		dbcon = new ClientDBProvider(context);
+		accountUtils = new AccountUtils(context);
 	}
 	
 	/**
@@ -119,7 +121,6 @@ public class LearningUtils
 	
 	/**
 	 * 取得系統推薦的下個學習點
-	 * @param userID 使用者帳號ID (TODO 要改成登入碼)
 	 * @param pointNumber 目前所在的標地編號
 	 * @throws HttpException 
 	 * @throws IOException 
@@ -127,9 +128,9 @@ public class LearningUtils
 	 * @throws JSONException 
 	 * @throws ServerException
 	 */
-	public void getPointIdOfLearningPoint(String userID,String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
+	public void getPointIdOfLearningPoint(String pointNumber) throws ServerException, JSONException, ClientProtocolException, IOException, HttpException 
 	{
-		String message = connect.getPointIdOfLearningPoint(userID, pointNumber);
+		String message = connect.getPointIdOfLearningPoint(accountUtils.getLoginId(), pointNumber, String.valueOf(getRemainderLearningMinTime()));
 		
 		if(!message.equals("null")) {
 			decode.DecodeJSONData(message,"first");
