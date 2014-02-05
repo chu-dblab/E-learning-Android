@@ -1,6 +1,8 @@
 package tw.edu.chu.csie.e_learning.ui;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -29,6 +31,8 @@ import android.nfc.NfcManager;
 import android.nfc.tech.NfcA;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -53,10 +57,11 @@ import android.widget.Toast;
 public class MapActivity extends Activity {
 
 	public static final int RESULT_MATERIAL = 1;
+	protected static final int REMAINED_TIME = 0x101;
 	private int learnedPointID = 0;
 	private FileUtils fileUtils;
 	private ImageView mapView;
-	private TextView nextPointView, nextPointTimeView;
+	private TextView nextPointView, nextPointTimeView, remainedTimeView;
 	private SettingUtils config;
 	private NfcManager manager;
 	private NfcAdapter adapter;
@@ -82,6 +87,11 @@ public class MapActivity extends Activity {
 		
 		nextPointView = (TextView)findViewById(R.id.learning_next_point);
 		nextPointTimeView = (TextView)findViewById(R.id.learning_next_point_time);
+		
+		remainedTimeView = (TextView)findViewById(R.id.learning_remaining_time);
+		
+		new Thread(new UpdateTimeUIThread()).start();
+		
 		initialNFCDetect();
 		// 取得下一個學習點
 		if(!isHaveNextPoint()) getNextPoint();
@@ -335,6 +345,41 @@ public class MapActivity extends Activity {
 				}
 			}
 		}
+	}
+	
+	Handler updateUIHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch(msg.what) {
+			case REMAINED_TIME:
+				LearningUtils learnUtils = new LearningUtils(MapActivity.this);
+				Calendar learningCal = Calendar.getInstance();
+				learningCal.setTime(learnUtils.getRemainderLearningDate());
+				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
+				
+				remainedTimeView.setText(learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND));
+				break;
+			}
+		};
+	};
+	
+	class UpdateTimeUIThread implements Runnable {
+
+		@Override
+		public void run() {
+			while (!Thread.currentThread().isInterrupted()) {
+				Message message = new Message();   
+				message.what = MapActivity.REMAINED_TIME;   
+				  
+				MapActivity.this.updateUIHandler.sendMessage(message);  
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 	
 	/**
