@@ -3,10 +3,10 @@ package tw.edu.chu.csie.e_learning.ui;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
-
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -54,6 +55,7 @@ import android.widget.Toast;
  * 學習地圖畫面，在此活動進行取得下一個學習點。 
  *
  */
+@SuppressLint("HandlerLeak")
 public class MapActivity extends Activity {
 
 	public static final int RESULT_MATERIAL = 1;
@@ -71,6 +73,7 @@ public class MapActivity extends Activity {
 	private Intent nfc_intent;
 	private String[][] tech_list;
 	private String pointID;
+	private Timer updateUITimer;
 	private static final String TAG = MapActivity.class.getSimpleName();
 	
 	@Override
@@ -90,7 +93,10 @@ public class MapActivity extends Activity {
 		
 		remainedTimeView = (TextView)findViewById(R.id.learning_remaining_time);
 		
-		new Thread(new UpdateTimeUIThread()).start();
+		updateUITimer = new Timer();
+		updateUITimer.schedule(new UpdateUITask(), 0, 1 * 1000);
+		//updateUIThread = new Thread(new UpdateUIThread());
+		//updateUIThread.start();
 		
 		initialNFCDetect();
 		// 取得下一個學習點
@@ -170,6 +176,8 @@ public class MapActivity extends Activity {
 			ClientDBProvider clientdb = new ClientDBProvider(MapActivity.this);
 			clientdb.delete(null, "chu_user");
 			clientdb.delete(null, "chu_target");
+			// 停止界面上的跳動
+			updateUITimer.cancel();
 			// 向伺服器送出登出通知
 			LogoutTask mLogoutTask = new LogoutTask();
 			mLogoutTask.execute();
@@ -346,6 +354,7 @@ public class MapActivity extends Activity {
 			}
 		}
 	}
+	// ========================================================================================
 	
 	Handler updateUIHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -362,22 +371,14 @@ public class MapActivity extends Activity {
 		};
 	};
 	
-	class UpdateTimeUIThread implements Runnable {
+	class UpdateUITask extends TimerTask {
 
 		@Override
 		public void run() {
-			while (!Thread.currentThread().isInterrupted()) {
-				Message message = new Message();   
-				message.what = MapActivity.REMAINED_TIME;   
-				  
-				MapActivity.this.updateUIHandler.sendMessage(message);  
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			Message message = new Message();   
+			message.what = MapActivity.REMAINED_TIME;   
+			  
+			MapActivity.this.updateUIHandler.sendMessage(message);
 		}
 		
 	}
