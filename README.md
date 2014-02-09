@@ -11,7 +11,7 @@
 - 相機鏡頭（掃描QR Code時需要）
 
 ## 開發文件
-已將整份專案用javadoc產生出[開發文件網站](doc/index.html)
+已將整份專案用javadoc產生出[開發文件網站](CHU-TDAP/E-learning-Android/blob/master/doc/index.html)
 
 ## 匯入專案之後
 1. 將`/src/tw.edu.chu.csie.e_learning.config/Config.sample.java`檔複製成同目錄下的`Config.java`
