@@ -1,10 +1,12 @@
 package tw.edu.chu.csie.e_learning.ui;
 
 import java.io.IOException;
-
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
-
 import tw.edu.chu.csie.e_learning.R;
 import tw.edu.chu.csie.e_learning.R.id;
 import tw.edu.chu.csie.e_learning.R.layout;
@@ -29,7 +31,10 @@ import android.nfc.NfcManager;
 import android.nfc.tech.NfcA;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -50,13 +55,15 @@ import android.widget.Toast;
  * 學習地圖畫面，在此活動進行取得下一個學習點。 
  *
  */
+@SuppressLint("HandlerLeak")
 public class MapActivity extends Activity {
 
 	public static final int RESULT_MATERIAL = 1;
+	protected static final int REMAINED_TIME = 0x101;
 	private int learnedPointID = 0;
 	private FileUtils fileUtils;
 	private ImageView mapView;
-	private TextView nextPointView, nextPointTimeView;
+	private TextView nextPointView, nextPointTimeView, remainedTimeView;
 	private SettingUtils config;
 	private NfcManager manager;
 	private NfcAdapter adapter;
@@ -66,6 +73,7 @@ public class MapActivity extends Activity {
 	private Intent nfc_intent;
 	private String[][] tech_list;
 	private String pointID;
+	private Timer updateUITimer;
 	private static final String TAG = MapActivity.class.getSimpleName();
 	
 	@Override
@@ -82,6 +90,14 @@ public class MapActivity extends Activity {
 		
 		nextPointView = (TextView)findViewById(R.id.learning_next_point);
 		nextPointTimeView = (TextView)findViewById(R.id.learning_next_point_time);
+		
+		remainedTimeView = (TextView)findViewById(R.id.learning_remaining_time);
+		
+		updateUITimer = new Timer();
+		updateUITimer.schedule(new UpdateUITask(), 0, 1 * 1000);
+		//updateUIThread = new Thread(new UpdateUIThread());
+		//updateUIThread.start();
+		
 		initialNFCDetect();
 		// 取得下一個學習點
 		if(!isHaveNextPoint()) getNextPoint();
@@ -160,6 +176,8 @@ public class MapActivity extends Activity {
 			ClientDBProvider clientdb = new ClientDBProvider(MapActivity.this);
 			clientdb.delete(null, "chu_user");
 			clientdb.delete(null, "chu_target");
+			// 停止界面上的跳動
+			updateUITimer.cancel();
 			// 向伺服器送出登出通知
 			LogoutTask mLogoutTask = new LogoutTask();
 			mLogoutTask.execute();
@@ -274,7 +292,7 @@ public class MapActivity extends Activity {
 		// 取得下一個學習點
 		AccountUtils account = new AccountUtils(this);
 		RequestFromServer requestFromServerTask = new RequestFromServer();
-		requestFromServerTask.execute(account.getLoginId(), String.valueOf(this.learnedPointID));
+		requestFromServerTask.execute(String.valueOf(this.learnedPointID));
 		
 	}
 	
@@ -336,6 +354,34 @@ public class MapActivity extends Activity {
 			}
 		}
 	}
+	// ========================================================================================
+	
+	Handler updateUIHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch(msg.what) {
+			case REMAINED_TIME:
+				LearningUtils learnUtils = new LearningUtils(MapActivity.this);
+				Calendar learningCal = Calendar.getInstance();
+				learningCal.setTime(learnUtils.getRemainderLearningDate());
+				learningCal.setTimeZone(TimeZone.getTimeZone("UTC"));
+				
+				remainedTimeView.setText(learningCal.get(Calendar.HOUR_OF_DAY)+":"+learningCal.get(Calendar.MINUTE)+":"+learningCal.get(Calendar.SECOND));
+				break;
+			}
+		};
+	};
+	
+	class UpdateUITask extends TimerTask {
+
+		@Override
+		public void run() {
+			Message message = new Message();   
+			message.what = MapActivity.REMAINED_TIME;   
+			  
+			MapActivity.this.updateUIHandler.sendMessage(message);
+		}
+		
+	}
 	
 	/**
 	 * 向伺服端要求下一個推薦的學習點
@@ -348,7 +394,7 @@ public class MapActivity extends Activity {
 		protected Void doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			try {
-				learn.getPointIdOfLearningPoint(params[0],params[1]);
+				learn.getPointIdOfLearningPoint(params[0]);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

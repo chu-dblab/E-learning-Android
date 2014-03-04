@@ -50,7 +50,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -137,14 +140,48 @@ public class UserLoginActivity extends Activity {
 		// 檢查是否已登入
 		AccountUtils accountUtils = new AccountUtils(this);
 		if(accountUtils.islogin()) {
-			Intent toLogin = new Intent(UserLoginActivity.this, MapActivity.class);
-			startActivity(toLogin);
+			resumeLogin();
 		}
 		
 		//自動登入
 		if(Config.AUTO_NO_ID_LOGIN) attemptLogin();
 	}
 
+	private void resumeLogin() {
+		// 檢查網路狀況
+		if(new NetworkUtils().isNetworkConnected(getBaseContext())) {
+			ResumeLoginTask resumeLogin = new ResumeLoginTask();
+			resumeLogin.execute();
+		}
+		// 無網路
+		else {
+			// TODO String拉出
+			Builder noNetworkDialogBuilder = new AlertDialog.Builder(this);
+			noNetworkDialogBuilder.setTitle("已登入！！");
+			noNetworkDialogBuilder.setMessage("目前已登入，但沒有網路喔～");
+			noNetworkDialogBuilder.setCancelable(false);
+			noNetworkDialogBuilder.setPositiveButton("重試", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					resumeLogin();
+				}
+			});
+			noNetworkDialogBuilder.setNegativeButton("登出", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					//清除登入資訊
+					ClientDBProvider clientdb = new ClientDBProvider(getBaseContext());
+					clientdb.delete(null, "chu_user");
+					clientdb.delete(null, "chu_target");
+				}
+			});
+			AlertDialog noNetworkDialog = noNetworkDialogBuilder.create(); 
+			noNetworkDialog.show();
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -424,5 +461,49 @@ public class UserLoginActivity extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 		}
+	}
+	
+	public class ResumeLoginTask extends AsyncTask<Void, Void, Boolean> {
+		private boolean success = false;
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			AccountUtils accountUtils = new AccountUtils(UserLoginActivity.this);
+			try {
+				accountUtils.resumeUser();
+				success = true;
+			} catch (ClientProtocolException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (IOException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (HttpException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				success = false;
+				e.printStackTrace();
+			} catch (ServerException e) {
+				success = false;
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			showProgress(false);
+			if(success) {
+				Intent toLogin = new Intent(UserLoginActivity.this, MapActivity.class);
+				startActivity(toLogin);
+			}
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			showProgress(true);
+		}
+		
 	}
 }

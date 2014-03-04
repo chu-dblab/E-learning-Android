@@ -34,7 +34,7 @@ public class ClientDBProvider {
 	 * @param In_learn_time 開始學習時間（登入時間）
 	 * @return
 	 */
-	public long user_insert(String Uid,String Unickname,String Ulogged_code,String In_learn_time){ //"使用者"新增
+	public long user_insert(String Uid,String Unickname,String Ulogged_code,String In_learn_time, String TLearn_Time){ //"使用者"新增
 	
 		openToWrite();
 		ContentValues contentvalues = new ContentValues();
@@ -42,6 +42,7 @@ public class ClientDBProvider {
 		contentvalues.put("UNickname", Unickname);
 		contentvalues.put("ULogged_code", Ulogged_code);
 		contentvalues.put("In_Learn_Time", In_learn_time);
+		contentvalues.put("TLearn_Time", TLearn_Time);
 		return sqlitedatabase.insert("chu_user", null, contentvalues);
 	}
 
