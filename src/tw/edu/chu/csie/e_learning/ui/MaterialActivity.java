@@ -20,11 +20,13 @@ import tw.edu.chu.csie.e_learning.util.LearningUtils;
 import tw.edu.chu.csie.e_learning.util.SettingUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -58,7 +60,7 @@ public class MaterialActivity extends Activity {
 		
 		// 隱藏ActionBar
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-		getActionBar().hide();
+		//getActionBar().hide();
 		
 		setContentView(R.layout.activity_material);
 		mWebView = (WebView)findViewById(R.id.material_webview);
@@ -175,6 +177,20 @@ public class MaterialActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.learning, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		int menuId = item.getItemId();
+		
+		if(menuId == R.id.menu_network) {
+			Dialog d = new Dialog(this);
+			d.setTitle("測試網際網路模組");
+			d.setContentView(R.layout.test);
+			d.show();
+		}
+		
+		return super.onMenuItemSelected(featureId, item);
 	}
 	
 	/**
