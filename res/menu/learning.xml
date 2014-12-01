@@ -5,6 +5,8 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-    <item android:id="@+id/menu_network" android:icon="@android:drawable/ic_menu_mapmode" android:title="網路" android:showAsAction="always"></item>
-
+    <item android:id="@+id/menu_network" android:title="網路" android:showAsAction="always"></item>
+    <item android:id="@+id/menu_detail" android:showAsAction="always" android:title="補充教材"></item>
+    <item android:id="@+id/menu_handwrite" android:title="筆記" android:showAsAction="always"></item>
+    <item android:id="@+id/menu_question_answer" android:title="問答" android:showAsAction="always"></item>
 </menu>

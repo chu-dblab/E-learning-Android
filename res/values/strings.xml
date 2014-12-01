@@ -38,7 +38,7 @@
     <string name="learning_remaining_point">學習點剩餘:</string>
     <string name="learning_next_point_getting">取得中...</string>
     <string name="title_activity_map">學習地圖</string>
-    
+
     <!-- 學習地圖 -->
     <string name="title_qr_scan">QRCode掃描</string>
     <string name="title_qr_scan_hint">請對準學習點上的QRCode進行掃描</string>
@@ -51,5 +51,14 @@
     <!-- 設定 -->
     <string name="title_activity_preference">系統設定</string>
     <string name="title_activity_tester">TesterActivity</string>
+    <string name="dialog_detail_title">請輸入欲搜尋的字串:</string>
+    <string name="dialog_detail_button_query">查詢</string>
+    <string name="dialog_detail_button_clear">清除</string>
+    <string name="dialog_internet_title">請輸入欲搜尋的字串:</string>
+    <string name="dialog_internet_button_query">查詢</string>
+    <string name="dialog_internet_button_clear">清除</string>
+    <string name="internet_title">請輸入欲查詢的字串:</string>
+    <string name="title_activity_detail_presentation">Detail_presentation</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -184,10 +184,22 @@ public class MaterialActivity extends Activity {
 		int menuId = item.getItemId();
 		
 		if(menuId == R.id.menu_network) {
-			Dialog d = new Dialog(this);
-			d.setTitle("測試網際網路模組");
-			d.setContentView(R.layout.test);
-			d.show();
+			Dialog internet_query = new Dialog(this);
+			internet_query.setTitle("網際資源搜尋");
+			internet_query.setContentView(R.layout.dialog_internet);
+			internet_query.show();
+		}
+		else if(menuId == R.id.menu_detail) {
+			Dialog detail_query = new Dialog(this);
+			detail_query.setTitle("補充教材搜尋");
+			detail_query.setContentView(R.layout.dailog_detail);
+			detail_query.show();
+		}
+		else if(menuId == R.id.menu_handwrite) {
+			//筆記模組
+		}
+		else if(menuId == R.id.menu_question_answer) {
+			//問答模組
 		}
 		
 		return super.onMenuItemSelected(featureId, item);
