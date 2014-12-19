@@ -27,11 +27,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 當學生進入此頁面，就表示已經開始學習了。當離開此頁面，就表示在此標地學習結束了。
@@ -42,7 +55,8 @@ public class MaterialActivity extends Activity {
 	private int thisPointId; //教材編號
 	private String in_target;
 	private String leave_target;
-	
+	private EditText dialog_internet_edittext;
+	private EditText dialog_detail_edittext;
 	private FileUtils fileUtils;
 	private WebView mWebView;
 	private WebSettings webSettings;
@@ -185,15 +199,47 @@ public class MaterialActivity extends Activity {
 		
 		if(menuId == R.id.menu_internet) {
 			Dialog internet = new Dialog(this);
+			dialog_internet_edittext = (EditText) internet.findViewById(R.id.editText1);
 			internet.setTitle("網路資源搜尋");
 			internet.setContentView(R.layout.dialog_internet);
-			internet.show();
+			internet.show();			
+			internet.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Retrievedata internet_json = new Retrievedata();
+			        internet_json.execute();
+				}
+			});
+			internet.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dialog_internet_edittext.setText("");
+				}
+			});
 		}
 		else if(menuId ==  R.id.menu_detail) {
 			Dialog detail = new Dialog(this);
 			detail.setTitle("補充教材搜尋");
 			detail.setContentView(R.layout.dialog_detail);
 			detail.show();
+			dialog_detail_edittext = (EditText) detail.findViewById(R.id.editText1);
+			detail.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Retrievedata detail_json = new Retrievedata();
+					detail_json.execute();
+				}
+			});
+			detail.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dialog_detail_edittext.setText("");
+				}
+			});
 		}
 		if(menuId == R.id.menu_question_answer) {
 			//問答
@@ -312,5 +358,43 @@ public class MaterialActivity extends Activity {
 			}
 		}
 	}
+	class Retrievedata extends AsyncTask {
 
+        Bundle bundle = new Bundle();
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+
+            HttpClient client = new DefaultHttpClient();
+            HttpGet post = new HttpGet(Config.REMOTE_BASE_URL+"/hello/hahaha");
+
+            try {
+                    HttpResponse response = client.execute(post);
+                    String content = EntityUtils.toString(response.getEntity());
+
+                    // 抓一坨出來
+                    //bundle.putString("msg", content);
+                    
+                    // 只抓某ID的內容
+                    JSONObject json = new JSONObject(content);
+                    String title = json.getString("title");
+                    bundle.putString("title", title);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+
+            String title = bundle.getString("title");
+            //mText_output.setText(msg);
+
+            super.onPostExecute(o);
+        }
+    }
 }
